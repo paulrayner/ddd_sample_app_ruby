@@ -6,7 +6,7 @@ By Paul Rayner
 
 == Implementation TODOs
 
-* Add Voyage folder and classes
+* Add couple of unit tests for key domain model objects
 * Persist aggregates using MongoDB
 * Populate some sample handling events
 * Update aggregates using async mechanism (using EventMachine?)
