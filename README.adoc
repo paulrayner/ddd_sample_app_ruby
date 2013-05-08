@@ -36,6 +36,7 @@ By Paul Rayner
 
 == Design Decisions
 
+Information on design choices made, and the relative tradeoffs. Plus resources for further reading.
 
 === Value Objects
 
@@ -51,6 +52,6 @@ Some resources:
 
 === Enums in Ruby
 
-http://stackoverflow.com/questions/75759/enums-in-ruby
-http://www.lesismore.co.za/rubyenums.html
-http://gistflow.com/posts/682-ruby-enums-approaches
+* http://stackoverflow.com/questions/75759/enums-in-ruby
+* http://www.lesismore.co.za/rubyenums.html
+* http://gistflow.com/posts/682-ruby-enums-approaches
