@@ -11,7 +11,7 @@ class Leg
   # TODO Handle empty values for attributes by returning UNKNOWN location
   # TODO Add is_empty method to supporting checking for this in is_empty
 
-  def initialize(voyage, load_location, unload_location, load_date, unload_date)
+  def initialize(voyage, load_location, load_date, unload_location, unload_date)
     # TODO Check valid values
 
     @voyage = voyage
