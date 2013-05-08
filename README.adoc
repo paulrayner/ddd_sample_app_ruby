@@ -49,9 +49,21 @@ Some resources:
 
 * https://rubygems.org/gems/ice_nine[Ice Nine (for deep freezing objects)]
 * https://github.com/harukizaemon/hamster[Hamster - Efficient, Immutable, Thread-Safe Collection classes for Ruby]
+* https://github.com/tcrayford/values
+* https://github.com/solnic/virtus
+
 
 === Enums in Ruby
 
 * http://stackoverflow.com/questions/75759/enums-in-ruby
 * http://www.lesismore.co.za/rubyenums.html
 * http://gistflow.com/posts/682-ruby-enums-approaches
+
+=== Async Aggregate Updates
+
+* http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
+* https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
+* http://rubyamqp.info/articles/getting_started/#blabblr_onetomany_publishsubscribe_pubsub_example[Ruby Amqp - one to many pub sub]
+* https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
+* https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
+* http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
