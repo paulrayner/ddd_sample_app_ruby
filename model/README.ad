@@ -1,0 +1,31 @@
+= Ruby DDD Sample App
+
+==Implementation TODOs
+
+* Voyage folder
+* Persist using MongoDB
+* Populate sample handling events
+* Update aggregates (using EventMachine?)
+** `CargoWasHandledEventHandler`
+
+* RoutingService
+* Command handlers???
+
+== UI - booking and tracking
+
+** Views
+*** Booking
+**** Assign to route
+**** Cargo details
+**** Change destination
+**** List cargos
+**** New cargo
+*** Handling
+**** Register handling event
+*** Tracking
+**** Track
+
+** Controllers
+*** Booking
+*** Handling
+*** Tracking
