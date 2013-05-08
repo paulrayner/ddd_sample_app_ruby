@@ -29,6 +29,10 @@ class Leg
   end
 
   def ==(other)
-    self.legs == other.legs
+    self.voyage == voyage &&
+    self.load_location == load_location &&
+    self.unload_location == unload_location &&
+    self.load_date == load_date &&
+    self.unload_date == unload_date
   end
 end
