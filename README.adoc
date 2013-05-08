@@ -45,12 +45,18 @@ These are great posts on DDD in Ruby with entities and VOs:
 * https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/
 * https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/
 
+==== Immutability in Ruby
+
+http://voormedia.com/blog/2013/02/creating-immutable-tree-data-structures-in-ruby[Creating immutable tree data structures in Ruby - Feb 2013]
+http://www.confreaks.com/videos/2337-mwrc2013-immutable-ruby[Immutable Ruby presentation video (25 mins) - Michael Fairley @ MountainWest RubyConf 2013]
+
 Some resources:
 
 * https://rubygems.org/gems/ice_nine[Ice Nine (for deep freezing objects)]
 * https://github.com/harukizaemon/hamster[Hamster - Efficient, Immutable, Thread-Safe Collection classes for Ruby]
 * https://github.com/tcrayford/values
 * https://github.com/solnic/virtus
+* https://github.com/rouge-lang/rouge[Ruby + Clojure = Rouge]
 
 
 === Enums in Ruby
