@@ -1,4 +1,6 @@
-= Ruby DDD Sample App
+== Ruby DDD Sample App
+
+Details here about other sample apps. Things that are unique to this implementation.
 
 By Paul Rayner
 
@@ -31,3 +33,24 @@ By Paul Rayner
 ** Booking
 ** Handling
 ** Tracking
+
+== Design Decisions
+
+
+=== Value Objects
+
+These are great posts on DDD in Ruby with entities and VOs:
+
+* https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/
+* https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/
+
+Some resources:
+
+* https://rubygems.org/gems/ice_nine[Ice Nine (for deep freezing objects)]
+* https://github.com/harukizaemon/hamster[Hamster - Efficient, Immutable, Thread-Safe Collection classes for Ruby]
+
+=== Enums in Ruby
+
+http://stackoverflow.com/questions/75759/enums-in-ruby
+http://www.lesismore.co.za/rubyenums.html
+http://gistflow.com/posts/682-ruby-enums-approaches
