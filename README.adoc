@@ -2,12 +2,14 @@
 
 Details here about other sample apps. Things that are unique to this implementation.
 
+Maybe (if I have time) could implement app in Rails using ActiveRecord with Mongoid, and then using repositories with Curator (and maybe Sinatra?). I wonder which one will be harder?
+
 By Paul Rayner
 
 == Implementation TODOs
 
-* Add couple of unit tests for key domain model objects
-* Persist aggregates using MongoDB
+* Persist aggregates using Curator & MongoDB
+* Add couple of unit tests for key domain model objects - these seem kinda obtuse actually. I think I preferred the ones in the 1.1(?) master branch of the Java sample app
 * Populate some sample handling events
 * Update aggregates using async mechanism (using EventMachine?)
 ** `CargoWasHandledEventHandler`
@@ -57,6 +59,7 @@ Some resources:
 * https://github.com/tcrayford/values
 * https://github.com/solnic/virtus
 * https://github.com/rouge-lang/rouge[Ruby + Clojure = Rouge]
+* http://blog.rubybestpractices.com/posts/rklemme/017-Struct.html[Structs inside out]
 
 
 === Enums in Ruby
@@ -73,3 +76,17 @@ Some resources:
 * https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
 * https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
 * http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
+
+=== Repository Pattern in Ruby
+
+* http://mattbriggs.net/blog/2012/02/23/repository-pattern-in-ruby/
+* https://github.com/nfedyashev/repository[A Ruby implementation of the Repository Pattern - In memory only], developed from https://github.com/alexch/treasury[Repository Pattern for Ruby - 3 years old]. 
+* https://github.com/playlouder/persistence[A set of interfaces for, and implementations of, the Repository pattern in Ruby.] This one looks promising.
+* https://github.com/brandonweiss/collector[Collector is an implementation of the Repository Pattern for MongoDB]
+* https://github.com/braintree/curator[Curator is a model and repository framework for Ruby].Currently, curator supports Riak, MongoDB and an in-memory data store for persistence.
+
+>Curator is a model and repository framework for Ruby. It's an alternative to ActiveRecord-like libraries where models are tightly coupled to persistence. Curator allows you to write domain object that are persistence free, and then write repositories that persist these objects. These ideas are largely taken from the Repository section of Domain Driven Design.
+
+==== Mongoid
+
+* Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
