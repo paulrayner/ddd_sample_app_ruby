@@ -2,20 +2,38 @@
 
 === Goal
 
-The goal of this sample app is to provide an idiomatic Ruby port of the DDD sample application. It should remain faithful to the intention of the sample application by:
+The goal of this sample app is to provide an idiomatic Ruby port of the DDD sample application. It should remain faithful to the intention of the purposes of the original DDD sample application:
 
-* Providing 
+* Providing a how-to example for implementing a typical DDD application (descriptive, not prescriptive)
+* Support discussion of implementation practices
+* Lab mouse for controlled experiments
 
 ==== DDD Sample Application
 
 * link:https://github.com/patrikfr/dddsample[Written in Java in 2009].
-* link:https://github.com/SzymonPobiega/DDDSample.Net[Port of Java 1.0 branch to .NET in 2010/2011] - using this as the primary basis for this port.
+
+History
+
+* Sep 2008 First public release: 1.0.
+* Jan 2009 Sample application tutorial at the JFokus conference in Stockholm.
+* Mar 2009 Sample application tutorial at the QCon conference in London.
+* Mar 2009 New public release: 1.1.0. See changelog for details.
+* 2010/2011 link:https://github.com/SzymonPobiega/DDDSample.Net[Ported to .NET]. 
+
+_The .NET port is being used as the primary basis for this Ruby port._
 
 Details here about other sample apps. Things that are unique to this implementation.
 
 Maybe (if I have time) could implement app in Rails using ActiveRecord with Mongoid, and then using repositories with Curator (and maybe Sinatra?). I wonder which one will be harder?
 
-By Paul Rayner
+== Aggregates
+
+The aggregate roots are:
+
+* Cargo
+* HandlingEvent
+* Location
+* Voyage
 
 == Implementation TODOs
 
