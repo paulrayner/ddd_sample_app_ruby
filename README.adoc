@@ -1,5 +1,16 @@
 == Ruby DDD Sample App
 
+=== Goal
+
+The goal of this sample app is to provide an idiomatic Ruby port of the DDD sample application. It should remain faithful to the intention of the sample application by:
+
+* Providing 
+
+==== DDD Sample Application
+
+* link:https://github.com/patrikfr/dddsample[Written in Java in 2009].
+* link:https://github.com/SzymonPobiega/DDDSample.Net[Port of Java 1.0 branch to .NET in 2010/2011] - using this as the primary basis for this port.
+
 Details here about other sample apps. Things that are unique to this implementation.
 
 Maybe (if I have time) could implement app in Rails using ActiveRecord with Mongoid, and then using repositories with Curator (and maybe Sinatra?). I wonder which one will be harder?
@@ -8,14 +19,7 @@ By Paul Rayner
 
 == Implementation TODOs
 
-* Persist aggregates using Curator & MongoDB
-* Add couple of unit tests for key domain model objects - these seem kinda obtuse actually. I think I preferred the ones in the 1.1(?) master branch of the Java sample app
-* Populate some sample handling events
-* Update aggregates using async mechanism (using EventMachine?)
-** `CargoWasHandledEventHandler`
-
-* RoutingService
-* Command handlers???
+See milestones and issues in GitHub repository for high-level.
 
 == UI - booking and tracking
 
@@ -42,25 +46,22 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 
 === Value Objects
 
-These are great posts on DDD in Ruby with entities and VOs:
-
-* https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/
-* https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/
-
 ==== Immutability in Ruby
 
-http://voormedia.com/blog/2013/02/creating-immutable-tree-data-structures-in-ruby[Creating immutable tree data structures in Ruby - Feb 2013]
-http://www.confreaks.com/videos/2337-mwrc2013-immutable-ruby[Immutable Ruby presentation video (25 mins) - Michael Fairley @ MountainWest RubyConf 2013]
+* https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/[Immutability in Ruby - part 1 of 2]
+* https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/[Entities and value objects in Ruby - part 2 of 2]
 
-Some resources:
+* http://voormedia.com/blog/2013/02/creating-immutable-tree-data-structures-in-ruby[Creating immutable tree data structures in Ruby - Feb 2013]
+* http://www.confreaks.com/videos/2337-mwrc2013-immutable-ruby[Immutable Ruby presentation video (25 mins) - Michael Fairley @ MountainWest RubyConf 2013]
+* http://blog.rubybestpractices.com/posts/rklemme/017-Struct.html[Ruby structs inside-out]
+
+==== Libraries/Gems Supporting Immutability in Ruby
 
 * https://rubygems.org/gems/ice_nine[Ice Nine (for deep freezing objects)]
 * https://github.com/harukizaemon/hamster[Hamster - Efficient, Immutable, Thread-Safe Collection classes for Ruby]
 * https://github.com/tcrayford/values
 * https://github.com/solnic/virtus
 * https://github.com/rouge-lang/rouge[Ruby + Clojure = Rouge]
-* http://blog.rubybestpractices.com/posts/rklemme/017-Struct.html[Structs inside out]
-
 
 === Enums in Ruby
 
@@ -68,14 +69,12 @@ Some resources:
 * http://www.lesismore.co.za/rubyenums.html
 * http://gistflow.com/posts/682-ruby-enums-approaches
 
-=== Async Aggregate Updates
+== Persistence
 
-* http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
-* https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
-* http://rubyamqp.info/articles/getting_started/#blabblr_onetomany_publishsubscribe_pubsub_example[Ruby Amqp - one to many pub sub]
-* https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
-* https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
-* http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
+=== MongoDB
+
+link:http://speakerdeck.com/u/mongodb/p/domain-driven-design-with-mongodb-chris-hafey-on-point-medical-diagnostics[Presentation on Domain Driven Design with MongoDB]
+link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoDB]
 
 === Repository Pattern in Ruby
 
@@ -90,3 +89,12 @@ Some resources:
 ==== Mongoid
 
 * Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
+
+=== Aggregate Update - Tools for Implementing Eventual Consistency (i.e. performing asynchronous updates)
+
+* http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
+* https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
+* http://rubyamqp.info/articles/getting_started/#blabblr_onetomany_publishsubscribe_pubsub_example[Ruby Amqp - one to many pub sub]
+* https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
+* https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
+* http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]

@@ -30,7 +30,7 @@ describe "Cargo" do
     lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
     dal = Location.new(UnLocode.new('DAL'), 'Dallas')
     arrival_deadline = Date.new(2013, 7, 1)
-    
+
     route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
     cargo = Cargo.new(TrackingId.new('blah'), route_spec)
 
@@ -38,6 +38,8 @@ describe "Cargo" do
     legs << Leg.new(nil, hkg, Date.new(2013, 6, 14), lgb, Date.new(2013, 6, 18))
     legs << Leg.new(nil, lgb, Date.new(2013, 6, 19), dal, Date.new(2013, 6, 21))
     itinerary = Itinerary.new(legs)
+
+    Delivery.derived_from
     
     cargo.transport_status != true #:not_received
   end
