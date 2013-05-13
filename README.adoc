@@ -21,25 +21,6 @@ By Paul Rayner
 
 See milestones and issues in GitHub repository for high-level.
 
-== UI - booking and tracking
-
-* Views
-** Booking
-*** Assign to route
-*** Cargo details
-*** Change destination
-*** List cargos
-*** New cargo
-** Handling
-*** Register handling event
-** Tracking
-*** Track
-
-* Controllers
-** Booking
-** Handling
-** Tracking
-
 == Design Decisions
 
 Information on design choices made, and the relative tradeoffs. Plus resources for further reading.
@@ -48,8 +29,8 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 
 ==== Immutability in Ruby
 
-* https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/[Immutability in Ruby - part 1 of 2]
-* https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/[Entities and value objects in Ruby - part 2 of 2]
+* link:https://deveo.com/blog/2013/03/22/immutability-in-ruby-part-1/[Immutability in Ruby - part 1 of 2]
+* link:https://deveo.com/blog/2013/03/28/immutability-in-ruby-part-2/[Entities and value objects in Ruby - part 2 of 2]
 
 * http://voormedia.com/blog/2013/02/creating-immutable-tree-data-structures-in-ruby[Creating immutable tree data structures in Ruby - Feb 2013]
 * http://www.confreaks.com/videos/2337-mwrc2013-immutable-ruby[Immutable Ruby presentation video (25 mins) - Michael Fairley @ MountainWest RubyConf 2013]
@@ -73,8 +54,12 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 
 === MongoDB
 
-link:http://speakerdeck.com/u/mongodb/p/domain-driven-design-with-mongodb-chris-hafey-on-point-medical-diagnostics[Presentation on Domain Driven Design with MongoDB]
-link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoDB]
+* link:http://speakerdeck.com/u/mongodb/p/domain-driven-design-with-mongodb-chris-hafey-on-point-medical-diagnostics[Presentation on Domain Driven Design with MongoDB]
+* link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoDB]
+
+==== Mongoid
+
+* Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
 
 === Repository Pattern in Ruby
 
@@ -84,17 +69,13 @@ link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoD
 * https://github.com/brandonweiss/collector[Collector is an implementation of the Repository Pattern for MongoDB]
 * https://github.com/braintree/curator[Curator is a model and repository framework for Ruby].Currently, curator supports Riak, MongoDB and an in-memory data store for persistence.
 
->Curator is a model and repository framework for Ruby. It's an alternative to ActiveRecord-like libraries where models are tightly coupled to persistence. Curator allows you to write domain object that are persistence free, and then write repositories that persist these objects. These ideas are largely taken from the Repository section of Domain Driven Design.
+=== Aggregate Update
 
-==== Mongoid
-
-* Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
-
-=== Aggregate Update - Tools for Implementing Eventual Consistency (i.e. performing asynchronous updates)
+Tools for Implementing Eventual Consistency (i.e. performing asynchronous updates).
 
 * http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
 * https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
-* http://rubyamqp.info/articles/getting_started/#blabblr_onetomany_publishsubscribe_pubsub_example[Ruby Amqp - one to many pub sub]
+* http://rubyamqp.info/articles/getting_started/
 * https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
 * https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
 * http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
