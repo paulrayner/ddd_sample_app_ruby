@@ -24,7 +24,21 @@ _The .NET port is being used as the primary basis for this Ruby port._
 
 Details here about other sample apps. Things that are unique to this implementation.
 
-Maybe (if I have time) could implement app in Rails using ActiveRecord with Mongoid, and then using repositories with Curator (and maybe Sinatra?). I wonder which one will be harder?
+== Implementation Stack
+
+=== Version 1 :: Repositories & Sinatra
+
+* Persistence: MongoDB
+* Data access: Curator
+* Domain model: Plain 'ol Ruby objects
+* UI: Sinatra/Javascript/Twitter bootstrap
+
+=== Version 2 :: Rails
+
+* Persistence: MongoDB
+* Data access: Mongoid + Activerecord
+* Domain model: Activemodel
+* UI: Rails/Javascript/Twitter bootstrap
 
 == Aggregates
 
