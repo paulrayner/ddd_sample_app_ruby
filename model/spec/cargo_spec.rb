@@ -46,18 +46,4 @@ describe "Cargo" do
     
     cargo.transport_status != true #:not_received
   end
-
-# TODO Move this into infrastructure specs file
-  it "Cargo can be persisted" do
-    hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
-    lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
-    dal = Location.new(UnLocode.new('DAL'), 'Dallas')
-    arrival_deadline = Date.new(2013, 7, 1)
-
-    route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
-    cargo = Cargo.new(TrackingId.new('blah'), route_spec)
-
-    CargoRepository.save(cargo)
-  end
-  
 end
