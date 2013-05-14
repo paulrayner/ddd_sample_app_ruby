@@ -26,19 +26,19 @@ Details here about other sample apps. Things that are unique to this implementat
 
 == Implementation Stack
 
-=== Version 1 :: Repositories & Sinatra
+=== Version 1 - Repositories & Sinatra
 
 * Persistence: MongoDB
 * Data access: Curator
 * Domain model: Plain 'ol Ruby objects
 * UI: Sinatra/Javascript/Twitter bootstrap
 
-=== Version 2 :: Rails
+=== Version 2 - Rails
 
 * Persistence: MongoDB
 * Data access: Mongoid + Activerecord
 * Domain model: Activemodel
-* UI: Rails/Javascript/Twitter bootstrap
+* UI: Rails Forms/Javascript/Twitter bootstrap
 
 == Aggregates
 
@@ -100,6 +100,7 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 * https://github.com/playlouder/persistence[A set of interfaces for, and implementations of, the Repository pattern in Ruby.] This one looks promising.
 * https://github.com/brandonweiss/collector[Collector is an implementation of the Repository Pattern for MongoDB]
 * https://github.com/braintree/curator[Curator is a model and repository framework for Ruby].Currently, curator supports Riak, MongoDB and an in-memory data store for persistence.
+* https://github.com/braintree/curator_rails_example[Curator Rails example]
 
 === Aggregate Update
 
@@ -107,7 +108,7 @@ Tools for Implementing Eventual Consistency (i.e. performing asynchronous update
 
 * http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
 * https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
-* http://rubyamqp.info/articles/getting_started/
+* http://rubyamqp.info/articles/getting_started/[Ampq/RabbitMQ]
 * https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
 * https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
 * http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]

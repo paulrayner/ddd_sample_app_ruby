@@ -1,0 +1,33 @@
+GEM
+  remote: http://rubygems.org/
+  remote: http://gems.github.com/
+  specs:
+    activemodel (3.2.12)
+      activesupport (= 3.2.12)
+      builder (~> 3.0.0)
+    activesupport (3.2.12)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    beefcake (0.3.7)
+    builder (3.0.4)
+    curator (0.10.0)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      json
+      riak-client (>= 1.0.0)
+    i18n (0.6.4)
+    innertube (1.0.2)
+    json (1.8.0)
+    multi_json (1.7.3)
+    riak-client (1.1.1)
+      beefcake (~> 0.3.7)
+      builder (>= 2.1.2)
+      i18n (>= 0.4.0)
+      innertube (~> 1.0.2)
+      multi_json (~> 1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  curator
