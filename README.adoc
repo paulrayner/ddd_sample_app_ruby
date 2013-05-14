@@ -88,6 +88,7 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 
 * link:http://speakerdeck.com/u/mongodb/p/domain-driven-design-with-mongodb-chris-hafey-on-point-medical-diagnostics[Presentation on Domain Driven Design with MongoDB]
 * link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoDB]
+* https://github.com/basho/ripple/wiki[Ripple is a rich Ruby client for Riak, Basho’s distributed database]
 
 ==== Mongoid
 
@@ -101,6 +102,11 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 * https://github.com/brandonweiss/collector[Collector is an implementation of the Repository Pattern for MongoDB]
 * https://github.com/braintree/curator[Curator is a model and repository framework for Ruby].Currently, curator supports Riak, MongoDB and an in-memory data store for persistence.
 * https://github.com/braintree/curator_rails_example[Curator Rails example]
+* http://www.pgrs.net/2012/02/21/untangle-domain-and-persistence-logic-with-curator[Good blog post by Paul Gross: "Untangle Domain and Persistence Logic with Curator"]
+* http://www.pgrs.net/2012/03/08/data-migrations-for-nosql-with-curator/[Data migrations for NoSQL with Curator]. "Curator migrations are lazy, so at any given time you might have documents with different versions in the data store."
+* https://gist.github.com/bokmann/2217602[ActiveRepository "Strawman" gist by David Bock]. Proposal for what a good Repository pattern implementation should look like in Ruby. Comment thread is excellent value.
+* http://datamapper.org/[DataMapper 2] - goal is to create an ORM which is fast, thread-safe and feature rich. Last release was 1.2, but active development on v2 seems to be progressing.
+* https://github.com/fredwu/datamappify[Datamappify] - is built using Virtus and existing ORMs (ActiveRecord and Sequel, etc). Compose and manage domain logic and data persistence separately and intelligently, Datamappify is loosely based on the Repository Pattern and Entity Aggregation. _Datamappify is current in Proof-of-Concept stage, do NOT use it for anything other than experimentation._
 
 === Aggregate Update
 
