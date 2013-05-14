@@ -118,3 +118,7 @@ Tools for Implementing Eventual Consistency (i.e. performing asynchronous update
 * https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
 * https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
 * http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
+
+=== DDD and Rails
+
+*http://victorsavkin.com/post/41016739721/building-rich-domain-models-in-rails-separating[Entity Data Repository] - Blog post describing hybrid ActiveRecord/DAO approach to building rich domain models in Rails, implemented in https://github.com/nulogy/edr[EDR library]. Implements restricted version of http://martinfowler.com/eaaCatalog/dataMapper.html[DataMapper pattern]. Datamapper 2 will be implementing the same pattern, but is not production-ready yet (see above)
