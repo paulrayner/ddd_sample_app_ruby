@@ -40,9 +40,8 @@ describe "CargoRepository" do
     found_cargo.route_specification == route_spec
     found_cargo.tracking_id == tracking_id
     found_cargo.itinerary == itinerary
-    found_cargo.itinerary.legs[0].name == itinerary.legs[0].name
-    found_cargo.itinerary.legs[1].name == itinerary.legs[1].name
-    found_cargo.itinerary.legs[2].name == itinerary.legs[2].name
+    found_cargo.itinerary.legs[0].load_location.name == itinerary.legs[0].load_location.name
+    found_cargo.itinerary.legs[1].load_location.name == itinerary.legs[1].load_location.name
 
     # TODO Make the following checks redundant with equality on RouteSpecification
     found_cargo.route_specification.origin.unlocode.code == 'HKG'
