@@ -11,7 +11,8 @@ class Itinerary
   def initialize(legs)
     # TODO Check valid values
 
-    @legs = Hamster.list(legs)
+    # @legs = Hamster.list
+    @legs = legs.dup
 
     IceNine.deep_freeze(self)
   end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rspec'
 require 'date'
+require 'pp'
 require "#{File.dirname(__FILE__)}/../ports/persistence/mongodb_adaptor/cargo_repository"
 
 require "#{File.dirname(__FILE__)}/../model/cargo/cargo"
@@ -27,8 +28,8 @@ describe "CargoRepository" do
     tracking_id = TrackingId.new('cargo_1234')
     port = Location.new(UnLocode.new('LGB'), 'Long Beach')
     legs = Array.new
-    legs << Leg.new("voyage ABC", origin, Date.new(2013, 6, 14), port, Date.new(2013, 6, 19))
-    legs << Leg.new("voyage DEF", port, Date.new(2013, 6, 21), destination, Date.new(2013, 6, 24))
+    legs << Leg.new('Voyage ABC', origin, Date.new(2013, 6, 14), port, Date.new(2013, 6, 19))
+    legs << Leg.new('Voyage DEF', port, Date.new(2013, 6, 21), destination, Date.new(2013, 6, 24))
     itinerary = Itinerary.new(legs)
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)

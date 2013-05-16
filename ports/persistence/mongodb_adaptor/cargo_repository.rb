@@ -54,20 +54,31 @@ end
 
 class CargoDocumentAdaptor
   def transform_to_mongoid_document(cargo)
-    CargoDocument.new(
+    cargo_document = CargoDocument.new(
       tracking_id:       cargo.tracking_id.id,
       origin_code:       cargo.route_specification.origin.unlocode.code,
       origin_name:       cargo.route_specification.origin.name,
       destination_code:  cargo.route_specification.destination.unlocode.code,
       destination_name:  cargo.route_specification.destination.name,
       arrival_deadline:  cargo.route_specification.arrival_deadline,
-      # initial_departure_location_code:  cargo.itinerary.initial_departure_location.code,
-      # initial_departure_location_name:  cargo.itinerary.initial_departure_location.name,
-      # final_arrival_location_code:  cargo.itinerary.final_arrival_location_code,
-      # final_arrival_location_name:  cargo.itinerary.final_arrival_location_name,
-      # final_arrival_date:  cargo.itinerary.final_arrival_location_date,
-      legs: cargo.itinerary.legs
+      legs: transform_to_leg_documents(cargo.itinerary.legs)
+    )
+    cargo_document
+  end
+
+  def transform_to_leg_documents(legs)
+    leg_documents = Array.new
+    legs.each do |leg|
+      leg_document = LegDocument.new(
+        voyage:               leg.voyage,
+        load_location_code:   leg.load_location.unlocode.code,
+        unload_location_code: leg.unload_location.unlocode.code,
+        load_date:            leg.load_date,
+        unload_date:          leg.unload_date
       )
+      leg_documents << leg_document
+    end
+    leg_documents
   end
 
   def transform_to_cargo(cargo_doc)

@@ -35,4 +35,8 @@ class Leg
     self.load_date == load_date &&
     self.unload_date == unload_date
   end
+
+  def to_s
+    "Loading on voyage #{@voyage} in #{@load_location} on #{@load_date}, unloading in #{@load_location} on #{@load_date}"
+  end
 end

@@ -22,4 +22,8 @@ class UnLocode
   def ==(other)
     self.code == other.code
   end
+
+  def to_s
+    "#{@code}"
+  end
 end

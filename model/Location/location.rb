@@ -19,6 +19,6 @@ class Location
   # TODO Handle unknown location
 
   def to_s
-    @name + " [" + @unlocode + "]"
+    "#{@name} \[#{@unlocode}]"
   end
 end
