@@ -28,12 +28,28 @@ class CargoDocument
   field :origin_name, type: String
   field :destination_name, type: String
   field :arrival_deadline, type: Date
+  # Decide whether we need to persist these, since they are derived from legs. They might
+  # make reporting from MongoDB easier...treating them like a cache of useful values...
   field :initial_departure_location_code, type: String
   field :initial_departure_location_name, type: String
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: Date
-  # field :legs
+  embeds_many :legs
+
+  # index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
+end
+
+class LegDocument
+  include Mongoid::Document
+
+  field :voyage, type: String
+  field :load_location_code, type: String
+  field :unload_location_code, type: String
+  field :load_date, type: Date
+  field :unload_date, type: Date
+
+  embedded_in :cargo_documents  
 end
 
 class CargoDocumentAdaptor
@@ -44,8 +60,14 @@ class CargoDocumentAdaptor
       origin_name:       cargo.route_specification.origin.name,
       destination_code:  cargo.route_specification.destination.unlocode.code,
       destination_name:  cargo.route_specification.destination.name,
-      arrival_deadline:  cargo.route_specification.arrival_deadline
-    )
+      arrival_deadline:  cargo.route_specification.arrival_deadline,
+      initial_departure_location_code:  cargo.itinerary.initial_departure_location.code,
+      initial_departure_location_name:  cargo.itinerary.initial_departure_location.name,
+      final_arrival_location_code:  cargo.itinerary.final_arrival_location_code,
+      final_arrival_location_name:  cargo.itinerary.final_arrival_location_name,
+      final_arrival_date:  cargo.itinerary.final_arrival_location_date,
+      legs: cargo.itinerary.legs
+      )
   end
 
   def transform_to_cargo(cargo_doc)
