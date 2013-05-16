@@ -1,5 +1,6 @@
 require 'ice_nine'
 require 'hamster'
+require 'pp'
 
 class Itinerary
   attr_reader :legs
@@ -16,6 +17,7 @@ class Itinerary
   end
 
   def initial_departure_location
+    pp legs.first
     legs.first.load_location
   end
 

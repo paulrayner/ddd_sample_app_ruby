@@ -35,7 +35,7 @@ class CargoDocument
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: Date
-  embeds_many :legs
+  embeds_many :leg_documents
 
   # index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
 end
@@ -61,11 +61,11 @@ class CargoDocumentAdaptor
       destination_code:  cargo.route_specification.destination.unlocode.code,
       destination_name:  cargo.route_specification.destination.name,
       arrival_deadline:  cargo.route_specification.arrival_deadline,
-      initial_departure_location_code:  cargo.itinerary.initial_departure_location.code,
-      initial_departure_location_name:  cargo.itinerary.initial_departure_location.name,
-      final_arrival_location_code:  cargo.itinerary.final_arrival_location_code,
-      final_arrival_location_name:  cargo.itinerary.final_arrival_location_name,
-      final_arrival_date:  cargo.itinerary.final_arrival_location_date,
+      # initial_departure_location_code:  cargo.itinerary.initial_departure_location.code,
+      # initial_departure_location_name:  cargo.itinerary.initial_departure_location.name,
+      # final_arrival_location_code:  cargo.itinerary.final_arrival_location_code,
+      # final_arrival_location_name:  cargo.itinerary.final_arrival_location_name,
+      # final_arrival_date:  cargo.itinerary.final_arrival_location_date,
       legs: cargo.itinerary.legs
       )
   end
