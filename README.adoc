@@ -2,43 +2,81 @@
 
 === Goal
 
-The goal of this sample app is to provide an idiomatic Ruby port of the DDD sample application. It should remain faithful to the intention of the purposes of the original DDD sample application:
+The goal of this sample app is to provide an idiomatic Ruby port of the DDD sample application. It should remain faithful to the intention of the purposes of the original DDD sample application.
 
-* Providing a how-to example for implementing a typical DDD application (descriptive, not prescriptive)
-* Support discussion of implementation practices
-* Lab mouse for controlled experiments
+=== Why a Ruby port?
+
+Because Paul wanted to learn Ruby and see how well it supports DDD. Also, interested in questions like:
+
+* How does the choice of Ruby affect the implementation of the DDD building block patterns? 
+* How well does an opinionated MVC framework like Rails support doing DDD? 
+* What are implications of choosing a document store like MongoDB for aggregate design and eventual consistency?
+
+=== Why a DDD Sample App?
+
+1. Provide a how-to example for implementing a typical DDD application
+
+* Descriptive, not prescriptive
+* Idiomatic
+* Update sample app with latest ideas
+
+2. Support discussion of implementation practices
+
+* Engage Ruby community in dialog and learning about DDD
+* Show design and implementation tradeoffs
+* Teach DDD (tend to be Java & .NET) community more about Ruby
+
+3. Lab mouse for controlled experiments
+
+* Learn Ruby as a language and ecosystem
+* Can Rails + MongoDB carry the weight of a complex domain model?
+* Tradeoffs between Sinatra vs Rails for Ruby web apps
 
 ==== DDD Sample Application
 
 * link:https://github.com/patrikfr/dddsample[Written in Java in 2009].
 
-History
+*History*
 
 * Sep 2008 First public release: 1.0.
 * Jan 2009 Sample application tutorial at the JFokus conference in Stockholm.
 * Mar 2009 Sample application tutorial at the QCon conference in London.
 * Mar 2009 New public release: 1.1.0. See changelog for details.
-* 2010/2011 link:https://github.com/SzymonPobiega/DDDSample.Net[Ported to .NET]. 
+* 2010/2011 https://github.com/SzymonPobiega/DDDSample.Net[Ported to .NET in several flavors].
+* May 8, 2013 Begin porting to Ruby at https://github.com/paulrayner/ddd_sample_app_ruby
+* May 13, 2013 Presentation of early work on port of sample app to Ruby at DDD Denver. Slides are http://virtual-genius.com/presentations/ddd_with_ruby_20130613.html[available online].
 
 _The .NET port is being used as the primary basis for this Ruby port._
-
-Details here about other sample apps. Things that are unique to this implementation.
 
 == Implementation Stack
 
 === Version 1 - Repositories & Sinatra
 
 * Persistence: MongoDB
-* Data access: Curator
-* Domain model: Plain old Ruby objects
-* UI: Sinatra/Javascript/Twitter bootstrap
+* Data access: Repositories (using Mongoid for MongoDB persistence)
+* Domain model: Plain Ruby objects (as much as possible)
+* UI: Sinatra, Javascript and Twitter bootstrap
+* _GOAL: Minimal implementation of full stack by May 18_
 
-=== Version 2 - Rails
+_The focus of this version is to focus on the domain model, keeping it as free of other concerns (persistence, UI etc) as possible._ Keep the UI as lean and simple as possible (hence Sinatra).
+
+=== Version 2 - Rails (i.e. ActiveRecord)
 
 * Persistence: MongoDB
 * Data access: Mongoid + Activerecord
 * Domain model: Activemodel
-* UI: Rails Forms/Javascript/Twitter bootstrap
+* UI: Rails Forms, Javascript and Twitter bootstrap
+* _GOAL: Before DDDx London - June 14_
+
+_The focus of this version is to see how implementing the same domain model within Rails affects the implementation, and how it compares to Version 1._
+
+== Contributing
+
+This is a learning experiment, pull requests are welcome! Bonus points for feature branches.
+
+To get started, see https://github.com/paulrayner/ddd_sample_app_ruby/issues?state=open[milestones and issues]. Use the https://github.com/SzymonPobiega/DDDSample.Net[vanilla .NET port version] as the basis for any work. 
+
+Progress will be tracked through posts on http://thepaulrayner.com[Paul Rayner's blog].
 
 == Aggregates
 
@@ -49,13 +87,9 @@ The aggregate roots are:
 * Location
 * Voyage
 
-== Implementation TODOs
-
-See milestones and issues in GitHub repository for high-level.
-
 == Design Decisions
 
-Information on design choices made, and the relative tradeoffs. Plus resources for further reading.
+Here you'll find information on design choices made, and the relative tradeoffs. Plus resources for further reading. Actually, mostly resources right now.
 
 === Value Objects
 
@@ -159,3 +193,5 @@ Tools for Implementing Eventual Consistency (i.e. performing asynchronous update
 === DDD and Rails
 
 *http://victorsavkin.com/post/41016739721/building-rich-domain-models-in-rails-separating[Entity Data Repository] - Blog post describing hybrid ActiveRecord/DAO approach to building rich domain models in Rails, implemented in https://github.com/nulogy/edr[EDR library]. Implements restricted version of http://martinfowler.com/eaaCatalog/dataMapper.html[DataMapper pattern]. Datamapper 2 will be implementing the same pattern, but is not production-ready yet (see above)
+
+
