@@ -1,0 +1,37 @@
+require 'spec_helper'
+require 'rspec'
+require 'date'
+require "#{File.dirname(__FILE__)}/../ports/persistence/mongodb_adaptor/cargo_repository"
+
+require "#{File.dirname(__FILE__)}/../model/cargo/cargo"
+require "#{File.dirname(__FILE__)}/../model/cargo/leg"
+require "#{File.dirname(__FILE__)}/../model/cargo/itinerary"
+require "#{File.dirname(__FILE__)}/../model/cargo/tracking_id"
+require "#{File.dirname(__FILE__)}/../model/cargo/route_specification"
+
+require "#{File.dirname(__FILE__)}/../model/location/location"
+require "#{File.dirname(__FILE__)}/../model/location/unlocode"
+
+describe "CargoRepository" do
+  it "Cargo aggregate can be persisted" do
+    hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
+    lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
+    dal = Location.new(UnLocode.new('DAL'), 'Dallas')
+    arrival_deadline = Date.new(2013, 7, 1)
+
+    route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
+    tracking_id = TrackingId.new('cargo_1234')
+    cargo = Cargo.new(tracking_id, route_spec)
+
+    cargo_repository = CargoRepository.new
+    cargo_repository.save(cargo)
+
+    found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
+    found_cargo.route_specification.origin.unlocode.code == 'HKG'
+    found_cargo.route_specification.origin.name == 'Hong Kong'
+    found_cargo.route_specification.destination.unlocode.code == 'DAL'
+    found_cargo.route_specification.destination.name == 'Dallas'
+    # found_cargo.route_specification.arrival_deadline == Date.new(2013, 7, 1)
+    @cargo
+  end
+end

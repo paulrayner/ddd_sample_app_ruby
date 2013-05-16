@@ -30,7 +30,7 @@ Details here about other sample apps. Things that are unique to this implementat
 
 * Persistence: MongoDB
 * Data access: Curator
-* Domain model: Plain 'ol Ruby objects
+* Domain model: Plain old Ruby objects
 * UI: Sinatra/Javascript/Twitter bootstrap
 
 === Version 2 - Rails
@@ -89,10 +89,13 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 * link:http://speakerdeck.com/u/mongodb/p/domain-driven-design-with-mongodb-chris-hafey-on-point-medical-diagnostics[Presentation on Domain Driven Design with MongoDB]
 * link:http://wiki.basho.com/Riak-Compared-to-MongoDB.html[Riak Compared to MongoDB]
 * https://github.com/basho/ripple/wiki[Ripple is a rich Ruby client for Riak, Basho’s distributed database]
+* http://docs.mongodb.org/ecosystem/drivers/ruby/[Mongo Ruby driver]
 
-==== Mongoid
+==== Mongo ORMs
 
-* Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
+* http://mongoid.org/en/mongoid/index.html[Mongoid] -  Object-Document-Mapper (ODM) for MongoDB written in Ruby. Has Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
+* https://github.com/mongomatic/mongomatic[Mongomatic] -  A MongoDB super-set that adds nice features over the traditional Ruby Driver. Map your Ruby objects to Mongo documents. It is designed to be fast and simple. 
+* http://mongomapper.com/[MongoMapper] - ODM for MongoDB written in Ruby.
 
 === Repository Pattern in Ruby
 
@@ -107,6 +110,37 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 * https://gist.github.com/bokmann/2217602[ActiveRepository "Strawman" gist by David Bock]. Proposal for what a good Repository pattern implementation should look like in Ruby. Comment thread is excellent value.
 * http://datamapper.org/[DataMapper 2] - goal is to create an ORM which is fast, thread-safe and feature rich. Last release was 1.2, but active development on v2 seems to be progressing.
 * https://github.com/fredwu/datamappify[Datamappify] - is built using Virtus and existing ORMs (ActiveRecord and Sequel, etc). Compose and manage domain logic and data persistence separately and intelligently, Datamappify is loosely based on the Repository Pattern and Entity Aggregation. _Datamappify is current in Proof-of-Concept stage, do NOT use it for anything other than experimentation._
+
+Have not yet found a repository implementation that supports aggregates. Rather, each implementation follows a repository-per-object approach, which is not what we need.
+
+There is an on issue for Curator regarding https://github.com/braintree/curator/issues/16[ supporting foreign keys and embedded objects],  and some experimentation in a branch with adding a https://github.com/braintree/curator/commit/repository_mapping[mapping API] which may do what I need.
+
+https://github.com/ifesdjeen/entrepot[Entrepot] looks promising. It uses Virtus for the objects and has this kinda weird approach of referencing a repository from a repository:
+
+```
+class Address
+  include Virtus
+  include Entrepot::Model
+
+  attribute :street,  String
+  attribute :city,    String
+  attribute :country, String
+end
+
+class Person
+  include Virtus
+  include Entrepot::Mongo::Model
+
+  attribute :name,     String
+  attribute :address,  Address
+end
+
+class PersonRepository
+  include Entrepot::Repository
+
+  has_many :articles, :repository => :ArticleRepository
+end
+```
 
 === Aggregate Update
 

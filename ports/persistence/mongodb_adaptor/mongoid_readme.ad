@@ -1,0 +1,5 @@
+On the command line:
+
+```
+export MONGOID_ENV=development
+```
