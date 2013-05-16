@@ -28,6 +28,12 @@ class CargoDocument
   field :origin_name, type: String
   field :destination_name, type: String
   field :arrival_deadline, type: Date
+  field :initial_departure_location_code, type: String
+  field :initial_departure_location_name, type: String
+  field :final_arrival_location_code, type: String
+  field :final_arrival_location_name, type: String
+  field :final_arrival_date, type: Date
+  # field :legs
 end
 
 class CargoDocumentAdaptor

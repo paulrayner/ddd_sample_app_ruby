@@ -25,6 +25,11 @@ describe "CargoRepository" do
 
     route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
     tracking_id = TrackingId.new('cargo_1234')
+    legs = Array.new
+    legs << origin
+    legs << Location.new(UnLocode.new('LGB'), 'Long Beach')
+    legs << destination
+    itinerary = Itinerary.new(legs)
     cargo = Cargo.new(tracking_id, route_spec)
 
     cargo_repository.save(cargo)
@@ -32,6 +37,10 @@ describe "CargoRepository" do
     found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
     found_cargo.route_specification == route_spec
     found_cargo.tracking_id == tracking_id
+    found_cargo.itinerary == itinerary
+    found_cargo.itinerary.legs[0] == itinerary.legs[0]
+    found_cargo.itinerary.legs[1] == itinerary.legs[1]
+    found_cargo.itinerary.legs[2] == itinerary.legs[2]
 
     # TODO Make the following checks redundant with equality on RouteSpecification
     found_cargo.route_specification.origin.unlocode.code == 'HKG'
