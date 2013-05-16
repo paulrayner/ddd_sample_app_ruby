@@ -3,6 +3,7 @@ require 'rspec'
 require 'date'
 require 'pp'
 require "#{File.dirname(__FILE__)}/../../ports/persistence/mongodb_adaptor/cargo_repository"
+
 require "#{File.dirname(__FILE__)}/../../model/cargo/cargo"
 require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
 require "#{File.dirname(__FILE__)}/../../model/cargo/itinerary"
