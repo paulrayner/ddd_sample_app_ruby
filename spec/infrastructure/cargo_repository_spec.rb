@@ -2,16 +2,14 @@ require 'spec_helper'
 require 'rspec'
 require 'date'
 require 'pp'
-require "#{File.dirname(__FILE__)}/../ports/persistence/mongodb_adaptor/cargo_repository"
-
-require "#{File.dirname(__FILE__)}/../model/cargo/cargo"
-require "#{File.dirname(__FILE__)}/../model/cargo/leg"
-require "#{File.dirname(__FILE__)}/../model/cargo/itinerary"
-require "#{File.dirname(__FILE__)}/../model/cargo/tracking_id"
-require "#{File.dirname(__FILE__)}/../model/cargo/route_specification"
-
-require "#{File.dirname(__FILE__)}/../model/location/location"
-require "#{File.dirname(__FILE__)}/../model/location/unlocode"
+require "#{File.dirname(__FILE__)}/../../ports/persistence/mongodb_adaptor/cargo_repository"
+require "#{File.dirname(__FILE__)}/../../model/cargo/cargo"
+require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
+require "#{File.dirname(__FILE__)}/../../model/cargo/itinerary"
+require "#{File.dirname(__FILE__)}/../../model/cargo/tracking_id"
+require "#{File.dirname(__FILE__)}/../../model/cargo/route_specification"
+require "#{File.dirname(__FILE__)}/../../model/location/location"
+require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
 
 describe "CargoRepository" do
   it "Cargo aggregate can be persisted" do
