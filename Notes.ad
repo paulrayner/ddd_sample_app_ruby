@@ -66,5 +66,10 @@ datamapper[Book].find(:author => 'John Doe').limit(10).offset(2)
 
 == Data Mapper Pattern
 
+* http://stackoverflow.com/questions/13550690/how-is-the-data-mapper-pattern-different-from-the-repository-pattern
+
+----
 http://stackoverflow.com/questions/13550690/how-is-the-data-mapper-pattern-different-from-the-repository-pattern
+----
+
 http://www.martinfowler.com/eaaCatalog/dataMapper.html[Data Mapper -] - A layer of Mappers (473) that moves data between objects and a database while keeping them independent of each other and the mapper itself.

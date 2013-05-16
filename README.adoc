@@ -68,6 +68,9 @@ Information on design choices made, and the relative tradeoffs. Plus resources f
 * http://www.confreaks.com/videos/2337-mwrc2013-immutable-ruby[Immutable Ruby presentation video (25 mins) - Michael Fairley @ MountainWest RubyConf 2013]
 * http://blog.rubybestpractices.com/posts/rklemme/017-Struct.html[Ruby structs inside-out]
 
+* http://functionalruby.com/blog/2012/02/23/hamster-immutable-data-structures-for-ruby[Blog post on Functional Ruby blog about Hamster]
+* http://www.harukizaemon.com/blog/2010/03/01/functional-programming-in-object-oriented-languages/[Functional programming in object oriented languages] - Blog post by Simon Harris, author of Hamster.
+
 ==== Libraries/Gems Supporting Immutability in Ruby
 
 * https://rubygems.org/gems/ice_nine[Ice Nine (for deep freezing objects)]
