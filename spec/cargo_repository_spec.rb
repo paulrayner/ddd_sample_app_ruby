@@ -31,11 +31,13 @@ describe "CargoRepository" do
 
     found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
     found_cargo.route_specification == route_spec
-    # found_cargo.route_specification.origin.unlocode.code == 'HKG'
-    # found_cargo.route_specification.origin.name == 'Hong Kong'
-    # found_cargo.route_specification.destination.unlocode.code == 'DAL'
-    # found_cargo.route_specification.destination.name == 'Dallas'
-    # found_cargo.route_specification.arrival_deadline == arrival_deadline
-    @cargo
+    found_cargo.tracking_id == tracking_id
+
+    # TODO Make the following checks redundant with equality on RouteSpecification
+    found_cargo.route_specification.origin.unlocode.code == 'HKG'
+    found_cargo.route_specification.origin.name == 'Hong Kong'
+    found_cargo.route_specification.destination.unlocode.code == 'DAL'
+    found_cargo.route_specification.destination.name == 'Dallas'
+    found_cargo.route_specification.arrival_deadline == arrival_deadline
   end
 end

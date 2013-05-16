@@ -3,16 +3,7 @@ require 'pp'
 
 class CargoRepository
   def save(cargo)
-    # Hard-code for now to test Mongoid infrastructure...
-    cargo_document = CargoDocument.new(
-      tracking_id:       cargo.tracking_id.id,
-      origin_code:       cargo.route_specification.origin.unlocode.code,
-      origin_name:       cargo.route_specification.origin.name,
-      destination_code:  cargo.route_specification.destination.unlocode.code,
-      destination_name:  cargo.route_specification.destination.name,
-      arrival_deadline:  cargo.route_specification.arrival_deadline
-    )
-
+    cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
     cargo_document.save
   end
 
