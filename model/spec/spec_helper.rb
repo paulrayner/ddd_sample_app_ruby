@@ -1,11 +1,4 @@
-# require 'curator'
 require 'mongoid'
-
-# Curator.configure(:mongo) do |config|
-#   config.environment = "test"
-#   config.database = "container_shipping"
-#   config.mongo_config_file = File.expand_path(File.dirname(__FILE__) + "/../../config/mongo.yml")
-# end
 
 # TODO Move this to a better place once I get mongoid working
 #
@@ -20,5 +13,6 @@ require 'mongoid'
 #
 # If you are not using any rack based application and want to override the environment programatically, you can pass a second paramter to load! and Mongoid will use that.
 
-puts "got here..."
+# SPECIFYING ENVIRONMENT HERE DOESN'T WORK. Had to set MONGOID_ENV on command line.
+#
 Mongoid.load!("#{File.dirname(__FILE__)}/../config/mongoid.yml", :development)

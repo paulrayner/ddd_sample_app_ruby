@@ -3,3 +3,7 @@ On the command line:
 ```
 export MONGOID_ENV=development
 ```
+
+== Resources
+
+* https://github.com/evansagge/mongoid-rspec[Mongoid-RSpec] - RSpec matchers and macros for Mongoid 3.x
