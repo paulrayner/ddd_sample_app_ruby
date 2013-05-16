@@ -51,9 +51,13 @@ end
 class LegDocument
   include Mongoid::Document
 
+  # TODO Decide whether Location should be its own document. It's kinda a pain to keep writing both code
+  # and name for each location, plus prone to error.
   field :voyage, type: String
   field :load_location_code, type: String
+  field :load_location_name, type: String
   field :unload_location_code, type: String
+  field :unload_location_name, type: String
   field :load_date, type: Date
   field :unload_date, type: Date
 
@@ -74,13 +78,24 @@ class CargoDocumentAdaptor
     cargo_document
   end
 
+  def transform_to_cargo(cargo_document)
+    origin = Location.new(UnLocode.new(cargo_document[:origin_code]), cargo_document[:origin_name])
+    destination = Location.new(UnLocode.new(cargo_document[:destination_code]), cargo_document[:destination_name])
+    route_spec = RouteSpecification.new(origin, destination, cargo_document[:arrival_deadline])
+    tracking_id = TrackingId.new(cargo_document[:tracking_id])
+    
+    Cargo.new(tracking_id, route_spec)
+  end
+
   def transform_to_leg_documents(legs)
     leg_documents = Array.new
     legs.each do |leg|
       leg_document = LegDocument.new(
         voyage:               leg.voyage,
         load_location_code:   leg.load_location.unlocode.code,
+        load_location_name:   leg.load_location.name,
         unload_location_code: leg.unload_location.unlocode.code,
+        unload_location_name: leg.unload_location.name,
         load_date:            leg.load_date,
         unload_date:          leg.unload_date
       )
@@ -89,13 +104,23 @@ class CargoDocumentAdaptor
     leg_documents
   end
 
-  def transform_to_cargo(cargo_doc)
-    origin = Location.new(UnLocode.new(cargo_doc[:origin_code]), cargo_doc[:origin_name])
-    destination = Location.new(UnLocode.new(cargo_doc[:destination_code]), cargo_doc[:destination_name])
-    route_spec = RouteSpecification.new(origin, destination, cargo_doc[:arrival_deadline])
-    tracking_id = TrackingId.new(cargo_doc[:tracking_id])
-    
-    Cargo.new(tracking_id, route_spec)
+  def transform_to_legs(leg_documents)
+    legs = Array.new
+    legs << Leg.new('Voyage ABC', origin, Date.new(2013, 6, 14), port, Date.new(2013, 6, 19))
+    legs << Leg.new('Voyage DEF', port, Date.new(2013, 6, 21), destination, Date.new(2013, 6, 24))
+
+    leg_documents.each do |leg_document|
+      load_location = Location.new(UnLocode.new(), leg_document[:origin_name])
+      unload_location
+
+      origin = Location.new(UnLocode.new(leg_document[:voyage]), leg_document[:origin_name])
+      destination = Location.new(UnLocode.new(leg_document[:destination_code]), leg_document[:destination_name])
+      route_spec = RouteSpecification.new(origin, destination, leg_document[:arrival_deadline])
+      tracking_id = TrackingId.new(leg_document[:tracking_id])
+      leg 
+      legs << leg
+    end
+    legs
   end
 end
 
