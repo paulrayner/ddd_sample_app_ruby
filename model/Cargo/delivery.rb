@@ -1,9 +1,6 @@
-require 'curator'
 require 'ice_nine'
 
 class Delivery
-  include Curator::Model
-
   attr_reader :transport_status
   attr_reader :last_known_location
   attr_reader :misdirected

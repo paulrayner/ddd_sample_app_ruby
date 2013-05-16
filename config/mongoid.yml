@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: container_shipping
+      hosts:
+        - localhost:27017
