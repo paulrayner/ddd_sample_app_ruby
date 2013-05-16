@@ -1,0 +1,75 @@
+* http://solnic.eu/2011/08/01/making-activerecord-models-thin.html[Making ActiveRecord Models Thin] - great blog post (and comment stream) from August 1, 2011 discussing separating behavior and state in Rails apps. 
+* http://solnic.eu/2013/01/23/mutation-testing-with-mutant.html
+* http://solnic.eu/2012/12/20/datamapper-2-status-and-roadmap.html[DataMapper 2 Status and Roadmap] - mentions the following cool Gems that have been extraced from DataMapper:
+** https://github.com/dkubb/adamantium[Adamantium] - helps in building immutable objects
+** https://github.com/dkubb/ice_nine[IceNine] - deep freezing objects
+** https://github.com/dkubb/equalizer[Equalizer] - builds equality methods for you
+** DescendantsTracker
+
+* Sample usage for DataMapper 2. Kinda cool:
+
+```
+# In DataMapper 2 we don't pollute global constants with shared state.
+# That's why we decided to use an environment object that *you*
+# create and use do build mappers and configure everything.
+ 
+# Let's call it "datamapper" :)
+ 
+datamapper = DataMapper::Environment.new
+ 
+# You use environment object to establish connection with a db
+datamapper.setup :postgres, :uri => "postgres://localhost/test"
+ 
+# So let's say we have 2 domain objects Page and Book
+ 
+class Page
+  include DataMapper::Model
+ 
+  attribute :id, Integer
+  attribute :content, String
+end
+ 
+class Book
+  include DataMapper::Model
+ 
+  attribute :isbn, String
+  attribute :title, String
+  attribute :author, String
+  attribute :pages, Array[Page]
+end
+ 
+# You use environment object to build mappers
+ 
+datamapper.build(Page, :postgres) do
+  key(:id)
+end
+ 
+datamapper.build(Book, :postgres) do
+  key(:isbn)
+ 
+  # here we establish a relationship between page and books
+  has 0..n, :pages, Page
+end
+ 
+# we need to finalize the env now
+datamapper.finalize
+ 
+# to access a mapper you use #[] method and model constant
+# so to fetch all books with their pages you just do:
+ 
+datamapper[Book].include(:pages).all
+ 
+# Query API is pretty similar to what you already know
+ 
+datamapper[Book].find(:author => 'John Doe').limit(10).offset(2)
+```
+
+== Data Mapper Pattern
+
+* http://stackoverflow.com/questions/13550690/how-is-the-data-mapper-pattern-different-from-the-repository-pattern
+
+----
+http://stackoverflow.com/questions/13550690/how-is-the-data-mapper-pattern-different-from-the-repository-pattern
+----
+
+http://www.martinfowler.com/eaaCatalog/dataMapper.html[Data Mapper -] - A layer of Mappers (473) that moves data between objects and a database while keeping them independent of each other and the mapper itself.

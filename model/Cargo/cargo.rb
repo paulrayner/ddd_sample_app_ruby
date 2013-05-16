@@ -1,13 +1,9 @@
-require 'curator'
-
 class Cargo
-  include Curator::Model
-
   def transport_status
     return false
   end
 
-  attr_accessor :id
+  attr_accessor :tracking_id
   attr_accessor :route_specification
   attr_accessor :itinerary
   attr_accessor :delivery
