@@ -10,7 +10,7 @@ Because Paul wanted to learn Ruby and see how well it supports DDD. Also, intere
 
 * How does the choice of Ruby affect the implementation of the DDD building block patterns? 
 * How well does an opinionated MVC framework like Rails support doing DDD? 
-* What are implications of choosing a document store like MongoDB for aggregate design and eventual consistency? 
+* What are implications of choosing a document store like MongoDB for aggregate design and eventual consistency?
 
 === Why a DDD Sample App?
 
@@ -53,18 +53,22 @@ _The .NET port is being used as the primary basis for this Ruby port._
 === Version 1 - Repositories & Sinatra
 
 * Persistence: MongoDB
-* Data access: Curator + Repositories
+* Data access: Repositories (using Mongoid for MongoDB persistence)
 * Domain model: Plain Ruby objects (as much as possible)
-* UI: Sinatra + Javascript + Twitter bootstrap
+* UI: Sinatra, Javascript and Twitter bootstrap
 * _GOAL: Minimal implementation of full stack by May 18_
+
+_The focus of this version is to focus on the domain model, keeping it as free of other concerns (persistence, UI etc) as possible._ Keep the UI as lean and simple as possible (hence Sinatra).
 
 === Version 2 - Rails (i.e. ActiveRecord)
 
 * Persistence: MongoDB
 * Data access: Mongoid + Activerecord
 * Domain model: Activemodel
-* UI: Rails Forms + Javascript + Twitter bootstrap
+* UI: Rails Forms, Javascript and Twitter bootstrap
 * _GOAL: Before DDDx London - June 14_
+
+_The focus of this version is to see how implementing the same domain model within Rails affects the implementation, and how it compares to Version 1._
 
 == Contributing
 
