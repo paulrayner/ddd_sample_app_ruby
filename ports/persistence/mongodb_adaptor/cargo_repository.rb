@@ -5,11 +5,16 @@ class CargoRepository
   def save(cargo)
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
     cargo_document.save
+    puts "----"
+    puts "Persisting to MongoDB..."
+    pp cargo_document
+    pp cargo_document.leg_documents
+    puts "----"
   end
 
   def find_by_tracking_id(tracking_id)
     cargo_doc = CargoDocument.find_by(tracking_id: tracking_id.id)
-    pp cargo_doc
+    # pp cargo_doc
     CargoDocumentAdaptor.new.transform_to_cargo(cargo_doc)
   end
 
@@ -28,6 +33,7 @@ class CargoDocument
   field :origin_name, type: String
   field :destination_name, type: String
   field :arrival_deadline, type: Date
+  #-----
   # Decide whether we need to persist these, since they are derived from legs. They might
   # make reporting from MongoDB easier...treating them like a cache of useful values...
   field :initial_departure_location_code, type: String
@@ -35,8 +41,10 @@ class CargoDocument
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: Date
+  #-----
   embeds_many :leg_documents
 
+  # TODO Figure out how best to handle the tracking ID value object - should be indexed I suppose
   # index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
 end
 
@@ -49,7 +57,7 @@ class LegDocument
   field :load_date, type: Date
   field :unload_date, type: Date
 
-  embedded_in :cargo_documents  
+  embedded_in :cargo_document 
 end
 
 class CargoDocumentAdaptor
@@ -60,9 +68,9 @@ class CargoDocumentAdaptor
       origin_name:       cargo.route_specification.origin.name,
       destination_code:  cargo.route_specification.destination.unlocode.code,
       destination_name:  cargo.route_specification.destination.name,
-      arrival_deadline:  cargo.route_specification.arrival_deadline,
-      legs: transform_to_leg_documents(cargo.itinerary.legs)
+      arrival_deadline:  cargo.route_specification.arrival_deadline
     )
+    cargo_document.leg_documents.concat(transform_to_leg_documents(cargo.itinerary.legs))
     cargo_document
   end
 
