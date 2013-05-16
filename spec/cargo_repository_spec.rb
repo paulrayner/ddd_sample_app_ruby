@@ -14,24 +14,28 @@ require "#{File.dirname(__FILE__)}/../model/location/unlocode"
 
 describe "CargoRepository" do
   it "Cargo aggregate can be persisted" do
-    hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
-    lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
-    dal = Location.new(UnLocode.new('DAL'), 'Dallas')
+    cargo_repository = CargoRepository.new
+
+    # TODO Replace this quick-and-dirty data teardown...
+    cargo_repository.nuke
+
+    origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
+    destination = Location.new(UnLocode.new('DAL'), 'Dallas')
     arrival_deadline = Date.new(2013, 7, 1)
 
-    route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
+    route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
     tracking_id = TrackingId.new('cargo_1234')
     cargo = Cargo.new(tracking_id, route_spec)
 
-    cargo_repository = CargoRepository.new
     cargo_repository.save(cargo)
 
     found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
-    found_cargo.route_specification.origin.unlocode.code == 'HKG'
-    found_cargo.route_specification.origin.name == 'Hong Kong'
-    found_cargo.route_specification.destination.unlocode.code == 'DAL'
-    found_cargo.route_specification.destination.name == 'Dallas'
-    # found_cargo.route_specification.arrival_deadline == Date.new(2013, 7, 1)
+    found_cargo.route_specification == route_spec
+    # found_cargo.route_specification.origin.unlocode.code == 'HKG'
+    # found_cargo.route_specification.origin.name == 'Hong Kong'
+    # found_cargo.route_specification.destination.unlocode.code == 'DAL'
+    # found_cargo.route_specification.destination.name == 'Dallas'
+    # found_cargo.route_specification.arrival_deadline == arrival_deadline
     @cargo
   end
 end

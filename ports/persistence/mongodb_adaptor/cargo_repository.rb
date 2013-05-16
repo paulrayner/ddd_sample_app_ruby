@@ -28,6 +28,13 @@ class CargoRepository
     
     Cargo.new(tracking_id, route_spec)
   end
+
+  # TODO Do something cleaner than this for data setup/teardown - yikes!
+  def nuke
+    CargoDocument.delete_all
+  end
+
+
 end
 
 class CargoDocument

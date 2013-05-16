@@ -8,7 +8,6 @@ GEM
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    beefcake (0.3.7)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
     bson (1.7.1)
@@ -16,15 +15,8 @@ GEM
       bson (~> 1.7.0)
     builder (3.0.4)
     coderay (1.0.9)
-    curator (0.10.0)
-      activemodel (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      json
-      riak-client (>= 1.0.0)
     debug_inspector (0.0.2)
     i18n (0.6.4)
-    innertube (1.0.2)
-    json (1.8.0)
     method_source (0.8.1)
     mongo (1.7.0)
       bson (~> 1.7.0)
@@ -43,12 +35,6 @@ GEM
     pry-stack_explorer (0.4.9)
       binding_of_caller (>= 0.7)
       pry (~> 0.9.11)
-    riak-client (1.1.1)
-      beefcake (~> 0.3.7)
-      builder (>= 2.1.2)
-      i18n (>= 0.4.0)
-      innertube (~> 1.0.2)
-      multi_json (~> 1.0)
     slop (3.4.4)
     tzinfo (0.3.37)
 
@@ -57,7 +43,6 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (= 1.7.0)
-  curator
   mongo (= 1.7.0)
   mongoid
   pry
