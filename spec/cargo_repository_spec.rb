@@ -17,7 +17,7 @@ describe "CargoRepository" do
     cargo_repository = CargoRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
-    cargo_repository.nuke
+    cargo_repository.nuke_all_cargo
 
     origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     destination = Location.new(UnLocode.new('DAL'), 'Dallas')
