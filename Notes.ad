@@ -73,3 +73,35 @@ http://stackoverflow.com/questions/13550690/how-is-the-data-mapper-pattern-diffe
 ----
 
 http://www.martinfowler.com/eaaCatalog/dataMapper.html[Data Mapper -] - A layer of Mappers (473) that moves data between objects and a database while keeping them independent of each other and the mapper itself.
+
+== UIs in Ruby
+
+What about DTOs?
+
+
+[quote, http://stackoverflow.com/questions/3284917/ruby-on-rails-dto-objects-where-do-you-store-them]
+____
+The Rails convention is not to use distributed tiers for controller and view layers. The separation is there, but it is logical and relatively thin/lightweight compared to the types of frameworks you see in Java land.
+
+The basic architecture is that the controller sets instance variables that are available in the corresponding view. In the general case, the instance variables will be model instances or collections of model instances (coming from the database). Models should be the core of your business logic. Controllers coordinate flows of data. Views display it. Helpers are used to format display values in the view ... anything that takes a model value and does something just for display purposes (you may find that a helper method used repeatedly may actually be better off on the model itself).
+
+However, if you find that a view needs knowledge of many different models, you might find it easier to wrap models into another object at a higher-level of abstraction. Nothing prevents you from creating non-active-record objects that collect and coordinate your actual AR models. You can then instantiate these objects in the controller, and have them available to the view. You generally have to be at a pretty dense level of complexity in the controller to need this type of thing.
+
+I would tend to throw such objects into apps/models - Rails already loads everything in this directory, keeps things easy from a config/expectation point of view.
+____
+
+=== Padrino
+
+* Guides - http://www.padrinorb.com/guides
+* https://leanpub.com/padrino - content at https://github.com/matthias-guenther/padrino-book
+* Recipes - https://github.com/padrino/padrino-recipes
+* http://www.slideshare.net/victorbstan/introduction-to-padrino-9450994
+
+=== Padrino Bugs (found so far)
+
+* http://stackoverflow.com/questions/16368016/bundle-update-for-padrino-app-could-not-find-compatible-versions-for-tilt[Gemfile: gem 'tilt', '1.3.7']
+* post.rb - Put Text in quotes per http://rubyflewtoo.blogspot.com/2012/08/padrino-datamapper-rake-uninitialized.html
+
+# Sinatra
+
+* Sample apps - http://www.sinatrarb.com/wild.html
