@@ -37,13 +37,8 @@ class Delivery
     if last_handled_event.nil?
       return false
     end
-    last_handled_event.event_type == "Unload"# && 
-    # route_specification.destination == last_handled_event.location
-
-    # @last_handled_event.event_type
-                     # lastEvent.EventType == HandlingEventType.Unload &&
-                     # specification.Destination == lastEvent.Location;
-
+    last_handled_event.event_type == "Unload" && 
+    last_handled_event.location == route_specification.destination
   end
 
   # TODO Add in all the other methods from .NET example...
