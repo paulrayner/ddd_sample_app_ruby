@@ -1,3 +1,4 @@
+require 'date'
 require 'ice_nine'
 
 class Delivery
@@ -8,13 +9,28 @@ class Delivery
   attr_reader :is_unloaded_at_destination
   attr_reader :routing_status
   attr_reader :calculated_at
-  attr_reader :last_event
+  attr_reader :last_handled_event
   attr_reader :next_expected_activity
 
-  def initialize()
-    # TODO Fill this in...
+  def initialize(route_specification, itinerary, last_handled_event)
+    #  TODO What is 'now' for date in Ruby?
+    @calculated_at = Date.new(2013, 7, 1)
+    @last_handled_event = last_handled_event
+    @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
+
+            # _misdirected = CalculateMisdirectionStatus(LastEvent, itinerary);
+            # _routingStatus = CalculateRoutingStatus(itinerary, specification);
+            # _transportStatus = CalculateTransportStatus(LastEvent);
+            # _lastKnownLocation = CalculateLastKnownLocation(LastEvent);
+            # _eta = CalculateEta(itinerary);
+            # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
+            # _isUnloadedAtDestination = CalculateUnloadedAtDestination(LastEvent, specification);
 
     IceNine.deep_freeze(self)
+  end
+  
+  def derived_from(route_specification, itinerary, last_handled_event)
+    #self(route_specification, itinerary, last_handled_event)
   end
 
   # TODO Add in all the other methods from .NET example...
