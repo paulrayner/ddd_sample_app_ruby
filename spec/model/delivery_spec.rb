@@ -21,14 +21,14 @@ end
 describe "Delivery" do
     before(:each) do
       origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
-      destination = Location.new(UnLocode.new('DAL'), 'Dallas')
+      @destination = Location.new(UnLocode.new('DAL'), 'Dallas')
       arrival_deadline = Date.new(2013, 7, 1)
-      @route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
+      @route_spec = RouteSpecification.new(origin, @destination, arrival_deadline)
 
       @port = Location.new(UnLocode.new('LGB'), 'Long Beach')
       legs = Array.new
       legs << Leg.new('Voyage ABC', origin, Date.new(2013, 6, 14), @port, Date.new(2013, 6, 19))
-      legs << Leg.new('Voyage DEF', @port, Date.new(2013, 6, 21), destination, Date.new(2013, 6, 24))
+      legs << Leg.new('Voyage DEF', @port, Date.new(2013, 6, 21), @destination, Date.new(2013, 6, 24))
       @itinerary = Itinerary.new(legs)
     end
 
@@ -68,7 +68,16 @@ describe "Delivery" do
     delivery.is_unloaded_at_destination.should == false
   end
 
-  # it "Cargo is considered unloaded at destination after handling unload event at destination" do
-  #   false.should == true
-  # end
+  it "Cargo is considered unloaded at destination after handling unload event at destination" do
+    registration_date = Date.new(2013, 6, 21)
+    completion_date = Date.new(2013, 6, 21)
+
+    # TODO How to set the enum to be UNLOADED?
+    unloaded = HandlingEventType.new()
+    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
+    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    unload_handling_event = HandlingEvent.new("Unload", @destination, registration_date, completion_date, nil)
+    delivery = Delivery.new(@route_spec, @itinerary, unload_handling_event)
+    delivery.is_unloaded_at_destination.should == true
+  end
 end
