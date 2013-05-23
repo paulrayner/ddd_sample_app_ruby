@@ -33,6 +33,10 @@ class Delivery
     #self(route_specification, itinerary, last_handled_event)
   end
 
+  def calculate_unloaded_at_destination(last_handled_event, route_specification)
+    false
+  end
+
   # TODO Add in all the other methods from .NET example...
 
   # TODO Implement equality correctly - placeholder method for now...
