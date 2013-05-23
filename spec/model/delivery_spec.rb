@@ -46,9 +46,11 @@ describe "Delivery" do
     registration_date = Date.new(2013, 6, 21)
     completion_date = Date.new(2013, 6, 21)
 
-    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
+    # TODO How to set the enum to be UNLOADED?
     unloaded = HandlingEventType.new()
-    unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
+    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    unload_handling_event = HandlingEvent.new("Unload", @port, registration_date, completion_date, nil)
     delivery = Delivery.new(@route_spec, @itinerary, unload_handling_event)
     delivery.is_unloaded_at_destination.should == false
   end
