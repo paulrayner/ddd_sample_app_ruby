@@ -11,6 +11,8 @@ require "#{File.dirname(__FILE__)}/../../model/cargo/tracking_id"
 require "#{File.dirname(__FILE__)}/../../model/cargo/route_specification"
 require "#{File.dirname(__FILE__)}/../../model/location/location"
 require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
+require "#{File.dirname(__FILE__)}/../../model/handling/handling_event"
+require "#{File.dirname(__FILE__)}/../../model/handling/handling_event_type"
 
 def route_spec
 end
@@ -35,9 +37,9 @@ describe "Delivery" do
 
     # TODO Implement derived_from once I work out static method, and calling constructor from 
     # this static method (then delete the direct call to the constructor)
-    @delivery = Delivery.new(@route_spec, @itinerary, nil)
+    delivery = Delivery.new(@route_spec, @itinerary, nil)
     # @delivery = @old_delivery.derived_from(@route_spec, itinerary, last_event);
-    @delivery.is_unloaded_at_destination.should == false
+    delivery.is_unloaded_at_destination.should == false
   end
 
   it "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
@@ -45,10 +47,10 @@ describe "Delivery" do
     completion_date = Date.new(2013, 6, 21)
 
     # TODO How is it possible to have a HandlingEvent with a nil Cargo?
-    @unload_handling_event = HandlingEvent.new(HandlingEventType.new(:unload), @port, registration_date, completion_date, nil)
-
-    # DeliveryStateAfterHandling(new HandlingEvent(HandlingEventType.Unload, Warszawa, new DateTime(2012, 12, 10), new DateTime(2012, 12, 10), null));
-    false.should == true
+    unloaded = HandlingEventType.new()
+    unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    delivery = Delivery.new(@route_spec, @itinerary, unload_handling_event)
+    delivery.is_unloaded_at_destination.should == false
   end
 
   # it "Cargo is not considered unloaded at destination after handling other event at destination" do
