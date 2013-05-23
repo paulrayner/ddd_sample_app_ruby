@@ -14,7 +14,15 @@ require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
 require "#{File.dirname(__FILE__)}/../../model/handling/handling_event"
 require "#{File.dirname(__FILE__)}/../../model/handling/handling_event_type"
 
-def route_spec
+def handling_event_fake(location, handling_event_type)
+    registration_date = Date.new(2013, 6, 21)
+    completion_date = Date.new(2013, 6, 21)
+
+    # TODO How to set the enum to be UNLOADED?
+    unloaded = HandlingEventType.new()
+    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
+    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil)
 end
 
 # TODO Implement delivery specs
@@ -46,12 +54,7 @@ describe "Delivery" do
     registration_date = Date.new(2013, 6, 21)
     completion_date = Date.new(2013, 6, 21)
 
-    # TODO How to set the enum to be UNLOADED?
-    unloaded = HandlingEventType.new()
-    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
-    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
-    unload_handling_event = HandlingEvent.new("Unload", @port, registration_date, completion_date, nil)
-    delivery = Delivery.new(@route_spec, @itinerary, unload_handling_event)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
     delivery.is_unloaded_at_destination.should == false
   end
 
@@ -79,5 +82,10 @@ describe "Delivery" do
     unload_handling_event = HandlingEvent.new("Unload", @destination, registration_date, completion_date, nil)
     delivery = Delivery.new(@route_spec, @itinerary, unload_handling_event)
     delivery.is_unloaded_at_destination.should == true
+  end
+
+  it "Delivery has correct last known location based on handling event" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery.last_known_location.should == @destination
   end
 end
