@@ -34,7 +34,10 @@ class Delivery
   end
 
   def calculate_unloaded_at_destination(last_handled_event, route_specification)
-    false
+    @last_handled_event.nil?
+                     # lastEvent.EventType == HandlingEventType.Unload &&
+                     # specification.Destination == lastEvent.Location;
+
   end
 
   # TODO Add in all the other methods from .NET example...
