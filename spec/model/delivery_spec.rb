@@ -27,14 +27,14 @@ end
 
 describe "Delivery" do
     before(:each) do
-      origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
+      @origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
       @destination = Location.new(UnLocode.new('DAL'), 'Dallas')
       arrival_deadline = Date.new(2013, 7, 1)
-      @route_spec = RouteSpecification.new(origin, @destination, arrival_deadline)
+      @route_spec = RouteSpecification.new(@origin, @destination, arrival_deadline)
 
       @port = Location.new(UnLocode.new('LGB'), 'Long Beach')
       legs = Array.new
-      legs << Leg.new('Voyage ABC', origin, Date.new(2013, 6, 14), @port, Date.new(2013, 6, 19))
+      legs << Leg.new('Voyage ABC', @origin, Date.new(2013, 6, 14), @port, Date.new(2013, 6, 19))
       legs << Leg.new('Voyage DEF', @port, Date.new(2013, 6, 21), @destination, Date.new(2013, 6, 24))
       @itinerary = Itinerary.new(legs)
     end
@@ -90,6 +90,11 @@ describe "Delivery" do
     delivery.is_misdirected.should == false
   end
 
+  it "Cargo is not misdirected when the last recorded handling event is a load in the origin which matches the itinerary" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
+    delivery.is_misdirected.should == false
+  end
+
   it "Cargo is not misdirected when the last recorded handling event matches the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.is_misdirected.should == false
@@ -139,5 +144,10 @@ describe "Delivery" do
   it "Cargo transport status is claimed when the last recorded handling event is a claim" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Claim"))
     delivery.transport_status.should == "Claimed"
+  end
+
+  it "Cargo has correct eta based on itinerary" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
+    delivery.eta.should == @itinerary.final_arrival_date
   end
 end

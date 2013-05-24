@@ -21,7 +21,7 @@ class Delivery
     @is_misdirected = calculate_misdirection_status(last_handled_event, itinerary)
     @routing_status = calculate_routing_status(itinerary, route_specification)
     @transport_status = calculate_transport_status(last_handled_event)
-            # _eta = CalculateEta(itinerary);
+    @eta = calculate_eta(itinerary)
             # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
             # _isUnloadedAtDestination = CalculateUnloadedAtDestination(LastEvent, specification);
 
@@ -58,7 +58,7 @@ class Delivery
   end
 
   def on_track?
-    routing_status == "Routed" && is_misdirected == false
+    @routing_status == "Routed" && is_misdirected == false
   end
 
   def calculate_routing_status(itinerary, route_specification)
@@ -72,7 +72,6 @@ class Delivery
     if last_handled_event.nil?
       return "Not Received"
     end
-    puts "type " + last_handled_event.event_type
     case last_handled_event.event_type
       when "Load"
         "Onboard Carrier"
@@ -83,6 +82,10 @@ class Delivery
       else
         "Unknown"
       end
+  end
+
+  def calculate_eta(itinerary)
+    on_track? ? itinerary.final_arrival_date : nil
   end
 
   def ==(other)
