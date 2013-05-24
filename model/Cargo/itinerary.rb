@@ -35,6 +35,9 @@ class Itinerary
     if (handling_event.event_type == "Receive")
       return legs.first.load_location == handling_event.location
     end
+    if (handling_event.event_type == "Unload")
+      return legs_contain_unload_location?(handling_event.location)
+    end
     if (handling_event.event_type == "Load")
       return legs_contain_load_location?(handling_event.location)
     end
@@ -42,6 +45,17 @@ class Itinerary
       return legs.last.unload_location == handling_event.location
     end
     false
+  end
+
+  # TODO Replace this horrible hack with correct Ruby idiom for
+  # quering an array. How to search the legs for a matching location?
+  # .NET: legs.Any(x => x.load_location == handling_event.location);
+  def legs_contain_unload_location?(handling_event_location)
+    locations = Hash.new
+    legs.each do |leg|
+      locations[leg.unload_location] = 1
+    end
+    return locations.has_key?(handling_event_location)
   end
 
   # TODO Replace this horrible hack with correct Ruby idiom for
