@@ -133,22 +133,11 @@ describe "Delivery" do
 
   it "Cargo transport status is onboard carrier when the last recorded handling event is a load" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
-    delivery.transport_status.should == "In Port"
+    delivery.transport_status.should == "Onboard Carrier"
   end
 
-            # switch (lastEvent.EventType)
-            # {
-            #     case HandlingEventType.Load:
-            #         return TransportStatus.OnboardCarrier;
-            #     case HandlingEventType.Unload:
-            #     case HandlingEventType.Receive:
-            #     case HandlingEventType.Customs:
-            #         return TransportStatus.InPort;
-            #     case HandlingEventType.Claim:
-            #         return TransportStatus.Claimed;
-            #     default:
-            #         return TransportStatus.Unknown;
-            # }
-
-
+  it "Cargo transport status is claimed when the last recorded handling event is a claim" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Claim"))
+    delivery.transport_status.should == "Claimed"
+  end
 end

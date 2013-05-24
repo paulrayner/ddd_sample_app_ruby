@@ -74,27 +74,26 @@ class Delivery
     end
     puts "type " + last_handled_event.event_type
     case last_handled_event.event_type
+      when "Load"
+        "Onboard Carrier"
       when "Unload", "Receive"
         "In Port"
+      when "Claim"
+        "Claimed"
+      else
+        "Unknown"
       end
   end
 
-            # switch (lastEvent.EventType)
-            # {
-            #     case HandlingEventType.Load:
-            #         return TransportStatus.OnboardCarrier;
-            #     case HandlingEventType.Unload:
-            #     case HandlingEventType.Receive:
-            #     case HandlingEventType.Customs:
-            #         return TransportStatus.InPort;
-            #     case HandlingEventType.Claim:
-            #         return TransportStatus.Claimed;
-            #     default:
-            #         return TransportStatus.Unknown;
-            # }
-
-  # TODO Implement equality correctly - placeholder method for now...
   def ==(other)
-    true
+    self.transport_status == transport_status &&
+    self.last_known_location == last_known_location &&
+    self.is_misdirected == is_misdirected &&
+    self.eta == eta &&
+    self.is_unloaded_at_destination == is_unloaded_at_destination &&
+    self.routing_status == routing_status &&
+    self.calculated_at == calculated_at &&
+    self.last_handled_event == last_handled_event &&
+    self.next_expected_activity == next_expected_activity
   end
 end
