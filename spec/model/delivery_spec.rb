@@ -65,6 +65,13 @@ describe "Delivery" do
     delivery.is_unloaded_at_destination.should == true
   end
 
+  # TODO I really don't like the presence of nil here! Should have something like
+  # an 'Unknown' location object rather than nil
+  it "Delivery has correct last known location based on handling event" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(nil, "Unload"))
+    delivery.last_known_location.should == nil
+  end
+
   it "Delivery has correct last known location based on handling event" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.last_known_location.should == @destination

@@ -16,6 +16,7 @@ class Delivery
     #  TODO What is 'now' for date in Ruby?
     @calculated_at = Date.new(2013, 7, 1)
     @last_handled_event = last_handled_event
+    @last_known_location = calculate_last_known_location(last_handled_event)
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
 
             # _misdirected = CalculateMisdirectionStatus(LastEvent, itinerary);
@@ -31,6 +32,13 @@ class Delivery
   
   def derived_from(route_specification, itinerary, last_handled_event)
     #self(route_specification, itinerary, last_handled_event)
+  end
+
+  def calculate_last_known_location(last_handled_event)
+    if last_handled_event.nil?
+      return false
+    end
+    last_handled_event.location
   end
 
   def calculate_unloaded_at_destination(last_handled_event, route_specification)
