@@ -32,6 +32,9 @@ class Itinerary
 
   # Checks whether provided event is expected according to this itinerary specification.
   def is_expected(handling_event)
+    if (handling_event.event_type == "Receive")
+      return legs.first.load_location == handling_event.location
+    end
     if (handling_event.event_type == "Load")
       return legs_contain_load_location?(handling_event.location)
     end

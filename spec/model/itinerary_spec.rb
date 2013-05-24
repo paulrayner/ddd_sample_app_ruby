@@ -48,12 +48,12 @@ describe "Itinerary" do
   # end
 
   it "Receive event is expected when first leg load location matches event location" do
-    pp "Looking for ", handling_event_fake(@origin, "Load")
     @itinerary.is_expected(handling_event_fake(@origin, "Load")).should == true
   end
 
-  # it "Receive event is not expected when first leg load location doesnt match event location" do
-  # end
+  it "Receive event is not expected when first leg load location doesn't match event location" do
+    @itinerary.is_expected(handling_event_fake(@port, "Receive")).should == false
+  end
 
   # it "Claim event is expected when last leg unload location matches event location" do
   # end
