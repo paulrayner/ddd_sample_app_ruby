@@ -79,8 +79,9 @@ describe "Itinerary" do
     @itinerary.is_expected(handling_event_fake(@port, "Unload")).should == true
   end
 
-  # it "Unload event is expected when second leg unload location matches event location" do
-  # end
+  it "Unload event is expected when second leg unload location matches event location" do
+    @itinerary.is_expected(handling_event_fake(@destination, "Unload")).should == true
+  end
 
   # it "Load event is not expected when event location doesnt match any legs unload location" do
   # end
