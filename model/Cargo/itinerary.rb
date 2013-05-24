@@ -1,6 +1,5 @@
 require 'ice_nine'
 require 'hamster'
-require 'pp'
 
 class Itinerary
   attr_reader :legs
@@ -18,21 +17,54 @@ class Itinerary
   end
 
   def initial_departure_location
-    pp legs.first
     legs.first.load_location
   end
 
   def final_arrival_location
-    @final_arrival_location = legs.last.unload_location
+    legs.last.unload_location
   end
 
   def final_arrival_date
-    @final_arrival_date = legs.last.unload_date
+    legs.last.unload_date
   end
 
   # Checks whether provided event is expected according to this itinerary specification.
-  def is_expected(event)
-    # TODO Implement this
+  def is_expected(handling_event)
+    if (handling_event.event_type == "Receive")
+      return legs.first.load_location == handling_event.location
+    end
+    if (handling_event.event_type == "Unload")
+      return legs_contain_unload_location?(handling_event.location)
+    end
+    if (handling_event.event_type == "Load")
+      return legs_contain_load_location?(handling_event.location)
+    end
+    if (handling_event.event_type == "Claim")
+      return legs.last.unload_location == handling_event.location
+    end
+    false
+  end
+
+  # TODO Replace this horrible hack with correct Ruby idiom for
+  # quering an array. How to search the legs for a matching location?
+  # .NET: legs.Any(x => x.load_location == handling_event.location);
+  def legs_contain_unload_location?(handling_event_location)
+    locations = Hash.new
+    legs.each do |leg|
+      locations[leg.unload_location] = 1
+    end
+    return locations.has_key?(handling_event_location)
+  end
+
+  # TODO Replace this horrible hack with correct Ruby idiom for
+  # quering an array. How to search the legs for a matching location?
+  # .NET: legs.Any(x => x.load_location == handling_event.location);
+  def legs_contain_load_location?(handling_event_location)
+    locations = Hash.new
+    legs.each do |leg|
+      locations[leg.load_location] = 1
+    end
+    return locations.has_key?(handling_event_location)
   end
 
   def ==(other)
