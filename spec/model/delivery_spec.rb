@@ -100,6 +100,7 @@ describe "Delivery" do
     delivery.is_misdirected.should == true
   end
 
+  # TODO: Nil? Seriously? What about "Not routed" or "Unrouted" or "Awaiting Routing"?
   it "Cargo is not routed when it doesn't have an itinerary" do
     delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Load"))
     delivery.routing_status.should == nil
@@ -109,11 +110,45 @@ describe "Delivery" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
     delivery.routing_status.should == "Routed"
   end
-  #return specification.IsSatisfiedBy(itinerary) ? RoutingStatus.Routed : RoutingStatus.Misrouted;
-
 
   it "Cargo is on track when the cargo has been routed and the last recorded handling event matches the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.on_track?.should == true
   end
+
+  it "Cargo transport status is not received when there are no recorded handling events" do
+    delivery = Delivery.new(@route_spec, @itinerary, nil)
+    delivery.transport_status.should == "Not Received"
+  end
+
+  it "Cargo transport status is in port when the last recorded handling event is an unload" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery.transport_status.should == "In Port"
+  end
+
+  it "Cargo transport status is in port when the last recorded handling event is a receive" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Receive"))
+    delivery.transport_status.should == "In Port"
+  end
+
+  it "Cargo transport status is onboard carrier when the last recorded handling event is a load" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery.transport_status.should == "In Port"
+  end
+
+            # switch (lastEvent.EventType)
+            # {
+            #     case HandlingEventType.Load:
+            #         return TransportStatus.OnboardCarrier;
+            #     case HandlingEventType.Unload:
+            #     case HandlingEventType.Receive:
+            #     case HandlingEventType.Customs:
+            #         return TransportStatus.InPort;
+            #     case HandlingEventType.Claim:
+            #         return TransportStatus.Claimed;
+            #     default:
+            #         return TransportStatus.Unknown;
+            # }
+
+
 end

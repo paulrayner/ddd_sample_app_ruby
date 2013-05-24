@@ -20,7 +20,7 @@ class Delivery
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
     @is_misdirected = calculate_misdirection_status(last_handled_event, itinerary)
     @routing_status = calculate_routing_status(itinerary, route_specification)
-            # _transportStatus = CalculateTransportStatus(LastEvent);
+    @transport_status = calculate_transport_status(last_handled_event)
             # _eta = CalculateEta(itinerary);
             # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
             # _isUnloadedAtDestination = CalculateUnloadedAtDestination(LastEvent, specification);
@@ -68,7 +68,30 @@ class Delivery
     route_specification.is_satisfied_by(itinerary) ? "Routed" : "Misrouted"
   end
 
-  # TODO Add in all the other methods from .NET example...
+  def calculate_transport_status(last_handled_event)
+    if last_handled_event.nil?
+      return "Not Received"
+    end
+    puts "type " + last_handled_event.event_type
+    case last_handled_event.event_type
+      when "Unload", "Receive"
+        "In Port"
+      end
+  end
+
+            # switch (lastEvent.EventType)
+            # {
+            #     case HandlingEventType.Load:
+            #         return TransportStatus.OnboardCarrier;
+            #     case HandlingEventType.Unload:
+            #     case HandlingEventType.Receive:
+            #     case HandlingEventType.Customs:
+            #         return TransportStatus.InPort;
+            #     case HandlingEventType.Claim:
+            #         return TransportStatus.Claimed;
+            #     default:
+            #         return TransportStatus.Unknown;
+            # }
 
   # TODO Implement equality correctly - placeholder method for now...
   def ==(other)
