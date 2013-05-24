@@ -48,7 +48,7 @@ describe "Itinerary" do
   # end
 
   it "Receive event is expected when first leg load location matches event location" do
-    @itinerary.is_expected(handling_event_fake(@origin, "Load")).should == true
+    @itinerary.is_expected(handling_event_fake(@origin, "Receive")).should == true
   end
 
   it "Receive event is not expected when first leg load location doesn't match event location" do
@@ -63,17 +63,21 @@ describe "Itinerary" do
     @itinerary.is_expected(handling_event_fake(@port, "Claim")).should == false
   end
 
-  # it "Load event is expected when first leg load location matches event location" do
-  # end
+  it "Load event is expected when first leg load location matches event location" do
+    @itinerary.is_expected(handling_event_fake(@origin, "Load")).should == true
+  end
 
-  # it "Load event is expected when second leg load location matches event location" do
-  # end
+  it "Load event is expected when second leg load location matches event location" do
+    @itinerary.is_expected(handling_event_fake(@port, "Load")).should == true
+  end
 
-  # it "Load event is not expected when event location doesnt match any legs load location" do
-  # end
+  it "Load event is not expected when event location doesnt match any legs load location" do
+    @itinerary.is_expected(handling_event_fake(@destination, "Load")).should == false
+  end
 
-  # it "Unload event is expected when first leg unload location matches event location" do
-  # end
+  it "Unload event is expected when first leg unload location matches event location" do
+    @itinerary.is_expected(handling_event_fake(@port, "UnLoad")).should == true
+  end
 
   # it "Unload event is expected when second leg unload location matches event location" do
   # end
