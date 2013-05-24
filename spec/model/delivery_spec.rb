@@ -105,6 +105,13 @@ describe "Delivery" do
     delivery.routing_status.should == nil
   end
 
+  it "Cargo is routed when specification is satisfied by itinerary" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery.routing_status.should == "Routed"
+  end
+  #return specification.IsSatisfiedBy(itinerary) ? RoutingStatus.Routed : RoutingStatus.Misrouted;
+
+
   it "Cargo is on track when the cargo has been routed and the last recorded handling event matches the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.on_track?.should == true

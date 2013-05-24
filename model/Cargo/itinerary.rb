@@ -1,6 +1,5 @@
 require 'ice_nine'
 require 'hamster'
-require 'pp'
 
 class Itinerary
   attr_reader :legs
@@ -18,16 +17,15 @@ class Itinerary
   end
 
   def initial_departure_location
-    pp legs.first
     legs.first.load_location
   end
 
   def final_arrival_location
-    @final_arrival_location = legs.last.unload_location
+    legs.last.unload_location
   end
 
   def final_arrival_date
-    @final_arrival_date = legs.last.unload_date
+    legs.last.unload_date
   end
 
   # Checks whether provided event is expected according to this itinerary specification.

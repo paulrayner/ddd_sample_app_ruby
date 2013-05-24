@@ -20,7 +20,6 @@ class Delivery
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
     @is_misdirected = calculate_misdirection_status(last_handled_event, itinerary)
     @routing_status = calculate_routing_status(itinerary, route_specification)
-            # _routingStatus = CalculateRoutingStatus(itinerary, specification);
             # _transportStatus = CalculateTransportStatus(LastEvent);
             # _eta = CalculateEta(itinerary);
             # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
@@ -59,15 +58,14 @@ class Delivery
   end
 
   def on_track?
-    routing_status == "Routed" && 
-    is_misdirected == false
+    routing_status == "Routed" && is_misdirected == false
   end
 
   def calculate_routing_status(itinerary, route_specification)
     if itinerary.nil?
       return nil
     end
-    "Routed"
+    route_specification.is_satisfied_by(itinerary) ? "Routed" : "Misrouted"
   end
 
   # TODO Add in all the other methods from .NET example...
