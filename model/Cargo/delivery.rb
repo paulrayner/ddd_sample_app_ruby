@@ -18,7 +18,7 @@ class Delivery
     @last_handled_event = last_handled_event
     @last_known_location = calculate_last_known_location(last_handled_event)
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
-    @is_misdirected = false
+    @is_misdirected = calculate_misdirection_status(last_handled_event, itinerary)
 
             # _misdirected = CalculateMisdirectionStatus(LastEvent, itinerary);
             # _routingStatus = CalculateRoutingStatus(itinerary, specification);
@@ -48,6 +48,10 @@ class Delivery
     end
     last_handled_event.event_type == "Unload" && 
     last_handled_event.location == route_specification.destination
+  end
+
+  def calculate_misdirection_status(last_handled_event, itinerary)
+    false
   end
 
   # TODO Add in all the other methods from .NET example...
