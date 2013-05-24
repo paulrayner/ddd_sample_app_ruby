@@ -38,6 +38,9 @@ class Itinerary
     if (handling_event.event_type == "Load")
       return legs_contain_load_location?(handling_event.location)
     end
+    if (handling_event.event_type == "Claim")
+      return legs.last.unload_location == handling_event.location
+    end
     false
   end
 
