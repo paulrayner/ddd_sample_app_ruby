@@ -66,26 +66,25 @@ describe "Delivery" do
 
   # TODO I really don't like the presence of nil here! Should have something like
   # an 'Unknown' location object rather than nil
-  it "Delivery has unknown location when there are no recorded handling events" do
+  it "Cargo has unknown location when there are no recorded handling events" do
     delivery = Delivery.new(@route_spec, @itinerary, nil)
     delivery.last_known_location.should == nil
   end
 
-  it "Delivery has correct last known location based on most recent handling event" do
+  it "Cargo has correct last known location based on most recent handling event" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.last_known_location.should == @destination
   end
-
 
   # TODO I really don't like the presence of nil here! Should have something like
   # an 'Unknown' location object rather than nil
-  it "Delivery has correct last known location based on handling event" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(nil, "Unload"))
-    delivery.last_known_location.should == nil
+  it "Cargo is not misdirected when there are no recorded handling events" do
+    delivery = Delivery.new(@route_spec, @itinerary, nil)
+    delivery.is_misdirected.should == false
   end
 
-  it "Delivery has correct last known location based on handling event" do
+  it "Cargo is not misdirected when the last recorded handling event matches the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
-    delivery.last_known_location.should == @destination
+    delivery.is_misdirected.should == false
   end
 end

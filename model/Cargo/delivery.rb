@@ -4,7 +4,7 @@ require 'ice_nine'
 class Delivery
   attr_reader :transport_status
   attr_reader :last_known_location
-  attr_reader :misdirected
+  attr_reader :is_misdirected
   attr_reader :eta
   attr_reader :is_unloaded_at_destination
   attr_reader :routing_status
@@ -18,6 +18,7 @@ class Delivery
     @last_handled_event = last_handled_event
     @last_known_location = calculate_last_known_location(last_handled_event)
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
+    @is_misdirected = false
 
             # _misdirected = CalculateMisdirectionStatus(LastEvent, itinerary);
             # _routingStatus = CalculateRoutingStatus(itinerary, specification);
