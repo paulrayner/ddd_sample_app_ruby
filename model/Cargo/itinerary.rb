@@ -32,7 +32,7 @@ class Itinerary
 
   # Checks whether provided event is expected according to this itinerary specification.
   def is_expected(event)
-    # TODO Implement this
+    false
   end
 
   def ==(other)

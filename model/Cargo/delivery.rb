@@ -51,7 +51,10 @@ class Delivery
   end
 
   def calculate_misdirection_status(last_handled_event, itinerary)
-    false
+    if last_handled_event.nil?
+      return false
+    end
+    itinerary.is_expected(last_handled_event) == false
   end
 
   # TODO Add in all the other methods from .NET example...
