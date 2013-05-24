@@ -36,7 +36,7 @@ class Delivery
 
   def calculate_last_known_location(last_handled_event)
     if last_handled_event.nil?
-      return false
+      return nil
     end
     last_handled_event.location
   end

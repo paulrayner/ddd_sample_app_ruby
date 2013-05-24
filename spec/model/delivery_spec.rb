@@ -25,7 +25,6 @@ def handling_event_fake(location, handling_event_type)
     HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil)
 end
 
-# TODO Implement delivery specs
 describe "Delivery" do
     before(:each) do
       origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
@@ -40,7 +39,7 @@ describe "Delivery" do
       @itinerary = Itinerary.new(legs)
     end
 
-  it "Cargo is not considered unloaded at destination if there are no recorded handling events" do
+  it "Cargo is not considered unloaded at destination when there are no recorded handling events" do
     last_event = nil
 
     # TODO Implement derived_from once I work out static method, and calling constructor from 
@@ -64,6 +63,19 @@ describe "Delivery" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.is_unloaded_at_destination.should == true
   end
+
+  # TODO I really don't like the presence of nil here! Should have something like
+  # an 'Unknown' location object rather than nil
+  it "Delivery has unknown location when there are no recorded handling events" do
+    delivery = Delivery.new(@route_spec, @itinerary, nil)
+    delivery.last_known_location.should == nil
+  end
+
+  it "Delivery has correct last known location based on most recent handling event" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery.last_known_location.should == @destination
+  end
+
 
   # TODO I really don't like the presence of nil here! Should have something like
   # an 'Unknown' location object rather than nil
