@@ -92,4 +92,9 @@ describe "Delivery" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
     delivery.is_misdirected.should == true
   end
+
+  it "Cargo is on track when the cargo has been routed and the last recorded handling event matches the itinerary" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery.on_track?.should == true
+  end
 end
