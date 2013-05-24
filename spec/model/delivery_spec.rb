@@ -83,6 +83,13 @@ describe "Delivery" do
     delivery.is_misdirected.should == false
   end
 
+  # TODO I really don't like the presence of nil here! Should have something like
+  # an 'Unknown' itinerary object rather than nil
+  it "Cargo is not misdirected when it has no itinerary" do
+    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Unload"))
+    delivery.is_misdirected.should == false
+  end
+
   it "Cargo is not misdirected when the last recorded handling event matches the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.is_misdirected.should == false
@@ -91,6 +98,11 @@ describe "Delivery" do
   it "Cargo is misdirected when the last recorded handling event does not match the itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
     delivery.is_misdirected.should == true
+  end
+
+  it "Cargo is not routed when it doesn't have an itinerary" do
+    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Load"))
+    delivery.routing_status.should == nil
   end
 
   it "Cargo is on track when the cargo has been routed and the last recorded handling event matches the itinerary" do

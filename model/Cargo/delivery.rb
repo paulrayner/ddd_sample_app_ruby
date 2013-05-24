@@ -49,6 +49,9 @@ class Delivery
   end
 
   def calculate_misdirection_status(last_handled_event, itinerary)
+    if itinerary.nil?
+      return false
+    end
     if last_handled_event.nil?
       return false
     end
@@ -61,6 +64,9 @@ class Delivery
   end
 
   def calculate_routing_status(itinerary, route_specification)
+    if itinerary.nil?
+      return nil
+    end
     "Routed"
   end
 
