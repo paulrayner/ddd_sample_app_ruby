@@ -1,5 +1,6 @@
 require 'rspec'
 require 'date'
+require 'pp'
 # TODO Improve the way model requires are working
 require "#{File.dirname(__FILE__)}/../../model/cargo/cargo"
 require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
@@ -26,14 +27,14 @@ end
 describe "Itinerary" do
 
     before(:each) do
-      origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
+      @origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
       @destination = Location.new(UnLocode.new('DAL'), 'Dallas')
       arrival_deadline = Date.new(2013, 7, 1)
-      @route_spec = RouteSpecification.new(origin, @destination, arrival_deadline)
+      @route_spec = RouteSpecification.new(@origin, @destination, arrival_deadline)
 
       @port = Location.new(UnLocode.new('LGB'), 'Long Beach')
       legs = Array.new
-      legs << Leg.new('Voyage ABC', origin, Date.new(2013, 6, 14), @port, Date.new(2013, 6, 19))
+      legs << Leg.new('Voyage ABC', @origin, Date.new(2013, 6, 14), @port, Date.new(2013, 6, 19))
       legs << Leg.new('Voyage DEF', @port, Date.new(2013, 6, 21), @destination, Date.new(2013, 6, 24))
       @itinerary = Itinerary.new(legs)
     end
@@ -47,6 +48,7 @@ describe "Itinerary" do
   # end
 
   it "Receive event is expected when first leg load location matches event location" do
+    pp "Looking for ", handling_event_fake(@origin, "Load")
     @itinerary.is_expected(handling_event_fake(@origin, "Load")).should == true
   end
 

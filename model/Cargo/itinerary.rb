@@ -31,7 +31,16 @@ class Itinerary
   end
 
   # Checks whether provided event is expected according to this itinerary specification.
-  def is_expected(event)
+  def is_expected(handling_event)
+    if (handling_event.event_type == "Load")
+      # TODO How to search the legs for a matching location?
+      # .NET: legs.Any(x => x.load_location == handling_event.location);
+      locations = Hash.new
+      legs.each do |leg|
+        locations[leg.load_location] = 1
+      end
+      return locations.has_key?(handling_event.location)
+    end
     false
   end
 
