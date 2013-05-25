@@ -14,12 +14,8 @@ class HandlingActivity
     IceNine.deep_freeze(self)
   end
 
-  # Checks whether provided event is expected according to this itinerary specification.
-  def is_expected(event)
-    # TODO Implement this
-  end
-
   def ==(other)
-    self.legs == other.legs
+    self.handling_event_type == other.handling_event_type &&
+    self.location == location
   end
 end
