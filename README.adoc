@@ -32,7 +32,11 @@ Because Paul wanted to learn Ruby and see how well it supports DDD. Also, intere
 * Can Rails + MongoDB carry the weight of a complex domain model?
 * Tradeoffs between Sinatra vs Rails for Ruby web apps
 
-==== DDD Sample Application
+=== Problems with Sample Apps
+
+* http://lostechies.com/jimmybogard/2008/10/22/where-are-the-ddd-sample-applications/[Against DDD sample applications] - Wise words from Jimmy Bogard
+
+=== DDD Sample Application
 
 * link:https://github.com/patrikfr/dddsample[Written in Java in 2009].
 

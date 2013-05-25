@@ -105,3 +105,8 @@ ____
 # Sinatra
 
 * Sample apps - http://www.sinatrarb.com/wild.html
+
+== Specification Pattern
+
+* http://www.lukeredpath.co.uk/blog/introduction-to-activespec.html[ActiveSpec] - Ruby implementation of the Specification pattern from DDD. Written in 2006!
+* http://robuye.blogspot.com/2013/05/specification-pattern-with-ruby-basics.html[Specification Pattern with Ruby - basics]
