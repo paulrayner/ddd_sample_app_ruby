@@ -9,6 +9,7 @@ require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
 require "#{File.dirname(__FILE__)}/../../model/cargo/itinerary"
 require "#{File.dirname(__FILE__)}/../../model/cargo/tracking_id"
 require "#{File.dirname(__FILE__)}/../../model/cargo/route_specification"
+require "#{File.dirname(__FILE__)}/../../model/cargo/handling_activity"
 require "#{File.dirname(__FILE__)}/../../model/location/location"
 require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
 require "#{File.dirname(__FILE__)}/../../model/handling/handling_event"
@@ -164,5 +165,36 @@ describe "Delivery" do
   it "Cargo has no next expected activity when not on track" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
     delivery.next_expected_activity.should == nil
+  end
+
+  # TODO Change the following to use Enum for HandlingEventType rather than strings
+  it "Cargo has next expected activity of receive at origin when there are no recorded handling events" do
+    delivery = Delivery.new(@route_spec, @itinerary, nil)
+    delivery.next_expected_activity.should == HandlingActivity.new("Receive", @origin)
+  end
+
+  it "Cargo has next expected activity of load at origin when when the last recorded handling event is a receive" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Receive"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Load", @origin)
+  end
+
+  it "Cargo has next expected activity of unload at next port when the last recorded handling event is a load at origin" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @port)
+  end
+
+  it "Cargo has next expected activity of load at port when the last recorded handling event is an unload at the port" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Load", @port)
+  end
+
+  it "Cargo has next expected activity of unload at destination when the last recorded handling event is an load at the previous port" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Load"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @port)
+  end
+
+  it "Cargo has next expected activity of claim at destination when the last recorded handling event is an unload at the destination" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Claim", @port)
   end
 end

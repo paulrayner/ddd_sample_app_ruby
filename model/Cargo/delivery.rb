@@ -1,5 +1,6 @@
 require 'date'
 require 'ice_nine'
+require 'pp'
 
 class Delivery
   attr_reader :transport_status
@@ -90,8 +91,24 @@ class Delivery
   end
 
   def calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
-    "hi there"
-  end
+    unless on_track? 
+      return nil
+    end
+    if (last_handled_event.nil?)
+      return HandlingActivity.new("Receive", route_specification.origin)
+    end
+    case last_handled_event.event_type
+      when "Load"
+        # Leg lastLeg = itinerary.Legs.FirstOrDefault(x => x.LoadLocation == lastEvent.Location);
+        #             return lastLeg != null ? new HandlingActivity(HandlingEventType.Unload, lastLeg.UnloadLocation) : null;
+      when "Receive"
+        return HandlingActivity.new("Load", itinerary.legs.first.load_location) 
+      when "Claim"
+        "Claimed"
+      else
+        "Unknown"
+      end
+    end
 
   def ==(other)
     self.transport_status == transport_status &&
