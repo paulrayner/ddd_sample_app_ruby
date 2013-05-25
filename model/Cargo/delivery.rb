@@ -98,15 +98,21 @@ class Delivery
       return HandlingActivity.new("Receive", route_specification.origin)
     end
     case last_handled_event.event_type
-      when "Load"
-        # Leg lastLeg = itinerary.Legs.FirstOrDefault(x => x.LoadLocation == lastEvent.Location);
-        #             return lastLeg != null ? new HandlingActivity(HandlingEventType.Unload, lastLeg.UnloadLocation) : null;
       when "Receive"
         return HandlingActivity.new("Load", itinerary.legs.first.load_location) 
+      when "Load"
+        last_leg_index = itinerary.legs.index { |x| x.load_location == last_handled_event.location }
+        return last_leg_index.nil? == false ? HandlingActivity.new("Unload", itinerary.legs[last_leg_index].unload_location) : nil
+      when "Unload"
+        itinerary.legs.each_cons(2) do |leg, next_leg|
+          if (leg.unload_location == last_handled_event.location)
+            return next_leg.nil? ? HandlingActivity.new("Load", leg.load_location) : HandlingActivity.new("Claim", leg.unload_location)
+          end
+        end
       when "Claim"
-        "Claimed"
+        nil # TODO What to do here? .NET doesn't handle this case at all
       else
-        "Unknown"
+        nil # TODO What to do here? .NET returns null
       end
     end
 
