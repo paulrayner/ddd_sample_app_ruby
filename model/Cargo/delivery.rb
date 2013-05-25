@@ -22,11 +22,13 @@ class Delivery
     @routing_status = calculate_routing_status(itinerary, route_specification)
     @transport_status = calculate_transport_status(last_handled_event)
     @eta = calculate_eta(itinerary)
-            # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
+    @next_expected_activity = calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
 
     IceNine.deep_freeze(self)
   end
   
+  # TODO What is the point of this method? It's the same as new() but has a different
+  # order of arguments (at least in Java and .NET), which makes it confusing.
   def derived_from(route_specification, itinerary, last_handled_event)
     #self(route_specification, itinerary, last_handled_event)
   end
@@ -85,6 +87,10 @@ class Delivery
 
   def calculate_eta(itinerary)
     on_track? ? itinerary.final_arrival_date : nil
+  end
+
+  def calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
+    "hi there"
   end
 
   def ==(other)

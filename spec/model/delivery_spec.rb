@@ -158,6 +158,11 @@ describe "Delivery" do
 
   it "Cargo has no eta when not on track" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
-    delivery.eta.should.nil? == true
+    delivery.eta.should == nil
+  end
+
+  it "Cargo has no next expected activity when not on track" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
+    delivery.next_expected_activity.should == nil
   end
 end
