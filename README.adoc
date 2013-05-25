@@ -111,6 +111,7 @@ Here you'll find information on design choices made, and the relative tradeoffs.
 * https://github.com/harukizaemon/hamster[Hamster - Efficient, Immutable, Thread-Safe Collection classes for Ruby]
 * https://github.com/tcrayford/values
 * https://github.com/solnic/virtus
+* https://github.com/hdgarrood/value_object
 * https://github.com/rouge-lang/rouge[Ruby + Clojure = Rouge]
 
 === Enums in Ruby
@@ -118,6 +119,13 @@ Here you'll find information on design choices made, and the relative tradeoffs.
 * http://stackoverflow.com/questions/75759/enums-in-ruby
 * http://www.lesismore.co.za/rubyenums.html
 * http://gistflow.com/posts/682-ruby-enums-approaches
+
+=== Equality in Ruby
+
+* http://woss.name/2011/01/20/equality-comparison-and-ordering-in-ruby/[Equality, Comparison and Uniqueness in Ruby]
+* http://stackoverflow.com/questions/11247000/which-equality-test-does-rubys-hash-use-when-comparing-keys[SO: Which equality test does Ruby's Hash use when comparing keys?]
+* http://pivotallabs.com/equality-and-sameness-in-ruby/[Equality and sameness in RubyConf]
+* http://kentreis.wordpress.com/2007/02/08/identity-and-equality-in-ruby-and-smalltalk/[Identity and Equality in Ruby and Smalltalk]
 
 == Persistence
 
@@ -193,5 +201,5 @@ Tools for Implementing Eventual Consistency (i.e. performing asynchronous update
 === DDD and Rails
 
 *http://victorsavkin.com/post/41016739721/building-rich-domain-models-in-rails-separating[Entity Data Repository] - Blog post describing hybrid ActiveRecord/DAO approach to building rich domain models in Rails, implemented in https://github.com/nulogy/edr[EDR library]. Implements restricted version of http://martinfowler.com/eaaCatalog/dataMapper.html[DataMapper pattern]. Datamapper 2 will be implementing the same pattern, but is not production-ready yet (see above)
-
+* http://iain.nl/domain-driven-design-building-blocks-in-ruby[DDD in Ruby article] - recommends using to_s for UI concerns and structs for value objects, both of which seem problematic to me.
 
