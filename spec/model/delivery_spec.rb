@@ -116,9 +116,14 @@ describe "Delivery" do
     delivery.routing_status.should == "Routed"
   end
 
-  it "Cargo is on track when the cargo has been routed and the last recorded handling event matches the itinerary" do
+  it "Cargo is on track when the cargo has been routed and is not misdirected" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
     delivery.on_track?.should == true
+  end
+
+  it "Cargo is not on track when the cargo has been routed and is misdirected" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery.on_track?.should == false
   end
 
   it "Cargo transport status is not received when there are no recorded handling events" do
@@ -146,8 +151,13 @@ describe "Delivery" do
     delivery.transport_status.should == "Claimed"
   end
 
-  it "Cargo has correct eta based on itinerary" do
+  it "Cargo has correct eta based on itinerary when on track" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
     delivery.eta.should == @itinerary.final_arrival_date
+  end
+
+  it "Cargo has no eta when not on track" do
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
+    delivery.eta.should.nil? == true
   end
 end

@@ -23,7 +23,6 @@ class Delivery
     @transport_status = calculate_transport_status(last_handled_event)
     @eta = calculate_eta(itinerary)
             # _nextExpectedActivity = CalculateNextExpectedActivity(LastEvent, specification, itinerary);
-            # _isUnloadedAtDestination = CalculateUnloadedAtDestination(LastEvent, specification);
 
     IceNine.deep_freeze(self)
   end
