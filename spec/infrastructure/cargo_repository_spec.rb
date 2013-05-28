@@ -39,11 +39,11 @@ describe "CargoRepository" do
 
     found_cargo.tracking_id.should == tracking_id
     found_cargo.route_specification.should == route_spec
-    # TODO Get itinerary equality passing. Seems to be bombing on date comparison...
-       #     -  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14, unloading in Hong Kong [HKG] on 2013-06-14,
-       # -   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21, unloading in Long Beach [LGB] on 2013-06-21]>
-       # +  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC, unloading in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC,
-       # +   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21 00:00:00 UTC, unloading in Long Beach [LGB] on 2013-06-21 00:00:00 UTC]>
+    # TODO Get itinerary equality passing. Seems to be bombing on date comparison...UTC?
+    # -  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14, unloading in Hong Kong [HKG] on 2013-06-14,
+    # -   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21, unloading in Long Beach [LGB] on 2013-06-21]>
+    # +  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC, unloading in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC,
+    # +   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21 00:00:00 UTC, unloading in Long Beach [LGB] on 2013-06-21 00:00:00 UTC]>
      # found_cargo.itinerary.should == itinerary
   end
 end
