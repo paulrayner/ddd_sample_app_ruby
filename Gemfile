@@ -7,3 +7,7 @@ gem 'mongoid'
 
 gem 'pry'
 gem 'pry-stack_explorer'
+
+gem 'rspec'
+gem 'ice_nine'
+gem 'hamster'
