@@ -1,8 +1,4 @@
 class Cargo
-  def transport_status
-    return false
-  end
-
   attr_accessor :tracking_id
   attr_accessor :route_specification
   attr_accessor :itinerary
