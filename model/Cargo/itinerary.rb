@@ -68,6 +68,18 @@ class Itinerary
   end
 
   def ==(other)
-    self.legs == other.legs
+    # TODO Ugly Ruby - must be a better way to compare two arrays for equality
+    leg_index = 0
+    equal = true
+    self.legs.each do |leg|
+        puts "self leg", leg
+        puts "other leg", other.legs[leg_index]
+      unless leg == other.legs[leg_index]
+        puts "Unequal"
+        equal = false
+      end
+      leg_index = leg_index + 1
+    end
+    equal
   end
 end
