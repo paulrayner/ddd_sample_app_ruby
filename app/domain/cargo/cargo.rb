@@ -9,7 +9,7 @@ class Cargo
 
     @tracking_id = tracking_id
     @route_specification = route_specification
-    # @delivery = Delivery.new(@route_specification, @itinerary, nil)
+    @delivery = Delivery.new(@route_specification, @itinerary, nil)
   end
 
   # cf. https://github.com/SzymonPobiega/DDDSample.Net/blob/master/DDDSample-Vanilla/Domain/Cargo/Cargo.cs#L55
