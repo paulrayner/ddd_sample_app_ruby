@@ -29,11 +29,11 @@ class Leg
   end
 
   def ==(other)
-    self.voyage == voyage &&
-    self.load_location == load_location &&
-    self.unload_location == unload_location &&
-    self.load_date == load_date &&
-    self.unload_date == unload_date
+    self.voyage == other.voyage &&
+    self.load_location == other.load_location &&
+    self.unload_location == other.unload_location &&
+    self.load_date == other.load_date &&
+    self.unload_date == other.unload_date
   end
 
   def to_s

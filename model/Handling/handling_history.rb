@@ -21,6 +21,7 @@ class HandlingHistory
   end
 
   def ==(other)
+    # TODO Needs to compare list elements individually
     self.handling_events == other.handling_events
   end
 end

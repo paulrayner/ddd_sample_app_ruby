@@ -12,7 +12,7 @@ class Location
   end
 
   def ==(other)
-    self.unlocode == other.unlocode
+    self.unlocode == other.unlocode &&
     self.name == other.name
   end
 

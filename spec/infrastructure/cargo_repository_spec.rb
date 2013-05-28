@@ -36,17 +36,14 @@ describe "CargoRepository" do
     cargo_repository.save(cargo)
 
     found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
-    found_cargo.route_specification == route_spec
-    found_cargo.tracking_id == tracking_id
-    found_cargo.itinerary == itinerary
-    found_cargo.itinerary.legs[0].load_location.name == itinerary.legs[0].load_location.name
-    found_cargo.itinerary.legs[1].load_location.name == itinerary.legs[1].load_location.name
 
-    # TODO Make the following checks redundant with equality on RouteSpecification
-    found_cargo.route_specification.origin.unlocode.code == 'HKG'
-    found_cargo.route_specification.origin.name == 'Hong Kong'
-    found_cargo.route_specification.destination.unlocode.code == 'DAL'
-    found_cargo.route_specification.destination.name == 'Dallas'
-    found_cargo.route_specification.arrival_deadline == arrival_deadline
+    found_cargo.tracking_id.should == tracking_id
+    found_cargo.route_specification.should == route_spec
+    # TODO Get itinerary equality passing. Seems to be bombing on date comparison...
+       #     -  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14, unloading in Hong Kong [HKG] on 2013-06-14,
+       # -   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21, unloading in Long Beach [LGB] on 2013-06-21]>
+       # +  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC, unloading in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC,
+       # +   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21 00:00:00 UTC, unloading in Long Beach [LGB] on 2013-06-21 00:00:00 UTC]>
+     # found_cargo.itinerary.should == itinerary
   end
 end

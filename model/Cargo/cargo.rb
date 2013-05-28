@@ -9,7 +9,7 @@ class Cargo
 
     @tracking_id = tracking_id
     @route_specification = route_specification
-    @delivery = Delivery.new(@route_specification, @itinerary, nil)
+    # @delivery = Delivery.new(@route_specification, @itinerary, nil)
   end
 
   # cf. https://github.com/SzymonPobiega/DDDSample.Net/blob/master/DDDSample-Vanilla/Domain/Cargo/Cargo.cs#L55
@@ -25,7 +25,7 @@ class Cargo
     # TODO: add exception checking for invalid (null) values
     @itinerary = itinerary
     # TODO: Change to @delivery = Delivery.update_on_routing(@route_specification, @itinerary)
-    @delivery = Delivery.new(@route_specification, @itinerary, @delivery.last_handling_event)
+    # @delivery = Delivery.new(@route_specification, @itinerary, @delivery.last_handling_event)
   end
 
   # cf. https://github.com/SzymonPobiega/DDDSample.Net/blob/master/DDDSample-Vanilla/Domain/Cargo/Cargo.cs#L83

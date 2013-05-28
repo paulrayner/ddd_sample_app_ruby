@@ -116,14 +116,14 @@ class Delivery
     end
 
   def ==(other)
-    self.transport_status == transport_status &&
-    self.last_known_location == last_known_location &&
-    self.is_misdirected == is_misdirected &&
-    self.eta == eta &&
-    self.is_unloaded_at_destination == is_unloaded_at_destination &&
-    self.routing_status == routing_status &&
-    self.calculated_at == calculated_at &&
-    self.last_handled_event == last_handled_event &&
-    self.next_expected_activity == next_expected_activity
+    self.transport_status == other.transport_status &&
+    self.last_known_location == other.last_known_location &&
+    self.is_misdirected == other.is_misdirected &&
+    self.eta == other.eta &&
+    self.is_unloaded_at_destination == other.is_unloaded_at_destination &&
+    self.routing_status == other.routing_status &&
+    self.calculated_at == other.calculated_at &&
+    self.last_handled_event == other.last_handled_event &&
+    self.next_expected_activity == other.next_expected_activity
   end
 end
