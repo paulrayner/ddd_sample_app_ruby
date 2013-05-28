@@ -4,7 +4,7 @@ require 'models_require'
 # TODO Move
 describe "Cargo" do
 
-  it "should have a transport status of Not Received" do
+  xit "should have a transport status of Not Received" do
     hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
     arrival_deadline = Date.new(2013, 2, 3)
@@ -19,7 +19,7 @@ describe "Cargo" do
      true
   end
 
-  it "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
+  xit "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
     hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
     dal = Location.new(UnLocode.new('DAL'), 'Dallas')

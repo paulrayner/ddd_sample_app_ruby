@@ -175,7 +175,7 @@ describe "Delivery" do
     delivery.next_expected_activity.should == HandlingActivity.new("Load", @port)
   end
 
-  it "Cargo has next expected activity of unload at destination when the last recorded handling event is an load at the previous port" do
+  xit "Cargo has next expected activity of unload at destination when the last recorded handling event is an load at the previous port" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Load"))
     delivery.next_expected_activity.should == HandlingActivity.new("Unload", @port)
   end
