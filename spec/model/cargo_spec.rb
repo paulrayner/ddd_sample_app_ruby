@@ -18,7 +18,7 @@ describe "Cargo" do
     route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
     cargo = Cargo.new(TrackingId.new('blah'), route_spec)
     
-    cargo.transport_status != true #:not_received
+    # cargo.transport_status != true #:not_received
   end
 
   # TODO Make this test the correct thing
@@ -42,6 +42,6 @@ describe "Cargo" do
 
     # Delivery.derived_from
     
-    cargo.transport_status != true #:not_received
+    # cargo.transport_status != true #:not_received
   end
 end

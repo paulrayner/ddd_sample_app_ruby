@@ -22,8 +22,8 @@ class RouteSpecification
   end
 
   def ==(other)
-    self.origin == other.origin
-    self.destination == other.destination
+    self.origin == other.origin &&
+    self.destination == other.destination &&
     self.arrival_deadline == other.arrival_deadline
   end
 end

@@ -16,6 +16,6 @@ class HandlingActivity
 
   def ==(other)
     self.handling_event_type == other.handling_event_type &&
-    self.location == location
+    self.location == other.location
   end
 end
