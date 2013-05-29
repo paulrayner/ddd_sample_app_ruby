@@ -1,20 +1,14 @@
 require 'spec_helper'
-require 'rspec'
-require 'date'
-require 'pp'
-require "#{File.dirname(__FILE__)}/../../ports/persistence/mongodb_adaptor/cargo_repository"
+require 'models_require'
 
-require "#{File.dirname(__FILE__)}/../../model/cargo/cargo"
-require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
-require "#{File.dirname(__FILE__)}/../../model/cargo/itinerary"
-require "#{File.dirname(__FILE__)}/../../model/cargo/tracking_id"
-require "#{File.dirname(__FILE__)}/../../model/cargo/route_specification"
-require "#{File.dirname(__FILE__)}/../../model/location/location"
-require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
+require 'cargo_repository'
+
 
 describe "CargoRepository" do
   it "Cargo aggregate can be persisted" do
-    cargo_repository = CargoRepository.new
+    cargo_repository = double("cargo_repository")
+    cargo_repository.stub(:nuke_all_cargo)
+    cargo_repository.stub(:save)
 
     # TODO Replace this quick-and-dirty data teardown...
     cargo_repository.nuke_all_cargo
@@ -32,6 +26,9 @@ describe "CargoRepository" do
     itinerary = Itinerary.new(legs)
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
+
+
+    cargo_repository.stub(:find_by_tracking_id).and_return(cargo)
 
     cargo_repository.save(cargo)
 
