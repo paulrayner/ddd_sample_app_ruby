@@ -4,8 +4,10 @@ class Cargo
   attr_accessor :itinerary
   attr_accessor :delivery
 
+  class InitializationError < RuntimeError; end
+
   def initialize (tracking_id, route_specification)
-    # TODO: add exception checking for invalid (null) values
+    raise InitializationError unless tracking_id && route_specification
 
     @tracking_id = tracking_id
     @route_specification = route_specification
