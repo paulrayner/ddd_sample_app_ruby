@@ -16,7 +16,7 @@ class Delivery
   class InitializationError < RuntimeError; end
 
   def initialize(route_specification, itinerary, last_handled_event)
-    raise InitializationError unless route_specification && itinerary
+    raise InitializationError unless route_specification
 
     @calculated_at = DateTime.now
     @last_handled_event = last_handled_event
@@ -28,7 +28,7 @@ class Delivery
     @eta = calculate_eta(itinerary)
     @next_expected_activity = calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
 
-    IceNine.deep_freeze(self)
+    # IceNine.deep_freeze(self)
   end
 
   # TODO What is the point of this method? It's the same as new() but has a different

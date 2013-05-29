@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'cargo'
+require 'delivery'
 
-# defining delivery here means this unit test is not dependent upon the actual Delivery class
-class Delivery < Struct.new(:one, :two, :three); end
+# this doesn't work when running with all specs
+# class Delivery < Struct.new(:one, :two, :three); end
 
 describe Cargo do
 
@@ -33,11 +34,14 @@ describe Cargo do
     end
   end # context initialize()
 
+
   context "specify_new_route()" do
     before do
-      Delivery.any_instance.stub(:last_handling_event).and_return('last_event')
+      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo = Cargo.new('tracking', 'route')
       @delivery = @cargo.delivery
+      # stub it again to have it return a different double
+      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo.specify_new_route('new_route')
     end
 
@@ -68,8 +72,11 @@ describe Cargo do
 
   context "derive_delivery_progress()" do
     before do
+      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo = Cargo.new('tracking', 'route')
       @delivery = @cargo.delivery
+      # stub it again to have it return a different double
+      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo.derive_delivery_progress('last_event')
     end
 
@@ -108,5 +115,4 @@ describe Cargo do
       cargo.assign_to_route('something')
     end
   end # context checking Delivery object creation
-
 end

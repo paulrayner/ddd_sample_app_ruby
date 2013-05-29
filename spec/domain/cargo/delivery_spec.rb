@@ -1,25 +1,16 @@
 require 'spec_helper'
 require 'delivery'
+require 'handling_activity'
 
-# defining delivery here means this unit test is not dependent upon the actual Delivery class
-class HandlingActivity < Struct.new(:one, :two); end
-
-# def initialize(route_specification, itinerary, last_handled_event)
 describe Delivery do
-  before do
-    DateTime.stub(:now).and_return('123')
-  end
+  # before do
+  #   DateTime.stub(:now).and_return('123')
+  # end
 
   context "initialize()" do
     it "should raise an error if route_specification is nil" do
       expect {
         Delivery.new(nil, 'something', 'something')
-        }.to raise_error(Delivery::InitializationError)
-    end
-
-    it "should raise an error if itinerary is nil" do
-      expect {
-        Delivery.new('something', nil, 'something')
         }.to raise_error(Delivery::InitializationError)
     end
 
@@ -33,7 +24,6 @@ describe Delivery do
 
 
   end # context initialize()
-
 
   context "derived_from()" do
 
