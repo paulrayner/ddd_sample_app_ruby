@@ -34,10 +34,10 @@ class Itinerary
       return legs.first.load_location == handling_event.location
     end
     if (handling_event.event_type == "Unload")
-      return legs_contain_unload_location?(handling_event.location)
+      return legs.any? { |leg| leg.unload_location == handling_event.location }
     end
     if (handling_event.event_type == "Load")
-      return legs_contain_load_location?(handling_event.location)
+      return legs.any? { |leg| leg.load_location == handling_event.location }
     end
     if (handling_event.event_type == "Claim")
       return legs.last.unload_location == handling_event.location
@@ -45,37 +45,12 @@ class Itinerary
     false
   end
 
-  # TODO Replace this horrible hack with correct Ruby idiom for
-  # quering an array. How to search the legs for a matching location?
-  # .NET: legs.Any(x => x.load_location == handling_event.location);
-  def legs_contain_unload_location?(handling_event_location)
-    locations = Hash.new
-    legs.each do |leg|
-      locations[leg.unload_location] = 1
-    end
-    return locations.has_key?(handling_event_location)
-  end
-
-  # TODO Replace this horrible hack with correct Ruby idiom for
-  # quering an array. How to search the legs for a matching location?
-  # .NET: legs.Any(x => x.load_location == handling_event.location);
-  def legs_contain_load_location?(handling_event_location)
-    locations = Hash.new
-    legs.each do |leg|
-      locations[leg.load_location] = 1
-    end
-    return locations.has_key?(handling_event_location)
-  end
-
   def ==(other)
-    # TODO Ugly Ruby - must be a better way to compare two arrays for equality
+    # TODO Ugly Ruby - must be a better way to compare two arrays for equality of values
     leg_index = 0
     equal = true
     self.legs.each do |leg|
-        puts "self leg", leg
-        puts "other leg", other.legs[leg_index]
       unless leg == other.legs[leg_index]
-        puts "Unequal"
         equal = false
       end
       leg_index = leg_index + 1
