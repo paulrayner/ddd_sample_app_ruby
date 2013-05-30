@@ -31,10 +31,8 @@ class Delivery
     IceNine.deep_freeze(self)
   end
 
-  # TODO What is the point of this method? It's the same as new() but has a different
-  # order of arguments (at least in Java and .NET), which makes it confusing.
-  def derived_from(route_specification, itinerary, last_handled_event)
-    #self(route_specification, itinerary, last_handled_event)
+  def self.derived_from(route_specification, itinerary, last_handled_event)
+    Delivery.new(route_specification, itinerary, last_handled_event)
   end
 
   def calculate_last_known_location(last_handled_event)

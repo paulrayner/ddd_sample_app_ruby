@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'delivery'
+require 'handling_activity'
 
 # reopen Delivery to avoid all the method calls from initialization and allow stubbing
 class Delivery
@@ -8,10 +9,11 @@ class Delivery
   end
 end
 
-class HandlingActivity < Struct.new(:param_one, :param_two); end
+# class HandlingActivity < Struct.new(:param_one, :param_two); end
 
 describe Delivery do
 
+  # ===========  initialize  ===========
   context "initialize()" do
     it "should raise an error if route_specification is nil" do
       expect {
@@ -26,10 +28,12 @@ describe Delivery do
     end
   end # context initialize()
 
+  # ===========  derived_from  ===========
   context "derived_from()" do
     # skipped because there isn't an implementation (and may not be one)
   end # context derived_from()
 
+  # ===========  calculate_last_known_location  ===========
   context "calculate_last_known_location()" do
     before { @delivery = Delivery.new } # (@fake_route, @fake_itinerary, @fake_event) }
 
@@ -39,26 +43,16 @@ describe Delivery do
 
     it "should return the location if last_handled_event is not nil" do
       fake_last_handled_event = double(:location => 'a_location')
-      fake_last_handled_event.should_receive(:location)
       @delivery.calculate_last_known_location(fake_last_handled_event).should == 'a_location'
     end
   end # context calculate_last_known_location()
 
+  # ===========  calculate_unloaded_at_destination  ===========
   context "calculate_unloaded_at_destination()" do
     before { @delivery = Delivery.new }
 
     it "should return false if last_handled_event is nil" do
       @delivery.calculate_unloaded_at_destination(nil, 'something').should be_false
-    end
-
-    it "should call event_type() location() and destination()" do
-      fake_last_handled_event = double('last_handled_event', location:'a_location', event_type:'Unload')
-      fake_route_specification = double('route_specification', destination:'a_location')
-      # expectations
-      fake_last_handled_event.should_receive(:event_type)
-      fake_last_handled_event.should_receive(:location)
-      fake_route_specification.should_receive(:destination)
-      @delivery.calculate_unloaded_at_destination(fake_last_handled_event, fake_route_specification)
     end
 
     it "should return true if event_type is Unload AND location is the destination" do
@@ -69,7 +63,7 @@ describe Delivery do
 
     it "should return false if event_type is not Unload" do
       fake_last_handled_event = double('last_handled_event', event_type:'something')
-      fake_route_specification = double('route_specification', destination:'a_destination')
+      fake_route_specification = double('route_specification')
       @delivery.calculate_unloaded_at_destination(fake_last_handled_event, fake_route_specification).should be_false
     end
 
@@ -80,6 +74,7 @@ describe Delivery do
     end
   end # context calculate_unloaded_at_destination()
 
+  # ===========  calculate_misdirection_status  ===========
   context "calculate_misdirection_status()" do
     before { @delivery = Delivery.new }
 
@@ -89,13 +84,6 @@ describe Delivery do
 
     it "should return false if itinerary is nil" do
       @delivery.calculate_misdirection_status(nil,'something').should be_false
-    end
-
-    it "should call is_expected()" do
-      fake_last_handled_event = double('last_handled_event')
-      fake_itinerary = double('itinerary', is_expected:false)
-      fake_itinerary.should_receive(:is_expected)
-      @delivery.calculate_misdirection_status(fake_last_handled_event, fake_itinerary)
     end
 
     it "should return true if is_expected() returns false" do
@@ -111,7 +99,7 @@ describe Delivery do
     end
   end # context calculate_misdirection_status()
 
-
+  # ===========  on_track?  ===========
   context "on_track?()" do
     before { @delivery = Delivery.new }
 
@@ -133,18 +121,12 @@ describe Delivery do
     end
   end # context on_track?()
 
-
+  # ===========  calculate_routing_status  ===========
   context "calculate_routing_status()" do
     before { @delivery = Delivery.new }
 
     it "should return nil if itinerary is nil" do
       @delivery.calculate_routing_status(nil, 'something').should be_nil
-    end
-
-    it "should call is_satisfied_by()" do
-      fake_route_specification = double('route_specification')
-      fake_route_specification.should_receive(:is_satisfied_by)
-      @delivery.calculate_routing_status('something', fake_route_specification)
     end
 
     it "should return Routed if route specification is satisfied by the itinerary" do
@@ -158,18 +140,12 @@ describe Delivery do
     end
   end # context calculate_routing_status()
 
-
+  # ===========  calculate_transport_status  ===========
   context "calculate_transport_status()" do
     before { @delivery = Delivery.new }
 
     it "should return 'Not Received' if last_handled_event is nil" do
       @delivery.calculate_transport_status(nil).should == 'Not Received'
-    end
-
-    it "should call event_type()" do
-      fake_last_handled_event = double('last_handled_event')
-      fake_last_handled_event.should_receive(:event_type)
-      @delivery.calculate_transport_status(fake_last_handled_event)
     end
 
     {'Load' => 'Onboard Carrier', 'Unload' => 'In Port', 'Receive' => 'In Port', 'Claim' => 'Claimed',
@@ -182,20 +158,13 @@ describe Delivery do
     end
   end # context calculate_transport_status()
 
-
+  # ===========  calculate_eta  ===========
   context "calculate_eta()" do
     before { @delivery = Delivery.new }
 
     it "should return nil if not on track" do
       @delivery.stub(:on_track?).and_return(false)
       @delivery.calculate_eta('something').should be_nil
-    end
-
-    it "should call final_arrival_date on itinerary if on track" do
-      @delivery.stub(:on_track?).and_return(true)
-      fake_itinerary = double('itinerary')
-      fake_itinerary.should_receive(:final_arrival_date)
-      @delivery.calculate_eta(fake_itinerary)
     end
 
     it "should return the final_arrival_date on itinerary if on track" do
@@ -205,6 +174,7 @@ describe Delivery do
     end
   end # context calculate_eta()
 
+  # ===========  calculate_next_expected_activity  ===========
   context "calculate_next_expected_activity()" do
     before do
       @delivery = Delivery.new
@@ -216,19 +186,13 @@ describe Delivery do
       @delivery.calculate_next_expected_activity('something', 'something', 'something').should be_nil
     end
 
-    it "should call event_type()" do
-      fake_last_handled_event = double('last_handled_event')
-      fake_last_handled_event.should_receive(:event_type)
-      @delivery.calculate_next_expected_activity(fake_last_handled_event, 'something', 'something')
-    end
-
     # this could be split into a context and three checks: class, param one, and param two
     it "should return a 'Receive' HandlingActivity if last_handled_event is nil" do
       fake_route_specification = double('route_specification', origin:'an_origin')
       return_value = @delivery.calculate_next_expected_activity(nil, fake_route_specification, 'something')
       return_value.should be_a_kind_of(HandlingActivity)
-      return_value.param_one.should  == 'Receive'
-      return_value.param_two.should == 'an_origin'
+      return_value.handling_event_type.should  == 'Receive'
+      return_value.location.should == 'an_origin'
     end
 
     it "should return a 'Load' HandlingActivity if last_handled_event is 'Receive'" do
@@ -237,8 +201,8 @@ describe Delivery do
       fake_itinerary.stub_chain(:legs,:first,:load_location).and_return('a_location')
       return_value = @delivery.calculate_next_expected_activity(fake_last_handled_event, 'something', fake_itinerary)
       return_value.should be_a_kind_of(HandlingActivity)
-      return_value.param_one.should  == 'Load'
-      return_value.param_two.should == 'a_location'
+      return_value.handling_event_type.should  == 'Load'
+      return_value.location.should == 'a_location'
     end
 
     it "should return an 'Unload' HandlingActivity if last_handled_event is 'Load' and last_leg_index is not nil" do
@@ -247,8 +211,8 @@ describe Delivery do
       fake_itinerary = double('itinerary', legs:fake_legs)
       return_value = @delivery.calculate_next_expected_activity(fake_last_handled_event, 'something', fake_itinerary)
       return_value.should be_a_kind_of(HandlingActivity)
-      return_value.param_one.should  == 'Unload'
-      return_value.param_two.should == 'an_unload_location'
+      return_value.handling_event_type.should  == 'Unload'
+      return_value.location.should == 'an_unload_location'
     end
 
     it "should return nil if last_handled_event is 'Load' and last_leg_index is nil" do
@@ -272,8 +236,8 @@ describe Delivery do
       fake_itinerary = double('itinerary', legs:fake_legs)
       return_value = @delivery.calculate_next_expected_activity(fake_last_handled_event, 'something', fake_itinerary)
       return_value.should be_a_kind_of(HandlingActivity)
-      return_value.param_one.should  == 'Load'
-      return_value.param_two.should == 'load_at_2'
+      return_value.handling_event_type.should  == 'Load'
+      return_value.location.should == 'load_at_2'
     end
 
     it "should return a 'Claim' HandlingActivity if last_handled_event is 'Unload' and locations match and there is a next_leg" do
@@ -282,8 +246,8 @@ describe Delivery do
       fake_itinerary = double('itinerary', legs:fake_legs)
       return_value = @delivery.calculate_next_expected_activity(fake_last_handled_event, 'something', fake_itinerary)
       return_value.should be_a_kind_of(HandlingActivity)
-      return_value.param_one.should  == 'Claim'
-      return_value.param_two.should == 'unload_at_2'
+      return_value.handling_event_type.should  == 'Claim'
+      return_value.location.should == 'unload_at_2'
     end
 
     it "should return nil if last_handled_event is 'Claim'" do
@@ -297,6 +261,7 @@ describe Delivery do
     end
   end # context calculate_next_expected_activity()
 
+  # ===========  comparison  ===========
   context "comparison ( == )" do
     before do
       @fake_delivery_one = Delivery.new
@@ -306,14 +271,6 @@ describe Delivery do
 
     it "should make sure they are different objects" do
       @fake_delivery_one.object_id != @fake_delivery_two.object_id
-    end
-
-    it "should call all the comparator values/functions" do
-      @comparators.each do |called_method|
-        @fake_delivery_one.should_receive(called_method.to_sym)
-        @fake_delivery_two.should_receive(called_method.to_sym)
-      end
-      @fake_delivery_one == @fake_delivery_two
     end
 
     it "should return true if one delivery is the same as another delivery" do

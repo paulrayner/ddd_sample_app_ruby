@@ -1,9 +1,15 @@
 require 'spec_helper'
 require 'cargo'
-require 'delivery'
+# require 'delivery'
 
 # this doesn't work when running with all specs
-# class Delivery < Struct.new(:one, :two, :three); end
+class Delivery < Struct.new(:one, :two, :three); end
+
+# reopen Delivery to allow stubbing (otherwise it's frozen)
+# class Delivery
+#   def initialize(route_specification='x', itinerary=nil, last_handled_event=nil); end
+# end
+
 
 describe Cargo do
 
@@ -39,6 +45,7 @@ describe Cargo do
     before do
       Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo = Cargo.new('tracking', 'route')
+
       @delivery = @cargo.delivery
       # stub it again to have it return a different double
       Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
