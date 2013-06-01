@@ -1,24 +1,17 @@
-require 'rspec'
-require 'date'
-require "#{File.dirname(__FILE__)}/../../model/cargo/cargo"
-require "#{File.dirname(__FILE__)}/../../model/cargo/leg"
-require "#{File.dirname(__FILE__)}/../../model/cargo/itinerary"
-require "#{File.dirname(__FILE__)}/../../model/cargo/tracking_id"
-require "#{File.dirname(__FILE__)}/../../model/cargo/route_specification"
-require "#{File.dirname(__FILE__)}/../../model/location/location"
-require "#{File.dirname(__FILE__)}/../../model/location/unlocode"
+require 'spec_helper'
+require 'models_require'
 
-# TODO Move 
+# TODO Move
 describe "Cargo" do
 
-  it "should have a transport status of Not Received" do
+  xit "should have a transport status of Not Received" do
     hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
     arrival_deadline = Date.new(2013, 2, 3)
     route_spec = RouteSpecification.new(hkg, lgb, arrival_deadline)
     cargo = Cargo.new(TrackingId.new('blah'), route_spec)
-    
-    # cargo.transport_status != true #:not_received
+
+    cargo.transport_status.should_not be_true # not received
   end
 
   # TODO Make this test the correct thing
@@ -26,7 +19,7 @@ describe "Cargo" do
      true
   end
 
-  it "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
+  xit "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
     hkg = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     lgb = Location.new(UnLocode.new('LGB'), 'Long Beach')
     dal = Location.new(UnLocode.new('DAL'), 'Dallas')
@@ -41,7 +34,7 @@ describe "Cargo" do
     itinerary = Itinerary.new(legs)
 
     # Delivery.derived_from
-    
-    # cargo.transport_status != true #:not_received
+
+    cargo.transport_status.should_not be_true # not received
   end
 end

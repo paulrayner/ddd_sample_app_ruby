@@ -1,0 +1,22 @@
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+.ackrc
+.rvmrc
+.ruby-*
+
+# These should be gitignored so that each person can have their own.
+# Use <whater>.yml.sample as a sample template
+
+config/mongo.yml
+config/mongoid.yml
+.bundle
+tmp/
+*.DS_Store
+coverage
+.tags*
+.idea*

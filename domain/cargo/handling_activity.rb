@@ -5,7 +5,7 @@ class HandlingActivity
   attr_reader :handling_event_type
   attr_reader :location
 
-  def initialize(event_type, location)
+  def initialize(handling_event_type, location)
     # TODO Check valid values
 
     @handling_event_type = handling_event_type

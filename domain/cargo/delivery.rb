@@ -13,7 +13,11 @@ class Delivery
   attr_reader :last_handled_event
   attr_reader :next_expected_activity
 
+  class InitializationError < RuntimeError; end
+
   def initialize(route_specification, itinerary, last_handled_event)
+    raise InitializationError unless route_specification
+
     @calculated_at = DateTime.now
     @last_handled_event = last_handled_event
     @last_known_location = calculate_last_known_location(last_handled_event)
@@ -26,11 +30,9 @@ class Delivery
 
     IceNine.deep_freeze(self)
   end
-  
-  # TODO What is the point of this method? It's the same as new() but has a different
-  # order of arguments (at least in Java and .NET), which makes it confusing.
-  def derived_from(route_specification, itinerary, last_handled_event)
-    #self(route_specification, itinerary, last_handled_event)
+
+  def self.derived_from(route_specification, itinerary, last_handled_event)
+    Delivery.new(route_specification, itinerary, last_handled_event)
   end
 
   def calculate_last_known_location(last_handled_event)
@@ -44,7 +46,7 @@ class Delivery
     if last_handled_event.nil?
       return false
     end
-    last_handled_event.event_type == "Unload" && 
+    last_handled_event.event_type == "Unload" &&
     last_handled_event.location == route_specification.destination
   end
 
@@ -90,7 +92,7 @@ class Delivery
   end
 
   def calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
-    unless on_track? 
+    unless on_track?
       return nil
     end
     if (last_handled_event.nil?)
@@ -98,7 +100,7 @@ class Delivery
     end
     case last_handled_event.event_type
       when "Receive"
-        return HandlingActivity.new("Load", itinerary.legs.first.load_location) 
+        return HandlingActivity.new("Load", itinerary.legs.first.load_location)
       when "Load"
         last_leg_index = itinerary.legs.index { |x| x.load_location == last_handled_event.location }
         return last_leg_index.nil? == false ? HandlingActivity.new("Unload", itinerary.legs[last_leg_index].unload_location) : nil
