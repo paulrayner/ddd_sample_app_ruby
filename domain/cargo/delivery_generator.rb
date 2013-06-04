@@ -36,55 +36,37 @@ class DeliveryGenerator
   end
 
   def calculate_last_known_location(last_handled_event)
-    if last_handled_event.nil?
-      return nil
-    end
-    last_handled_event.location
+    last_handled_event.location rescue nil
   end
 
   def calculate_unloaded_at_destination(last_handled_event, route_specification)
-    if last_handled_event.nil?
-      return false
-    end
     last_handled_event.event_type == "Unload" &&
-    last_handled_event.location == route_specification.destination
+    last_handled_event.location == route_specification.destination rescue false
   end
 
   def calculate_misdirection_status(last_handled_event, itinerary)
-    if itinerary.nil?
-      return false
-    end
-    if last_handled_event.nil?
-      return false
-    end
-    itinerary.is_expected(last_handled_event) == false
+    !itinerary.is_expected(last_handled_event) rescue false
   end
 
   def on_track?
-    @routing_status == "Routed" && is_misdirected == false
+    @routing_status == "Routed" && !is_misdirected
   end
 
   def calculate_routing_status(itinerary, route_specification)
-    if itinerary.nil?
-      return nil
-    end
+    return nil if itinerary.nil?
     route_specification.is_satisfied_by(itinerary) ? "Routed" : "Misrouted"
   end
 
+  EVENTS = {
+    nil => "Not Received",
+    "Load" => "Onboard Carrier",
+    "Unload" => "In Port",
+    "Receive" => "In Port",
+    "Claim" => "Claimed"
+  }
+
   def calculate_transport_status(last_handled_event)
-    if last_handled_event.nil?
-      return "Not Received"
-    end
-    case last_handled_event.event_type
-      when "Load"
-        "Onboard Carrier"
-      when "Unload", "Receive"
-        "In Port"
-      when "Claim"
-        "Claimed"
-      else
-        "Unknown"
-      end
+    return EVENTS[last_handled_event.event_type] || "Unknown"
   end
 
   def calculate_eta(itinerary)
@@ -92,12 +74,9 @@ class DeliveryGenerator
   end
 
   def calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
-    unless on_track?
-      return nil
-    end
-    if (last_handled_event.nil?)
-      return HandlingActivity.new("Receive", route_specification.origin)
-    end
+    return nil unless on_track?
+    return HandlingActivity.new("Receive", route_specification.origin) if last_handled_event.nil?
+
     case last_handled_event.event_type
       when "Receive"
         return HandlingActivity.new("Load", itinerary.legs.first.load_location)
