@@ -1,0 +1,20 @@
+Run options: include {:focus=>true}
+
+All examples were filtered out; ignoring {:focus=>true}
+...................*.*.........................................................
+
+Pending:
+  Cargo Cargo is not considered unloaded at destination after handling unload event but not at destination
+    # Temporarily disabled with xit
+    # ./spec/integration/cargo_spec.rb:22
+  Cargo should have a transport status of Not Received
+    # Temporarily disabled with xit
+    # ./spec/integration/cargo_spec.rb:7
+
+Top 0 slowest examples (0 seconds, 0.0% of total time):
+
+Finished in 0.07045 seconds
+79 examples, 0 failures, 2 pending
+
+Randomized with seed 824
+
