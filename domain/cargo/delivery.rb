@@ -1,8 +1,9 @@
 require 'date'
 require 'ice_nine'
 require 'pp'
+require 'value_object'
 
-class Delivery
+class Delivery < DDD::ValueObject
   attr_reader :transport_status
   attr_reader :last_known_location
   attr_reader :is_misdirected
@@ -26,7 +27,7 @@ class Delivery
     eta,
     next_expected_activity)
 
-    @calculated_at = DateTime.now
+    @calculated_at = DateTime.now.to_date # just the date part
     @last_handled_event = last_handled_event
     @last_known_location = last_known_location
     @is_unloaded_at_destination = is_unloaded_at_destination
@@ -39,15 +40,4 @@ class Delivery
     IceNine.deep_freeze(self)
   end
 
-  def ==(other)
-    self.transport_status == other.transport_status &&
-    self.last_known_location == other.last_known_location &&
-    self.is_misdirected == other.is_misdirected &&
-    self.eta == other.eta &&
-    self.is_unloaded_at_destination == other.is_unloaded_at_destination &&
-    self.routing_status == other.routing_status &&
-    self.calculated_at == other.calculated_at &&
-    self.last_handled_event == other.last_handled_event &&
-    self.next_expected_activity == other.next_expected_activity
-  end
 end
