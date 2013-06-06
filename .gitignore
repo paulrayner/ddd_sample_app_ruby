@@ -12,7 +12,6 @@
 # These should be gitignored so that each person can have their own.
 # Use <whater>.yml.sample as a sample template
 
-config/mongo.yml
 config/mongoid.yml
 .bundle
 tmp/
