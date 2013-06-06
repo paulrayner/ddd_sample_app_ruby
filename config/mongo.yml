@@ -1,8 +1,0 @@
-development:
-  :host: localhost
-  :database: container_shipping
-  :port: 27017
-test:
-  :host: localhost
-  :database: container_shipping
-  :port: 27017
