@@ -37,7 +37,7 @@ class CargoDocument
   field :destination_code, type: String
   field :origin_name, type: String
   field :destination_name, type: String
-  field :arrival_deadline, type: Date
+  field :arrival_deadline, type: DateTime
   #-----
   # Decide whether we need to persist these, since they are derived from legs. They might
   # make reporting from MongoDB easier...treating them like a cache of useful values...
@@ -45,7 +45,7 @@ class CargoDocument
   field :initial_departure_location_name, type: String
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
-  field :final_arrival_date, type: Date
+  field :final_arrival_date, type: DateTime
   #-----
   embeds_many :leg_documents
 
@@ -63,8 +63,8 @@ class LegDocument
   field :load_location_name, type: String
   field :unload_location_code, type: String
   field :unload_location_name, type: String
-  field :load_date, type: Date
-  field :unload_date, type: Date
+  field :load_date, type: DateTime
+  field :unload_date, type: DateTime
 
   embedded_in :cargo_document 
 end
