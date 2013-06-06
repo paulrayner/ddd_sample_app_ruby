@@ -1,19 +1,15 @@
 require 'mongoid'
-require 'pp'
 
 class HandlingEventRepository
 
   def initialize
+    # TODO Move this somewhere (base class?) for all Mongoid-based repositories
     Mongoid.load!("#{File.dirname(__FILE__)}/../../../config/mongoid.yml", :development)
   end
 
   def store(handling_event)
     handling_event_document = HandlingEventDocumentAdaptor.new.transform_to_mongoid_document(handling_event)
     handling_event_document.save
-    puts "----"
-    puts "Persisting to MongoDB..."
-    pp handling_event_document
-    puts "----"
   end
 
   def lookup_handling_history_of_cargo(tracking_id)

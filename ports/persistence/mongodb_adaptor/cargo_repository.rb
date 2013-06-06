@@ -1,25 +1,19 @@
 require 'mongoid'
-require 'pp'
 
 class CargoRepository
 
   def initialize
+    # TODO Move this somewhere (base class?) for all Mongoid-based repositories
     Mongoid.load!("#{File.dirname(__FILE__)}/../../../config/mongoid.yml", :development)
   end
 
   def store(cargo)
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
     cargo_document.save
-    puts "----"
-    puts "Persisting to MongoDB..."
-    pp cargo_document
-    pp cargo_document.leg_documents
-    puts "----"
   end
 
   def find_by_tracking_id(tracking_id)
     cargo_doc = CargoDocument.find_by(tracking_id: tracking_id.id)
-    # pp cargo_doc
     CargoDocumentAdaptor.new.transform_to_cargo(cargo_doc)
   end
 
