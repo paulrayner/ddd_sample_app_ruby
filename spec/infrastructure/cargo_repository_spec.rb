@@ -23,7 +23,7 @@ describe "CargoRepository" do
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
 
-    cargo_repository.save(cargo)
+    cargo_repository.store(cargo)
 
     found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
 

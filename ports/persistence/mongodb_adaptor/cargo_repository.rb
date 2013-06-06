@@ -7,7 +7,7 @@ class CargoRepository
     Mongoid.load!("#{File.dirname(__FILE__)}/../../../config/mongoid.yml", :development)
   end
 
-  def save(cargo)
+  def store(cargo)
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
     cargo_document.save
     puts "----"

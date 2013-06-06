@@ -7,7 +7,7 @@ class HandlingEventRepository
     Mongoid.load!("#{File.dirname(__FILE__)}/../../../config/mongoid.yml", :development)
   end
 
-  def save(handling_event)
+  def store(handling_event)
     handling_event_document = HandlingEventDocumentAdaptor.new.transform_to_mongoid_document(handling_event)
     handling_event_document.save
     puts "----"

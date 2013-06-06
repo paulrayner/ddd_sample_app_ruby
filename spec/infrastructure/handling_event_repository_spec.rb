@@ -13,7 +13,7 @@ describe "HandlingEventRepository" do
     tracking_id = TrackingId.new('cargo_1234')
     handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id)
 
-    handling_event_repository.save(handling_event)
+    handling_event_repository.store(handling_event)
 
     handling_event_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
 
