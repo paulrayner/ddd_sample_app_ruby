@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'models_require'
 require 'cargo_repository'
 
-describe "CargoRepository" do
-  it "Cargo aggregate can be persisted" do
+describe "HandlingEventRepository" do
+  it "Handling event can be persisted" do
     cargo_repository = CargoRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
