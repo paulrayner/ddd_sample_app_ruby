@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'models_require'
-require 'cargo_repository'
+require 'handling_event_repository'
 
 describe "HandlingEventRepository" do
   it "Handling event can be persisted" do
-    cargo_repository = CargoRepository.new
+    handling_event_repository = HandlingEventRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
-    cargo_repository.nuke_all_cargo
+    # handling_event_repository.nuke_all_handling_events
 
     origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     destination = Location.new(UnLocode.new('DAL'), 'Dallas')
@@ -23,17 +23,18 @@ describe "HandlingEventRepository" do
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
 
-    cargo_repository.save(cargo)
+    handling_event = HandlingEvent.new("Load", origin, Date.new(2013, 6, 14), Date.new(2013, 6, 15), cargo)
 
-    found_cargo = cargo_repository.find_by_tracking_id(tracking_id)
+    handling_event_repository.save(handling_event)
 
-    found_cargo.tracking_id.should == tracking_id
-    found_cargo.route_specification.should == route_spec
-    # TODO Get itinerary equality passing. Seems to be bombing on date comparison...UTC?
-    # -  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14, unloading in Hong Kong [HKG] on 2013-06-14,
-    # -   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21, unloading in Long Beach [LGB] on 2013-06-21]>
-    # +  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC, unloading in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC,
-    # +   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21 00:00:00 UTC, unloading in Long Beach [LGB] on 2013-06-21 00:00:00 UTC]>
-     # found_cargo.itinerary.should == itinerary
+    handling_event_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
+
+    handling_event_history.count.should == 1
+    handling_event = handling_event_history.first
+    handling_event.tracking_id.should == 'cargo_1234'
+    handling_event.location.should == origin
+    handling_event.registration_date.should == Date.new(2013, 6, 14)
+    handling_event.completion_date.should == Date.new(2013, 6, 15)
+    handling_event.type.should == "Load"
   end
 end
