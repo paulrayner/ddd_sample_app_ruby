@@ -31,5 +31,3 @@ gem 'ice_nine'
 gem 'hamster'
 
 gem 'therubyracer'
-
-gem 'sidekiq'
