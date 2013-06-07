@@ -122,8 +122,8 @@ class CargoDocumentAdaptor
   def transform_to_legs(leg_documents)
     legs = Array.new
     leg_documents.each do |leg_document|
-      load_location   = Location.new(leg_document[:load_location_code], leg_document[:load_location_name])
-      unload_location = Location.new(leg_document[:unload_location_code], leg_document[:unload_location_name])
+      load_location   = Location.new(UnLocode.new(leg_document[:load_location_code]), leg_document[:load_location_name])
+      unload_location = Location.new(UnLocode.new(leg_document[:unload_location_code]), leg_document[:unload_location_name])
       legs << Leg.new(
                       leg_document[:voyage],
                       load_location,
