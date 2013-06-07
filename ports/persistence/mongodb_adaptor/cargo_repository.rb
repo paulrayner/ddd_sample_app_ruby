@@ -24,6 +24,8 @@ class CargoRepository
 
   # TODO Implement (return GUID)
   def next_tracking_id()
+    # Using Banksimplistic approach...
+    # UUIDTools::UUID.timestamp_create.to_s
   end
 
   # TODO Do something cleaner than this for data setup/teardown - yikes!
