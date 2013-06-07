@@ -13,13 +13,13 @@ class HandlingsController < ApplicationController
   end
 
   def create
-    register_handling_event = RegisterHandlingEvent.new
-    register_handling_event.handle(register_handling_event_command(params))
+    handling_event_registration = HandlingEventRegistration.new
+    handling_event_registration.handle(register_handling_event(params))
     redirect_to handlings_path
   end
 
   # TODO Create command hash from params - not sure how to do this in one line
-  def register_handling_event_command(params)
+  def register_handling_event(params)
     command = Hash.new
     command[:event_type] = params[:handling][:event_type]
     command[:location_code] = params[:handling][:location_code]
