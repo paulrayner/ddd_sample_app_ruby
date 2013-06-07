@@ -191,21 +191,50 @@ class PersonRepository
 end
 ```
 
-=== Aggregate Update
+=== Aggregates
 
-Tools for Implementing Eventual Consistency (i.e. performing asynchronous updates).
+==== Concurrency in Ruby
+
+* http://www.slideshare.net/ThoughtWorks0ffshore/concurrency-patterns-in-ruby-3547211[Concurrency patterns in Ruby - Thoughtworks presentation]
+* https://github.com/tenderlove/tusk[Message busses with Observable API]
+* http://www.slideshare.net/KyleDrake/hybrid-concurrency-patterns[Presentation on NOT using Eventmachine], advocates Celluloid
+* http://blog.paracode.com/2012/09/07/pragmatic-concurrency-with-ruby/[Pragmatic Concurrency With Ruby] - great article, which also discusses how Celluloid uses `mutex` to thread-safe its mailboxes.
+
+==== Eventual Consistency
+
+Resources for implementing eventual consistency (i.e. performing asynchronous updates) between aggregate instances.
+
+===== Worker Queues
 
 * http://rubylearning.com/blog/2010/11/08/do-you-know-resque[Learning Resque]
+* http://railscasts.com/episodes/271-resque[Railscast on Resque]
 * https://devcenter.heroku.com/articles/queuing-ruby-resque[Queuing in Ruby with Redis and Resque - Heroku Blog]
-* http://rubyamqp.info/articles/getting_started/[Ampq/RabbitMQ]
 * https://github.com/nesquena/backburner[Simple and reliable beanstalkd job queue for ruby]
 * https://github.com/iron-io/delayed_job_ironmq[IronMQ backend for delayed_job]
+* https://github.com/mperham/sidekiq[Sidekiq] - Simple, efficient message processing for Ruby, based on Celluloid actor model
+* http://railscasts.com/episodes/366-sidekiq[Railscast on Sidekiq]
+
+===== Messaging
+
+* http://rubyamqp.info/articles/getting_started/[Ampq/RabbitMQ]
 * http://www.iron.io/[IronMQ is the Message Queue for the Cloud], see http://www.iron.io/mq[comparison chart]
+* http://rubysource.com/an-introduction-to-celluloid-part-ii/
+
+===== Celluloid
+
+* http://www.unlimitednovelty.com/2011/05/introducing-celluloid-concurrent-object.html["Introducing Celluloid: a concurrent object framework for Ruby" - Blog post from May 11. 2011]
+* https://groups.google.com/forum/?fromgroups#!forum/celluloid-ruby[Celluloid Google Group]
+* http://www.confreaks.com/videos/1302-rubyconf2012-the-celluloid-ecosystem[RubyConf presentation on Celluloid by Tony Arcieri]
+* http://rubysource.com/an-introduction-to-celluloid-part-i[An Introduction to Celluloid - Part II] and http://rubysource.com/an-introduction-to-celluloid-part-ii/[An Introduction to Celluloid - Part II]
+* http://railscasts.com/episodes/367-celluloid[Railscast (pro) on Celluloid] - good examples
 
 === DDD and Rails
 
-*http://victorsavkin.com/post/41016739721/building-rich-domain-models-in-rails-separating[Entity Data Repository] - Blog post describing hybrid ActiveRecord/DAO approach to building rich domain models in Rails, implemented in https://github.com/nulogy/edr[EDR library]. Implements restricted version of http://martinfowler.com/eaaCatalog/dataMapper.html[DataMapper pattern]. Datamapper 2 will be implementing the same pattern, but is not production-ready yet (see above)
+* http://victorsavkin.com/post/41016739721/building-rich-domain-models-in-rails-separating[Entity Data Repository] - Blog post describing hybrid ActiveRecord/DAO approach to building rich domain models in Rails, implemented in https://github.com/nulogy/edr[EDR library]. Implements restricted version of http://martinfowler.com/eaaCatalog/dataMapper.html[DataMapper pattern]. Datamapper 2 will be implementing the same pattern, but is not production-ready yet (see above)
 * http://iain.nl/domain-driven-design-building-blocks-in-ruby[DDD in Ruby article] - recommends using to_s for UI concerns and structs for value objects, both of which seem problematic to me.
 * https://github.com/cavalle/banksimplistic[Interesting implementation of CQRS in Rails with Redis]
 * http://blog.carbonfive.com/2012/01/10/does-my-rails-app-need-a-service-layer/[Does My Rails App Need a Service Layer?] - blog post from Jan 2012 by Jared Carroll
-
+* http://confreaks.com/videos/977-goruco2012-hexagonal-rails[Hexagonal Rails] - Video of Matt Wynne's Goruco 2012 presentation
+* https://www.agileplannerapp.com/blog/building-agile-planner/refactoring-with-hexagonal-rails[Refactoring with Hexagonal Rails] - blog post showing how to set up pub/sub eventing for use within Rails (inspired by Matt Wynne's approach of passing controller object into domain object, so domain object can run a success/failure callback method on the controller)
+* https://github.com/krisleech/wisper[Wisper] - Ruby library for decoupling and managing the dependencies of your domain models]. See also this http://shcatula.wordpress.com/2013/06/02/whisper-ruby/[blog post on Wisper] and this https://gist.github.com/krisleech/5326823[business case Gist].
+* https://github.com/krisleech/wisper-async[Wisper-Async] - Extends Wisper with async broadcasting of events. Each listener is transparently turned in to a Celluloid Actor.
