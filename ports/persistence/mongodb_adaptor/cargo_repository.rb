@@ -17,6 +17,15 @@ class CargoRepository
     CargoDocumentAdaptor.new.transform_to_cargo(cargo_doc)
   end
 
+  # TODO Implement (when needed for tracking UI)
+  def find_all()
+    # Return array of all Cargo objects
+  end
+
+  # TODO Implement (return GUID)
+  def next_tracking_id()
+  end
+
   # TODO Do something cleaner than this for data setup/teardown - yikes!
   def nuke_all_cargo
     CargoDocument.delete_all
