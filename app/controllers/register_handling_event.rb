@@ -1,5 +1,5 @@
 class RegisterHandlingEvent
-#  include Wisper::Publisher
+  include Wisper::Publisher
 
   def handle(register_handling_event_command)
     # TODO Make this a conversion to an enum when it is implemented
@@ -15,6 +15,7 @@ class RegisterHandlingEvent
 
     handling_event_repository = HandlingEventRepository.new
     handling_event_repository.store(handling_event)
-#    publish(:cargo_was_handled, tracking_id)
+    puts "Saved new handling event ", handling_event.inspect
+    publish(:cargo_was_handled, tracking_id, handling_event)
   end
 end
