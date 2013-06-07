@@ -13,16 +13,18 @@ class HandlingsController < ApplicationController
   end
 
   def create
-    event_type = params[:handling][:event_type]
-    location_code = params[:handling][:location_code]
-    # TODO Lookup location in LocationRepository based on provided location code, for now
-    # just use the code
-    location = Location.new(UnLocode.new(location_code), location_code)
-    # TODO Use dates passed in
-    completion_date = DateTime.new(2013, 6, 14) # params[:handling][:completion_date]
-    tracking_id = TrackingId.new(params[:handling][:tracking_id])
     register_handling_event = RegisterHandlingEvent.new
-    register_handling_event.handle(event_type, location, completion_date, tracking_id)
+    register_handling_event.handle(register_handling_event_command(params))
     redirect_to handlings_path
+  end
+
+  # TODO Create command hash from params - not sure how to do this in one line
+  def register_handling_event_command(params)
+    command = Hash.new
+    command[:event_type] = params[:handling][:event_type]
+    command[:location_code] = params[:handling][:location_code]
+    command[:completion_date] = params[:handling][:completion_date].to_s
+    command[:tracking_id] = params[:handling][:tracking_id]
+    command
   end
 end
