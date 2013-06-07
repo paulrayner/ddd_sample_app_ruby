@@ -1,6 +1,11 @@
 class CargoInspectionService
 
   def cargo_was_handled(tracking_id, last_handling_event)
+    binding.pry
+    puts "In cargo was handled..."
+    puts "tracking_id ", tracking_id.inspect
+    puts "last_handling_event ", last_handling_event.inspect
+
     cargo_repository = CargoRepository.new
     cargo = cargo_repository.find_by_tracking_id(tracking_id)
     puts "Found cargo ", cargo.inspect

@@ -14,6 +14,8 @@ class HandlingsController < ApplicationController
 
   def create
     register_handling_event = RegisterHandlingEvent.new
+    puts "Subscribing cargo inspection service to registering handling events..."
+    register_handling_event.add_listener(CargoInspectionService.new)
     register_handling_event.handle(register_handling_event_command(params))
     redirect_to handlings_path
   end
