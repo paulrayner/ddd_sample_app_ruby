@@ -35,5 +35,18 @@ describe "CargoRepository" do
     # +  [Loading on voyage Voyage ABC in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC, unloading in Hong Kong [HKG] on 2013-06-14 00:00:00 UTC,
     # +   Loading on voyage Voyage DEF in Long Beach [LGB] on 2013-06-21 00:00:00 UTC, unloading in Long Beach [LGB] on 2013-06-21 00:00:00 UTC]>
     #found_cargo.itinerary.should == itinerary
+
+    # TODO create test that checks for these values in the actual MongoDB document. Since
+    # all the values are calculated when Delivery is created, these tests don't mean much
+    # right now
+    # found_cargo.delivery.transport_status.should == "Not Received"
+    # found_cargo.delivery.last_known_location.should be_nil
+    # found_cargo.delivery.is_misdirected.should be_false
+    # found_cargo.delivery.eta.should be_nil #== DateTime.new(2013, 6, 24)
+    # found_cargo.delivery.is_unloaded_at_destination.should be_false
+    # found_cargo.delivery.routing_status.should be_nil
+    # found_cargo.delivery.calculated_at.should == "junk"
+    # found_cargo.delivery.last_handled_event.should == "junk"
+    # found_cargo.delivery.next_expected_activity.should == "junk"
   end
 end
