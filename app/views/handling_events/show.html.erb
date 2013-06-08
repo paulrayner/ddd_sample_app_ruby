@@ -1,0 +1,19 @@
+<%= link_to 'All handling events', handling_events_path %>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Location</th>
+    <th>Completion Date</th>
+    <th>Tracking ID</th>
+    <th></th>
+  </tr>
+  <% @handling_events_history.each do |handling_event| %>
+  <tr>
+    <td><%= handling_event.event_type %></td>
+    <td><%= handling_event.location.name %></td>
+    <td><%= handling_event.completion_date %></td>
+    <td><%= handling_event.tracking_id %></td>
+  </tr>
+  <% end %>
+</table>

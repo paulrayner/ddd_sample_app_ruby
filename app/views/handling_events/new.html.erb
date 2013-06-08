@@ -1,0 +1,17 @@
+<%=form_tag handling_events_path do %>
+  <% fields_for :handling do |f| %>
+    <%= f.label :event_type %>
+    <%= f.text_field :event_type %>
+    <br/>
+    <%= f.label :location_code %>
+    <%= f.text_field :location_code %>
+    <br/>
+    <%= f.label :completion_date %>
+    <%= select_date Date.today, :prefix => :completion_date %>
+    <br/>
+    <%= f.label :tracking_id, 'Tracking Id' %>
+    <%= f.text_field :tracking_id %>
+    <br/>
+    <%= f.submit "Create handling event" %>
+  <% end %>
+<% end %>
