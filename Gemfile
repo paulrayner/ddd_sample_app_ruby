@@ -32,4 +32,4 @@ gem 'hamster'
 
 gem 'therubyracer'
 
-gem 'sidekiq'
+gem 'wisper-async'

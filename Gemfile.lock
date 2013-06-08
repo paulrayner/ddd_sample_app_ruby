@@ -47,7 +47,6 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     columnize (0.3.6)
-    connection_pool (1.1.0)
     debug_inspector (0.0.2)
     debugger (1.6.0)
       columnize (>= 0.3.1)
@@ -121,9 +120,6 @@ GEM
     rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
-    redis (3.0.4)
-    redis-namespace (1.3.0)
-      redis (~> 3.0.0)
     ref (1.0.5)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
@@ -141,12 +137,6 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    sidekiq (2.12.1)
-      celluloid (>= 0.14.1)
-      connection_pool (>= 1.0.0)
-      json
-      redis (>= 3.0)
-      redis-namespace
     slop (3.4.5)
     sprockets (2.2.2)
       hike (~> 1.2)
@@ -166,6 +156,10 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    wisper (1.1.0)
+    wisper-async (0.0.1)
+      celluloid
+      wisper (~> 1.0)
 
 PLATFORMS
   ruby
@@ -184,6 +178,6 @@ DEPENDENCIES
   rails (= 3.2.12)
   rspec-rails
   sass-rails (~> 3.2.3)
-  sidekiq
   therubyracer
   uglifier (>= 1.0.3)
+  wisper-async

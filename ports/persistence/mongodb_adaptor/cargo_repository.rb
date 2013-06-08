@@ -17,6 +17,17 @@ class CargoRepository
     CargoDocumentAdaptor.new.transform_to_cargo(cargo_doc)
   end
 
+  # TODO Implement (when needed for tracking UI)
+  def find_all()
+    # Return array of all Cargo objects
+  end
+
+  # TODO Implement (return GUID)
+  def next_tracking_id()
+    # Using Banksimplistic approach...
+    # UUIDTools::UUID.timestamp_create.to_s
+  end
+
   # TODO Do something cleaner than this for data setup/teardown - yikes!
   def nuke_all_cargo
     CargoDocument.delete_all
@@ -111,8 +122,8 @@ class CargoDocumentAdaptor
   def transform_to_legs(leg_documents)
     legs = Array.new
     leg_documents.each do |leg_document|
-      load_location   = Location.new(leg_document[:load_location_code], leg_document[:load_location_name])
-      unload_location = Location.new(leg_document[:unload_location_code], leg_document[:unload_location_name])
+      load_location   = Location.new(UnLocode.new(leg_document[:load_location_code]), leg_document[:load_location_name])
+      unload_location = Location.new(UnLocode.new(leg_document[:unload_location_code]), leg_document[:unload_location_name])
       legs << Leg.new(
                       leg_document[:voyage],
                       load_location,
