@@ -8,3 +8,4 @@ export MONGOID_ENV=development
 
 * https://github.com/evansagge/mongoid-rspec[Mongoid-RSpec] - RSpec matchers and macros for Mongoid 3.x
 * http://stackoverflow.com/questions/9868323/is-there-a-convention-to-name-collection-in-mongo-db?lq=1[Naming conventions for Mongo artifacts]
+* http://docs.mongodb.org/manual/tutorial/model-embedded-one-to-one-relationships-between-documents/[Model Embedded One-to-One Relationships Between Documents]

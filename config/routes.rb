@@ -11,10 +11,10 @@ DddSampleAppRuby::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-    resources :handlings
+    resources :handling_events
 
     # TODO Replace this with redirect to Booking/Tracking later
-    root :to => redirect("/handlings")
+    root :to => redirect("/handling_events")
 
   # Sample resource route with options:
   #   resources :products do
