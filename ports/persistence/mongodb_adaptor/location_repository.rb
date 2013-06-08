@@ -17,12 +17,12 @@ class LocationRepository
     LocationDocumentAdaptor.new.transform_to_location(location_document)
   end
 
-  def find_all(unlocode)
-    handling_event_history = Array.new()
-    LocationDocument.where(tracking_id: tracking_id.id).each do | location_document |
-      handling_event_history << LocationDocumentAdaptor.new.transform_to_handling_event(location_document)
+  def find_all()
+    locations = Array.new()
+    LocationDocument.each do | location_document |
+      locations << LocationDocumentAdaptor.new.transform_to_location(location_document)
     end
-    handling_event_history
+    locations
   end
 
   # TODO Do something cleaner than this for data setup/teardown - yikes!

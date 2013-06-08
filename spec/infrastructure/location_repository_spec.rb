@@ -3,7 +3,7 @@ require 'models_require'
 require 'location_repository'
 
 describe "LocationRepository" do
-  it "Location can be stored and then found" do
+  it "Location can be stored and then found again by UN/LOCODE" do
     location_repository = LocationRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
@@ -16,8 +16,7 @@ describe "LocationRepository" do
     found_location.should == location
   end
 
-  it "Location can be stored and then found" do
-
+  it "All locations can be found" do
     locations = {
                     'USCHI' => 'Chicago',
                     'USDAL' => 'Dallas',
@@ -43,6 +42,7 @@ describe "LocationRepository" do
     end
 
     found_locations = location_repository.find_all()
-    found_locations.size.should == 10
+    found_locations.size.should == 12
+    # TODO Add comparing each individual location
   end
 end
