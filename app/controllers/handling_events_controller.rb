@@ -1,12 +1,12 @@
 class HandlingEventsController < ApplicationController
   def index
     handling_event_repository = HandlingEventRepository.new
+    # TODO this doesn't belong here...obviously!
     tracking_id = TrackingId.new('cargo_1234')
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
   end
 
   def show
-    puts "Looking up ", params[:id]
     tracking_id = TrackingId.new(params[:id])
     handling_event_repository = HandlingEventRepository.new
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
@@ -23,7 +23,7 @@ class HandlingEventsController < ApplicationController
     command = Hash.new
     command[:event_type] = params[:handling][:event_type]
     command[:location_code] = params[:handling][:location_code]
-    command[:completion_date] = params[:handling][:completion_date].to_s
+    command[:completion_date] = params[:completion_date]
     command[:tracking_id] = params[:handling][:tracking_id]
     command
   end
