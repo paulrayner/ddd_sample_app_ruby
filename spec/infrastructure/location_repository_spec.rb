@@ -20,14 +20,15 @@ describe "LocationRepository" do
     locations = {
                     'USCHI' => 'Chicago',
                     'USDAL' => 'Dallas',
-                    # 'SEGOT' => 'Göteborg',
                     'DEHAM' => 'Hamburg',
                     'CNHGH' => 'Hangzhou',
                     'FIHEL' => 'Helsinki',
                     'CNHKG' => 'Hongkong',
                     'AUMEL' => 'Melbourne',
+                    'USLGB' => 'Long Beach',
                     'USNYC' => 'New York',
                     'NLRTM' => 'Rotterdam',
+                    'USSEA' => 'Seattle',
                     'CNSHA' => 'Shanghai',
                     'SESTO' => 'Stockholm',
                     'JNTKO' => 'Tokyo'
@@ -42,7 +43,7 @@ describe "LocationRepository" do
     end
 
     found_locations = location_repository.find_all()
-    found_locations.size.should == 12
+    found_locations.size.should == 14
     # TODO Add comparing each individual location
   end
 end
