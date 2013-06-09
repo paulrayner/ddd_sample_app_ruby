@@ -1,4 +1,5 @@
 require 'mongoid'
+require_relative 'handling_event_repository'
 
 class CargoRepository
 
@@ -8,7 +9,16 @@ class CargoRepository
   end
 
   def store(cargo)
+    # TODO Figure out how to update existing document
+    # when the delivery progress is updated, rather than
+    # create a new one.
+    cargo_doc = CargoDocument.where(tracking_id: cargo.tracking_id.id)
+    if cargo_doc
+      puts "Cargo already saved...removing existing document..."
+      cargo_doc.delete
+    end
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
+    # Upsert didn't work. Change back to save?
     cargo_document.save
   end
 
@@ -51,11 +61,11 @@ class CargoDocument
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: DateTime
+  field :last_handling_event_id, type: String
   #-----
   embeds_many :leg_documents
 
-  # TODO Figure out how best to handle the tracking ID value object - should be indexed I suppose
-  # index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
+  index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
 end
 
 class LegDocument
@@ -84,6 +94,9 @@ class CargoDocumentAdaptor
       destination_name:  cargo.route_specification.destination.name,
       arrival_deadline:  cargo.route_specification.arrival_deadline
     )
+    if cargo.delivery.last_handling_event
+      cargo_document.last_handling_event_id = cargo.delivery.last_handling_event.id
+    end
     cargo_document.leg_documents.concat(transform_to_leg_documents(cargo.itinerary.legs))
     cargo_document
   end
@@ -95,9 +108,15 @@ class CargoDocumentAdaptor
     destination = Location.new(UnLocode.new(cargo_document[:destination_code]), cargo_document[:destination_name])
     route_spec = RouteSpecification.new(origin, destination, cargo_document[:arrival_deadline])
     tracking_id = TrackingId.new(cargo_document[:tracking_id])
-    
+
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
+    if cargo_document.last_handling_event_id
+      handling_event_repository = HandlingEventRepository.new
+      last_handling_event = handling_event_repository.find(cargo_document.last_handling_event_id)
+      cargo.derive_delivery_progress(last_handling_event)
+      puts "New delivery ", cargo.delivery.inspect
+    end
 
     cargo
   end

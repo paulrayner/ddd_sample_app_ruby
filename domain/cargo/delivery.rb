@@ -1,6 +1,5 @@
 require 'date'
 require 'ice_nine'
-require 'pp'
 
 class Delivery
   attr_reader :transport_status
@@ -10,54 +9,54 @@ class Delivery
   attr_reader :is_unloaded_at_destination
   attr_reader :routing_status
   attr_reader :calculated_at
-  attr_reader :last_handled_event
+  attr_reader :last_handling_event
   attr_reader :next_expected_activity
 
   class InitializationError < RuntimeError; end
 
-  def initialize(route_specification, itinerary, last_handled_event)
+  def initialize(route_specification, itinerary, last_handling_event)
     raise InitializationError unless route_specification
 
-    @calculated_at = DateTime.now
-    @last_handled_event = last_handled_event
-    @last_known_location = calculate_last_known_location(last_handled_event)
-    @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handled_event, route_specification)
-    @is_misdirected = calculate_misdirection_status(last_handled_event, itinerary)
+    @last_handling_event = last_handling_event
     @routing_status = calculate_routing_status(itinerary, route_specification)
-    @transport_status = calculate_transport_status(last_handled_event)
+    @transport_status = calculate_transport_status(last_handling_event)
+    @last_known_location = calculate_last_known_location(last_handling_event)
+    @is_misdirected = calculate_misdirection_status(last_handling_event, itinerary)
+    @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handling_event, route_specification)
     @eta = calculate_eta(itinerary)
-    @next_expected_activity = calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
+    @next_expected_activity = calculate_next_expected_activity(last_handling_event, route_specification, itinerary)
+    @calculated_at = DateTime.now
 
     IceNine.deep_freeze(self)
   end
 
-  def self.derived_from(route_specification, itinerary, last_handled_event)
-    Delivery.new(route_specification, itinerary, last_handled_event)
+  def self.derived_from(route_specification, itinerary, last_handling_event)
+    Delivery.new(route_specification, itinerary, last_handling_event)
   end
 
-  def calculate_last_known_location(last_handled_event)
-    if last_handled_event.nil?
+  def calculate_last_known_location(last_handling_event)
+    if last_handling_event.nil?
       return nil
     end
-    last_handled_event.location
+    last_handling_event.location
   end
 
-  def calculate_unloaded_at_destination(last_handled_event, route_specification)
-    if last_handled_event.nil?
+  def calculate_unloaded_at_destination(last_handling_event, route_specification)
+    if last_handling_event.nil?
       return false
     end
-    last_handled_event.event_type == "Unload" &&
-    last_handled_event.location == route_specification.destination
+    last_handling_event.event_type == "Unload" &&
+    last_handling_event.location == route_specification.destination
   end
 
-  def calculate_misdirection_status(last_handled_event, itinerary)
+  def calculate_misdirection_status(last_handling_event, itinerary)
     if itinerary.nil?
       return false
     end
-    if last_handled_event.nil?
+    if last_handling_event.nil?
       return false
     end
-    itinerary.is_expected(last_handled_event) == false
+    itinerary.is_expected(last_handling_event) == false
   end
 
   def on_track?
@@ -71,11 +70,11 @@ class Delivery
     route_specification.is_satisfied_by(itinerary) ? "Routed" : "Misrouted"
   end
 
-  def calculate_transport_status(last_handled_event)
-    if last_handled_event.nil?
+  def calculate_transport_status(last_handling_event)
+    if last_handling_event.nil?
       return "Not Received"
     end
-    case last_handled_event.event_type
+    case last_handling_event.event_type
       when "Load"
         "Onboard Carrier"
       when "Unload", "Receive"
@@ -91,22 +90,22 @@ class Delivery
     on_track? ? itinerary.final_arrival_date : nil
   end
 
-  def calculate_next_expected_activity(last_handled_event, route_specification, itinerary)
+  def calculate_next_expected_activity(last_handling_event, route_specification, itinerary)
     unless on_track?
       return nil
     end
-    if (last_handled_event.nil?)
+    if (last_handling_event.nil?)
       return HandlingActivity.new("Receive", route_specification.origin)
     end
-    case last_handled_event.event_type
+    case last_handling_event.event_type
       when "Receive"
         return HandlingActivity.new("Load", itinerary.legs.first.load_location)
       when "Load"
-        last_leg_index = itinerary.legs.index { |x| x.load_location == last_handled_event.location }
+        last_leg_index = itinerary.legs.index { |x| x.load_location == last_handling_event.location }
         return last_leg_index.nil? == false ? HandlingActivity.new("Unload", itinerary.legs[last_leg_index].unload_location) : nil
       when "Unload"
         itinerary.legs.each_cons(2) do |leg, next_leg|
-          if (leg.unload_location == last_handled_event.location)
+          if (leg.unload_location == last_handling_event.location)
             return next_leg.nil? ? HandlingActivity.new("Load", leg.load_location) : HandlingActivity.new("Claim", leg.unload_location)
           end
         end
@@ -125,7 +124,7 @@ class Delivery
     self.is_unloaded_at_destination == other.is_unloaded_at_destination &&
     self.routing_status == other.routing_status &&
     self.calculated_at == other.calculated_at &&
-    self.last_handled_event == other.last_handled_event &&
+    self.last_handling_event == other.last_handling_event &&
     self.next_expected_activity == other.next_expected_activity
   end
 end
