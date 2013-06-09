@@ -10,7 +10,7 @@ class TrackingCargosController < ApplicationController
     tracking_id = TrackingId.new(params[:id])
     cargo_repository = CargoRepository.new
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
-    @cargo_status = cargo_status(@cargo.delivery.transport_status)
+    @cargo_status = cargo_status(@cargo)
     handling_event_repository = HandlingEventRepository.new
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
   end
@@ -31,8 +31,8 @@ class TrackingCargosController < ApplicationController
     command
   end
 
-  def cargo_status(transport_status)
-    case transport_status
+  def cargo_status(cargo)
+    case cargo.delivery.transport_status
       when "Onboard Carrier"
         "Onboard Carrier..."
       when "Not Received"

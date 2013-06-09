@@ -9,14 +9,17 @@ class CargoRepository
   end
 
   def store(cargo)
-    cargo_doc = CargoDocument.find_by(tracking_id: cargo.tracking_id.id)
     # TODO Figure out how to update existing document
     # when the delivery progress is updated, rather than
     # create a new one.
-    puts "Cargo already saved" if cargo_doc
+    cargo_doc = CargoDocument.where(tracking_id: cargo.tracking_id.id)
+    if cargo_doc
+      puts "Cargo already saved...removing existing document..."
+      cargo_doc.delete
+    end
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
     # Upsert didn't work. Change back to save?
-    cargo_document.upsert
+    cargo_document.save
   end
 
   def find_by_tracking_id(tracking_id)
