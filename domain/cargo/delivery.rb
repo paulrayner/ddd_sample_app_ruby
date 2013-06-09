@@ -18,13 +18,13 @@ class Delivery
     raise InitializationError unless route_specification
 
     @last_handling_event = last_handling_event
-    @last_known_location = calculate_last_known_location(last_handling_event)
+    @routing_status = calculate_routing_status(itinerary, route_specification)
     @transport_status = calculate_transport_status(last_handling_event)
+    @last_known_location = calculate_last_known_location(last_handling_event)
     @is_misdirected = calculate_misdirection_status(last_handling_event, itinerary)
     @is_unloaded_at_destination = calculate_unloaded_at_destination(last_handling_event, route_specification)
-    @next_expected_activity = calculate_next_expected_activity(last_handling_event, route_specification, itinerary)
     @eta = calculate_eta(itinerary)
-    @routing_status = calculate_routing_status(itinerary, route_specification)
+    @next_expected_activity = calculate_next_expected_activity(last_handling_event, route_specification, itinerary)
     @calculated_at = DateTime.now
 
     IceNine.deep_freeze(self)
