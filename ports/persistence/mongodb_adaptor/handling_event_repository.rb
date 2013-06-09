@@ -20,8 +20,8 @@ class HandlingEventRepository
     handling_event_history
   end
 
-  def find(id)
-    handling_event_document = HandlingEventDocument.find_by(event_id: id)
+  def find(event_id)
+    handling_event_document = HandlingEventDocument.find_by(event_id: event_id)
     HandlingEventDocumentAdaptor.new.transform_to_handling_event(handling_event_document)
   end
 

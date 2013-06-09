@@ -1,4 +1,5 @@
 require 'mongoid'
+require 'handling_event_repository'
 
 class CargoRepository
 
@@ -51,7 +52,7 @@ class CargoDocument
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: DateTime
-  field :last_handling_event_id: String
+  field :last_handling_event_id, type: String
   #-----
   embeds_many :leg_documents
 
@@ -85,7 +86,9 @@ class CargoDocumentAdaptor
       destination_name:  cargo.route_specification.destination.name,
       arrival_deadline:  cargo.route_specification.arrival_deadline
     )
-    unless cargo.delivery.last_handling_event_id.nil? cargo_document.last_handling_event_id = cargo.delivery.last_handling_event.id
+    if cargo.delivery.last_handling_event
+      cargo_document.last_handling_event_id = cargo.delivery.last_handling_event.id
+    end
     cargo_document.leg_documents.concat(transform_to_leg_documents(cargo.itinerary.legs))
     cargo_document
   end
@@ -97,9 +100,14 @@ class CargoDocumentAdaptor
     destination = Location.new(UnLocode.new(cargo_document[:destination_code]), cargo_document[:destination_name])
     route_spec = RouteSpecification.new(origin, destination, cargo_document[:arrival_deadline])
     tracking_id = TrackingId.new(cargo_document[:tracking_id])
-    
+
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
+    if cargo_document.last_handling_event_id
+      handling_event_repository = HandlingEventRepository.new
+      last_handling_event = handling_event_repository.find(cargo_document.last_handling_event_id)
+      cargo.derive_delivery_progress(last_handling_event)
+    end
 
     cargo
   end

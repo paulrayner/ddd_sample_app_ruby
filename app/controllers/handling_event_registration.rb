@@ -11,7 +11,7 @@ class HandlingEventRegistration
     location = location_repository.find(UnLocode.new(register_handling_event[:location_code]))
     tracking_id = TrackingId.new(register_handling_event[:tracking_id])
     registration_date = DateTime.now
-    handling_event = HandlingEvent.new(event_type, location, registration_date, completion_date, tracking_id)
+    handling_event = HandlingEvent.new(event_type, location, registration_date, completion_date, tracking_id, UUIDTools::UUID.timestamp_create.to_s)
 
     handling_event_repository = HandlingEventRepository.new
     handling_event_repository.store(handling_event)

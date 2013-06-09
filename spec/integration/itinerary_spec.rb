@@ -9,7 +9,7 @@ def handling_event_fake(location, handling_event_type)
     # TODO How to set the enum to be UNLOADED?
     unloaded = HandlingEventType.new()
     # TODO How is it possible to have a HandlingEvent with a nil Cargo?
-    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
+    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil, , UUIDTools::UUID.timestamp_create.to_s)
     HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil)
 end
 

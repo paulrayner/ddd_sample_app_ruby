@@ -70,7 +70,9 @@ describe "CargoRepository" do
 
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id)
+    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, UUIDTools::UUID.timestamp_create.to_s)
+    handling_event_repository = HandlingEventRepository.new
+    handling_event_repository.store(handling_event)
     cargo.derive_delivery_progress(handling_event)
 
     cargo_repository.store(cargo)
@@ -81,7 +83,7 @@ describe "CargoRepository" do
     found_cargo.route_specification.should == route_spec
 
     found_cargo.delivery.last_handling_event.id.should == handling_event.id
-    found_cargo.delivery.transport_status.should == "Not Received"
+    found_cargo.delivery.transport_status.should == "Onboard Carrier"
     found_cargo.delivery.last_known_location.should == origin
     found_cargo.delivery.is_misdirected.should be_false
     found_cargo.delivery.eta.should be_nil == DateTime.new(2013, 6, 24)

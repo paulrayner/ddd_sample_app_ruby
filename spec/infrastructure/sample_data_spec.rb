@@ -56,7 +56,7 @@ describe "Sample Data" do
 
     origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     tracking_id = TrackingId.new('cargo_1234')
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id)
+    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, , UUIDTools::UUID.timestamp_create.to_s)
 
     handling_event_repository.store(handling_event)
 
