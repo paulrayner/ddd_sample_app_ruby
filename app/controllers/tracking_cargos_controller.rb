@@ -1,4 +1,4 @@
-class HandlingEventsController < ApplicationController
+class TrackingCargosController < ApplicationController
   def index
     handling_event_repository = HandlingEventRepository.new
     # TODO this doesn't belong here...obviously!
@@ -10,7 +10,7 @@ class HandlingEventsController < ApplicationController
     tracking_id = TrackingId.new(params[:id])
     cargo_repository = CargoRepository.new
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
-    @cargo_status = cargo_status(cargo.delivery.transport_status)
+    @cargo_status = cargo_status(@cargo.delivery.transport_status)
     handling_event_repository = HandlingEventRepository.new
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
   end
@@ -38,7 +38,7 @@ class HandlingEventsController < ApplicationController
       when "Not Received"
         "Not Received..."
       when "In Port"
-        "In Port ", cargo.delivery.last_known_location.name
+        "In Port " + cargo.delivery.last_known_location.name
       when "Claimed"
         "Claimed..."
       else
