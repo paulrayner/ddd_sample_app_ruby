@@ -33,3 +33,4 @@ gem 'hamster'
 gem 'therubyracer'
 
 gem 'wisper-async'
+gem 'uuidtools'

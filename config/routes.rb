@@ -12,6 +12,7 @@ DddSampleAppRuby::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
     resources :handling_events
+    resources :tracking_cargos
 
     # TODO Replace this with redirect to Booking/Tracking later
     root :to => redirect("/handling_events")
