@@ -1,4 +1,13 @@
 <h2><%= @cargo_status %></h2>
+<p>Estimated time of arrival in <%= @cargo.route_specification.destination %>: <%= @cargo.delivery.eta %></p>
+<% if @cargo.delivery.is_misdirected %>
+<h2><%= Cargo is misdirected! %></h2>
+<% end %>
+<% if @cargo.delivery.next_expected_activity %>
+<p>Next expected activity is to <%= @cargo.delivery.next_expected_activity.handling_event_type %> in <%= @cargo.delivery.next_expected_activity.location.name %>
+</p>
+<% end %>
+
 <table>
   <tr>
     <th>Type</th>
