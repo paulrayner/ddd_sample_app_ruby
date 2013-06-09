@@ -51,6 +51,7 @@ class CargoDocument
   field :final_arrival_location_code, type: String
   field :final_arrival_location_name, type: String
   field :final_arrival_date, type: DateTime
+  field :last_handling_event_id: String
   #-----
   embeds_many :leg_documents
 
@@ -84,6 +85,7 @@ class CargoDocumentAdaptor
       destination_name:  cargo.route_specification.destination.name,
       arrival_deadline:  cargo.route_specification.arrival_deadline
     )
+    unless cargo.delivery.last_handling_event_id.nil? cargo_document.last_handling_event_id = cargo.delivery.last_handling_event.id
     cargo_document.leg_documents.concat(transform_to_leg_documents(cargo.itinerary.legs))
     cargo_document
   end

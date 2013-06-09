@@ -13,6 +13,7 @@ class TrackingCargosController < ApplicationController
     @cargo_status = cargo_status(@cargo.delivery.transport_status)
     handling_event_repository = HandlingEventRepository.new
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
+    binding.pry
   end
 
   def create

@@ -1,4 +1,9 @@
+<h2>Routing Status: <%= @cargo.delivery.routing_status %></h2>
 <h2><%= @cargo_status %></h2>
+<hr>
+<p><% @cargo.itinerary.inspect %></p>
+<p><% @cargo.delivery.inspect %></p>
+<hr>
 <p>Estimated time of arrival in <%= @cargo.route_specification.destination %>: <%= @cargo.delivery.eta %></p>
 <% if @cargo.delivery.is_misdirected %>
 <h2><%= Cargo is misdirected! %></h2>

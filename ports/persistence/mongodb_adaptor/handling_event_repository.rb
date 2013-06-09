@@ -20,6 +20,11 @@ class HandlingEventRepository
     handling_event_history
   end
 
+  def find(id)
+    handling_event_document = HandlingEventDocument.find_by(event_id: id)
+    HandlingEventDocumentAdaptor.new.transform_to_handling_event(handling_event_document)
+  end
+
   # TODO Do something cleaner than this for data setup/teardown - yikes!
   def nuke_all_handling_events
     HandlingEventDocument.delete_all
@@ -29,6 +34,7 @@ end
 class HandlingEventDocument
   include Mongoid::Document
 
+  field :event_id, type: String
   field :tracking_id, type: String
   field :event_type, type: String
   field :location_code, type: String
@@ -40,6 +46,7 @@ end
 class HandlingEventDocumentAdaptor
   def transform_to_mongoid_document(handling_event)
     handling_event_document = HandlingEventDocument.new(
+      event_id:          handling_event.id,
       tracking_id:       handling_event.tracking_id.id,
       event_type:        handling_event.event_type,
       location_code:     handling_event.location.unlocode.code,
@@ -51,11 +58,12 @@ class HandlingEventDocumentAdaptor
   end
 
   def transform_to_handling_event(handling_event_document)
+    id = handling_event_document[:event_id]
     tracking_id = handling_event_document[:tracking_id]
     event_type = handling_event_document[:event_type]
     location = Location.new(UnLocode.new(handling_event_document[:location_code]), handling_event_document[:location_name])
     registration_date = handling_event_document[:registration_date]
     completion_date = handling_event_document[:completion_date]
-    HandlingEvent.new(event_type, location, registration_date, completion_date, tracking_id)
+    HandlingEvent.new(event_type, location, registration_date, completion_date, tracking_id, id)
   end
 end
