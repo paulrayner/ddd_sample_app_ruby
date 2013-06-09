@@ -1,5 +1,5 @@
 require 'mongoid'
-require 'handling_event_repository'
+require_relative 'handling_event_repository'
 
 class CargoRepository
 
@@ -9,8 +9,10 @@ class CargoRepository
   end
 
   def store(cargo)
+    cargo_doc = CargoDocument.find_by(tracking_id: cargo.tracking_id.id)
+    puts "Cargo already saved" if cargo_doc
     cargo_document = CargoDocumentAdaptor.new.transform_to_mongoid_document(cargo)
-    cargo_document.save
+    cargo_document.upsert
   end
 
   def find_by_tracking_id(tracking_id)
@@ -56,8 +58,7 @@ class CargoDocument
   #-----
   embeds_many :leg_documents
 
-  # TODO Figure out how best to handle the tracking ID value object - should be indexed I suppose
-  # index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
+  index({ tracking_id: 1 }, { unique: true, name: "tracking_id" })
 end
 
 class LegDocument
@@ -107,6 +108,7 @@ class CargoDocumentAdaptor
       handling_event_repository = HandlingEventRepository.new
       last_handling_event = handling_event_repository.find(cargo_document.last_handling_event_id)
       cargo.derive_delivery_progress(last_handling_event)
+      puts "New delivery ", cargo.delivery.inspect
     end
 
     cargo
