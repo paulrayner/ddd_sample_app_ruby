@@ -9,13 +9,36 @@ require 'location_repository'
 # for manual testing purposes. Remove ASAP.
 describe "Sample Data" do
   it "Sample data can be set up" do
+    DemoData.new.create_sample_data
+    true.should == true
+  end
+end
+
+class DemoData
+  def initialize
+  end
+
+  def create_sample_data
     location_repository = LocationRepository.new
     cargo_repository = CargoRepository.new
     handling_event_repository = HandlingEventRepository.new
 
+    # TODO Replace quick-and-dirty data teardown...
     cargo_repository.nuke_all_cargo
-    handling_event_repository.nuke_all_handling_events    # TODO Replace this quick-and-dirty data teardown...
+    handling_event_repository.nuke_all_handling_events
     location_repository.nuke_all_locations
+
+    # TODO Add missing locations to support these Maersk routes
+    # CN:Xingang,CN:Dalian,CN:Qingdao, US:Longbeach, US:Oakland - Maersk Transpacific 8 (eastbound)
+    # Taiwan:Kaohsiung, CNHKG, CN:Xiamen, CNSHA, CN:Ningbo, USLGB - Transpacific 2 (eastbound)
+
+    # Transpacific 6 - eastbound
+    # Tanjung Pelepas, Malaysia FRI SUN --
+    # Ho Chi Minh Ci􏰀 (Vungtau), Vietnam TUE TUE
+    # Nansha, Mainland China FRI SAT
+    # Yantian, Mainland China SAT SUN
+    # Hong Kong, Hong Kong SUN MON
+    # Los Angeles, CA, USA SUN THU
 
     locations = {
                 'USCHI' => 'Chicago',
@@ -53,12 +76,10 @@ describe "Sample Data" do
     cargo.assign_to_route(itinerary)
     cargo_repository.store(cargo)
 
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, UUIDTools::UUID.timestamp_create.to_s)
+    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
     handling_event_repository.store(handling_event)
 
     cargo.derive_delivery_progress(handling_event)
     cargo_repository.store(cargo)
-
-    true.should == true
   end
 end
