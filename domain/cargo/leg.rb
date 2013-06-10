@@ -37,6 +37,6 @@ class Leg
   end
 
   def to_s
-    "Loading on voyage #{@voyage} in #{@load_location} on #{@load_date}, unloading in #{@load_location} on #{@load_date}"
+    "Loading on voyage #{@voyage} in #{@load_location} on #{@load_date}, unloading in #{@unload_location} on #{@unload_date}"
   end
 end

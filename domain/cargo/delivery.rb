@@ -106,7 +106,12 @@ class Delivery
       when "Unload"
         itinerary.legs.each_cons(2) do |leg, next_leg|
           if (leg.unload_location == last_handling_event.location)
-            return next_leg.nil? ? HandlingActivity.new("Load", leg.load_location) : HandlingActivity.new("Claim", leg.unload_location)
+            if next_leg
+              return HandlingActivity.new("Load", next_leg.load_location)
+            else # reached destination...
+              return HandlingActivity.new("Claim", leg.unload_location)
+            end
+            # return next_leg ? HandlingActivity.new("Load", next_leg.load_location) : HandlingActivity.new("Claim", leg.unload_location)
           end
         end
       when "Claim"
