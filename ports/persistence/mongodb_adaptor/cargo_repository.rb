@@ -115,7 +115,6 @@ class CargoDocumentAdaptor
       handling_event_repository = HandlingEventRepository.new
       last_handling_event = handling_event_repository.find(cargo_document.last_handling_event_id)
       cargo.derive_delivery_progress(last_handling_event)
-      puts "New delivery ", cargo.delivery.inspect
     end
 
     cargo

@@ -38,13 +38,13 @@ describe "Sample Data" do
         location_repository.store(Location.new(UnLocode.new(code), name))
     end
 
-    origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
-    destination = Location.new(UnLocode.new('DAL'), 'Dallas')
+    origin = Location.new(UnLocode.new('CNHKG'), locations['CNHKG'])
+    destination = Location.new(UnLocode.new('USDAL'), locations['USDAL'])
     arrival_deadline = DateTime.new(2013, 7, 1)
 
     route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
     tracking_id = TrackingId.new('cargo_1234')
-    port = Location.new(UnLocode.new('LGB'), 'Long Beach')
+    port = Location.new(UnLocode.new('USLGB'), locations['USLGB'])
     legs = Array.new
     legs << Leg.new('Voyage ABC', origin, DateTime.new(2013, 6, 14), port, DateTime.new(2013, 6, 19))
     legs << Leg.new('Voyage DEF', port, DateTime.new(2013, 6, 21), destination, DateTime.new(2013, 6, 24))
