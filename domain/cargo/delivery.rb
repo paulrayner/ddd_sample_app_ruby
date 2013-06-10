@@ -106,13 +106,9 @@ class Delivery
       when "Unload"
         itinerary.legs.each_cons(2) do |leg, next_leg|
           if (leg.unload_location == last_handling_event.location)
-            if next_leg
-              return HandlingActivity.new("Load", next_leg.load_location)
-            else # reached destination...
-              return HandlingActivity.new("Claim", leg.unload_location)
-            end
-            # return next_leg ? HandlingActivity.new("Load", next_leg.load_location) : HandlingActivity.new("Claim", leg.unload_location)
+            return HandlingActivity.new("Load", next_leg.load_location) if next_leg
           end
+          return HandlingActivity.new("Claim", next_leg.unload_location)
         end
       when "Claim"
         nil # TODO What to do here? .NET doesn't handle this case at all
