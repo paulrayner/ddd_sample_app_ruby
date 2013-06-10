@@ -8,9 +8,8 @@ def handling_event_fake(location, handling_event_type)
 
     # TODO How to set the enum to be UNLOADED?
     unloaded = HandlingEventType.new()
-    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
-    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
-    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil, HandlingEvent.new_id)
+    # TODO Set it to fake tracking id for now
+    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, 999, HandlingEvent.new_id)
 end
 
 describe "Delivery" do
