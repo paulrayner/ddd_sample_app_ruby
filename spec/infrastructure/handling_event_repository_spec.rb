@@ -12,7 +12,7 @@ describe "HandlingEventRepository" do
     origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     port = Location.new(UnLocode.new('LGB'), 'Long Beach')
     tracking_id = TrackingId.new('cargo_1234')
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, UUIDTools::UUID.timestamp_create.to_s)
+    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, HandlingEvent.new_id)
     handling_event_repository.store(handling_event)
 
     found_handling_event = handling_event_repository.find(handling_event.id)
@@ -34,9 +34,9 @@ describe "HandlingEventRepository" do
     origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
     port = Location.new(UnLocode.new('LGB'), 'Long Beach')
     tracking_id = TrackingId.new('cargo_1234')
-    handling_event1 = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, UUIDTools::UUID.timestamp_create.to_s)
+    handling_event1 = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, HandlingEvent.new_id)
     handling_event_repository.store(handling_event1)
-    handling_event2 = HandlingEvent.new("Unload", port, DateTime.new(2013, 6, 18), DateTime.new(2013, 6, 18), tracking_id, UUIDTools::UUID.timestamp_create.to_s)
+    handling_event2 = HandlingEvent.new("Unload", port, DateTime.new(2013, 6, 18), DateTime.new(2013, 6, 18), tracking_id, HandlingEvent.new_id)
     handling_event_repository.store(handling_event2)
 
     handling_event_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)

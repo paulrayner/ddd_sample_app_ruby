@@ -8,11 +8,10 @@ def handling_event_fake(location, handling_event_type)
 
     # TODO How to set the enum to be UNLOADED?
     unloaded = HandlingEventType.new()
-    # TODO How is it possible to have a HandlingEvent with a nil Cargo?
-    #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil)
-    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil, UUIDTools::UUID.timestamp_create.to_s)
+    # TODO Set it to fake tracking id for now
+    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, 999, HandlingEvent.new_id)
 end
-if false
+
 describe "Delivery" do
     before(:each) do
       @origin = Location.new(UnLocode.new('HKG'), 'Hong Kong')
@@ -175,14 +174,13 @@ describe "Delivery" do
     delivery.next_expected_activity.should == HandlingActivity.new("Load", @port)
   end
 
-  xit "Cargo has next expected activity of unload at destination when the last recorded handling event is an load at the previous port" do
+  it "Cargo has next expected activity of unload at destination when the last recorded handling event is a load at the previous port" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Load"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @port)
+    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @destination)
   end
 
   it "Cargo has next expected activity of claim at destination when the last recorded handling event is an unload at the destination" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Claim", @port)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery.next_expected_activity.should == HandlingActivity.new("Claim", @destination)
   end
-end
 end
