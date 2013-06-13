@@ -58,7 +58,7 @@ _The .NET port is being used as the primary basis for this Ruby port._
 * Data access: Mongoid-backed repositories
 * Domain model: Plain Ruby objects
 * UI: Rails stack (w/ Twitter bootstrap)
-* Aggregate eventual consistence using Wisper-async leveraging Celluloid.IO
+* Aggregate eventual consistency: Wisper-async leveraging Celluloid
 * _GOAL: Before DDDx London - June 14_ DONE!
 
 _The focus of this version is to see how implementing a domain model within Rails affects the implementation.
