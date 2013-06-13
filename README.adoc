@@ -242,5 +242,5 @@ Resources for implementing eventual consistency (i.e. performing asynchronous up
 
 == Copyright
 
-Copyright (C) 2013 Paul Rayner
+Copyright (C) 2013 Paul Rayner.
 See {license}[LICENSE] for details.
