@@ -54,33 +54,14 @@ _The .NET port is being used as the primary basis for this Ruby port._
 
 == Implementation Stack
 
-=== Version 1 - Repositories & Sinatra
-
 * Persistence: MongoDB
-* Data access: Repositories (using Mongoid for MongoDB persistence)
-* Domain model: Plain Ruby objects (as much as possible)
-* UI: Sinatra, Javascript and Twitter bootstrap
-* _GOAL: Minimal implementation of full stack by May 18_
+* Data access: Mongoid-backed repositories
+* Domain model: Plain Ruby objects
+* UI: Rails stack (w/ Twitter bootstrap)
+* Aggregate eventual consistence using Wisper-async leveraging Celluloid.IO
+* _GOAL: Before DDDx London - June 14_ DONE!
 
-_The focus of this version is to focus on the domain model, keeping it as free of other concerns (persistence, UI etc) as possible._ Keep the UI as lean and simple as possible (hence Sinatra).
-
-=== Version 2 - Rails (i.e. ActiveRecord)
-
-* Persistence: MongoDB
-* Data access: Mongoid + Activerecord
-* Domain model: Activemodel
-* UI: Rails Forms, Javascript and Twitter bootstrap
-* _GOAL: Before DDDx London - June 14_
-
-_The focus of this version is to see how implementing the same domain model within Rails affects the implementation, and how it compares to Version 1._
-
-== Contributing
-
-This is a learning experiment, pull requests are welcome! Bonus points for feature branches.
-
-To get started, see https://github.com/paulrayner/ddd_sample_app_ruby/issues?state=open[milestones and issues]. Use the https://github.com/SzymonPobiega/DDDSample.Net[vanilla .NET port version] as the basis for any work. 
-
-Progress will be tracked through posts on http://thepaulrayner.com[Paul Rayner's blog].
+_The focus of this version is to see how implementing a domain model within Rails affects the implementation.
 
 == Aggregates
 
@@ -239,8 +220,17 @@ Resources for implementing eventual consistency (i.e. performing asynchronous up
 * https://github.com/krisleech/wisper[Wisper] - Ruby library for decoupling and managing the dependencies of your domain models]. See also this http://shcatula.wordpress.com/2013/06/02/whisper-ruby/[blog post on Wisper] and this https://gist.github.com/krisleech/5326823[business case Gist].
 * https://github.com/krisleech/wisper-async[Wisper-Async] - Extends Wisper with async broadcasting of events. Each listener is transparently turned in to a Celluloid Actor.
 
+== Contributing
+
+This is a learning experiment, pull requests are welcome! Bonus points for feature branches.
+
+To get started, see https://github.com/paulrayner/ddd_sample_app_ruby/issues?state=open[milestones and issues]. Use the https://github.com/SzymonPobiega/DDDSample.Net[vanilla .NET port version] as the basis for any work. 
+
+Progress and learning will be shared after the DDD Exchange on June 14 through posts on http://thepaulrayner.com[Paul Rayner's blog].
+
 
 == Copyright
 
-Copyright (C) 2013 Paul Rayner.
-See {license}[LICENSE] for details.
+Copyright (C) 2013 Paul Rayner. See link:LICENSE[LICENSE] for details.
+
+
