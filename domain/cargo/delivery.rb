@@ -98,8 +98,6 @@ class Delivery
       return HandlingActivity.new("Receive", route_specification.origin)
     end
     case last_handling_event.event_type
-      when "Receive"
-        return HandlingActivity.new("Load", itinerary.legs.first.load_location)
       when "Load"
         last_leg_index = itinerary.legs.index { |x| x.load_location == last_handling_event.location }
         return last_leg_index.nil? == false ? HandlingActivity.new("Unload", itinerary.legs[last_leg_index].unload_location) : nil
@@ -110,6 +108,8 @@ class Delivery
           end
           return HandlingActivity.new("Claim", next_leg.unload_location)
         end
+      when "Receive"
+        return HandlingActivity.new("Load", itinerary.legs.first.load_location)
       when "Claim"
         nil # TODO What to do here? .NET doesn't handle this case at all
       else
