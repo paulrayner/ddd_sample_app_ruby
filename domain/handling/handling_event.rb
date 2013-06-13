@@ -16,4 +16,8 @@ class HandlingEvent
     @tracking_id = tracking_id
     @id = id
   end
+
+  def self.new_id
+    UUIDTools::UUID.timestamp_create.to_s
+  end
 end

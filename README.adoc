@@ -238,3 +238,9 @@ Resources for implementing eventual consistency (i.e. performing asynchronous up
 * https://www.agileplannerapp.com/blog/building-agile-planner/refactoring-with-hexagonal-rails[Refactoring with Hexagonal Rails] - blog post showing how to set up pub/sub eventing for use within Rails (inspired by Matt Wynne's approach of passing controller object into domain object, so domain object can run a success/failure callback method on the controller)
 * https://github.com/krisleech/wisper[Wisper] - Ruby library for decoupling and managing the dependencies of your domain models]. See also this http://shcatula.wordpress.com/2013/06/02/whisper-ruby/[blog post on Wisper] and this https://gist.github.com/krisleech/5326823[business case Gist].
 * https://github.com/krisleech/wisper-async[Wisper-Async] - Extends Wisper with async broadcasting of events. Each listener is transparently turned in to a Celluloid Actor.
+
+
+== Copyright
+
+Copyright (C) 2013 Paul Rayner
+See {license}[LICENSE] for details.

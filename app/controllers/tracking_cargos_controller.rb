@@ -9,6 +9,7 @@ class TrackingCargosController < ApplicationController
   def show
     tracking_id = TrackingId.new(params[:id])
     cargo_repository = CargoRepository.new
+    # TODO use cargo_tracking_report object here...see branch for this
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
     @cargo_status = cargo_status(@cargo)
     handling_event_repository = HandlingEventRepository.new
