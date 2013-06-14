@@ -23,7 +23,7 @@ describe "LocationRepository" do
                     'DEHAM' => 'Hamburg',
                     'CNHGH' => 'Hangzhou',
                     'FIHEL' => 'Helsinki',
-                    'CNHKG' => 'Hongkong',
+                    'HKHKG' => 'Hongkong',
                     'AUMEL' => 'Melbourne',
                     'USLGB' => 'Long Beach',
                     'USNYC' => 'New York',

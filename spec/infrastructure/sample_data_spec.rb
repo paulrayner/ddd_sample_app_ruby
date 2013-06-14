@@ -30,7 +30,7 @@ class DemoData
 
     # TODO Add missing locations to support these Maersk routes
     # CN:Xingang,CN:Dalian,CN:Qingdao, US:Longbeach, US:Oakland - Maersk Transpacific 8 (eastbound)
-    # Taiwan:Kaohsiung, CNHKG, CN:Xiamen, CNSHA, CN:Ningbo, USLGB - Transpacific 2 (eastbound)
+    # Taiwan:Kaohsiung, HKHKG, CN:Xiamen, CNSHA, CN:Ningbo, USLGB - Transpacific 2 (eastbound)
 
     # Transpacific 6 - eastbound
     # Tanjung Pelepas, Malaysia FRI SUN --
@@ -46,7 +46,7 @@ class DemoData
                 'DEHAM' => 'Hamburg',
                 'CNHGH' => 'Hangzhou',
                 'FIHEL' => 'Helsinki',
-                'CNHKG' => 'Hongkong',
+                'HKHKG' => 'Hongkong',
                 'AUMEL' => 'Melbourne',
                 'USLGB' => 'Long Beach',
                 'USNYC' => 'New York',
@@ -61,7 +61,7 @@ class DemoData
         location_repository.store(Location.new(UnLocode.new(code), name))
     end
 
-    origin = Location.new(UnLocode.new('CNHKG'), locations['CNHKG'])
+    origin = Location.new(UnLocode.new('HKHKG'), locations['HKHKG'])
     destination = Location.new(UnLocode.new('USDAL'), locations['USDAL'])
     arrival_deadline = DateTime.new(2013, 7, 1)
 
