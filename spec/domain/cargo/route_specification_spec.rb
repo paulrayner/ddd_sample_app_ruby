@@ -30,43 +30,45 @@ describe RouteSpecification do
     require 'leg'
 
     before do
-      @krakow   = Location.new 'PLKRK', 'Krakow'
-      @warszawa = Location.new 'PLWAW', 'Warszawa'
-      @wroclaw  = Location.new 'PLWRC', 'Wroclaw'
-      @arrival_deadline = DateTime.parse("2011-12-24")
+      @krakow   = Location.new('PLKRK', 'Krakow')
+      @warszawa = Location.new('PLWAW', 'Warszawa')
+      @wroclaw  = Location.new('PLWRC', 'Wroclaw')
+      @arrival_deadline = Date.new(2011,12,24)
+      @route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
     end
 
     it "should be satisfied if origin and destination match and deadline not exceeded" do
-      valid_itinerary = Itinerary.new([Leg.new(nil, @krakow, DateTime.parse("2011-12-01"), @warszawa, DateTime.parse("2011-12-02")), Leg.new(nil, @warszawa, DateTime.parse("2011-12-14"), @wroclaw, @arrival_deadline)])
-      route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
-      route_specification.is_satisfied_by(valid_itinerary).should be_true
+      valid_itinerary = Itinerary.new([
+        Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
+        Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, @arrival_deadline)
+      ])
+      @route_specification.is_satisfied_by(valid_itinerary).should be_true
     end
 
     it "should not be satisfied if arrival deadline is exceeded" do
       valid_itinerary = Itinerary.new([
-        Leg.new(nil, @krakow, DateTime.parse("2011-12-01"), @warszawa, DateTime.parse("2011-12-02")),
-        Leg.new(nil, @warszawa, DateTime.parse("2011-12-13"), @wroclaw, DateTime.parse("2011-12-25"))
+        Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
+        Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, Date.new(2011,12,25))
       ])
-      route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
-      route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(valid_itinerary).should be_false
     end
 
     it "should not be satisfied if origin does not match" do
       valid_itinerary = Itinerary.new([
-        Leg.new(nil, @warszawa, DateTime.parse("2011-12-13"), @wroclaw, DateTime.parse("2011-12-15")),
+        Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, Date.new(2011,12,15)),
       ])
-      route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
-      route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(valid_itinerary).should be_false
     end
 
     it "should not be satisfied if destination does not match" do
       valid_itinerary = Itinerary.new([
-        Leg.new(nil, @krakow, DateTime.parse("2011-12-01"), @warszawa, DateTime.parse("2011-12-02")),
+        Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
       ])
-      route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
-      route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(valid_itinerary).should be_false
     end
 
   end # context is_satisfied_by()
 
 end
+
+
