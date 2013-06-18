@@ -4,23 +4,16 @@ require 'route_specification'
 describe RouteSpecification do
 
   context "initialize()" do
-    it "should raise an error if no origin is passed in" do
-      expect {
-        RouteSpecification.new(nil, 'x', 'x')
-        }.to raise_error(RouteSpecification::InitializationError)
-    end
-
-    it "should raise an error if no destination is passed in" do
-      expect {
-        RouteSpecification.new('x', nil, 'x')
-        }.to raise_error(RouteSpecification::InitializationError)
-    end
-
-    it "should raise an error if no arrival_deadline is passed in" do
-      expect {
-        RouteSpecification.new('x', 'x', nil)
-        }.to raise_error(RouteSpecification::InitializationError)
-    end
+    {'origin is nil' => [nil, 'something', 'something'],
+     'destination is nil' => ['something', nil, 'something'],
+     'arrival_deadline is nil' => ['something', 'something', nil],
+    }.each do |test, params|
+      it "should raise an error if #{test}" do
+        expect {
+          RouteSpecification.new(*params)
+          }.to raise_error(RouteSpecification::InitializationError)
+      end
+    end # loop
 
     it "should not raise an error if all three are passed in" do
       expect {
