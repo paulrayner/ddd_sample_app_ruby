@@ -5,8 +5,10 @@ class RouteSpecification
   attr_reader :destination
   attr_reader :arrival_deadline
 
+  class InitializationError < RuntimeError; end
+
   def initialize(origin, destination, arrival_deadline)
-    # TODO Check valid values
+    raise InitializationError unless origin && destination && arrival_deadline
 
     @origin = origin
     @destination = destination
