@@ -8,8 +8,8 @@ The goal of this sample app is to provide an idiomatic Ruby port of the DDD samp
 
 Because Paul wanted to learn Ruby and see how well it supports DDD. Also, interested in questions like:
 
-* How does the choice of Ruby affect the implementation of the DDD building block patterns? 
-* How well does an opinionated MVC framework like Rails support doing DDD? 
+* How does the choice of Ruby affect the implementation of the DDD building block patterns?
+* How well does an opinionated MVC framework like Rails support doing DDD?
 * What are implications of choosing a document store like MongoDB for aggregate design and eventual consistency?
 
 === Why a DDD Sample App?
@@ -124,13 +124,13 @@ Here you'll find information on design choices made, and the relative tradeoffs.
 ==== Mongo ORMs
 
 * http://mongoid.org/en/mongoid/index.html[Mongoid] -  Object-Document-Mapper (ODM) for MongoDB written in Ruby. Has Echo sample app - take a look at `application.rb` - it's using Sidekiq and Kiqstand (not sure what for...maybe could be used for aggregate updates?)
-* https://github.com/mongomatic/mongomatic[Mongomatic] -  A MongoDB super-set that adds nice features over the traditional Ruby Driver. Map your Ruby objects to Mongo documents. It is designed to be fast and simple. 
+* https://github.com/mongomatic/mongomatic[Mongomatic] -  A MongoDB super-set that adds nice features over the traditional Ruby Driver. Map your Ruby objects to Mongo documents. It is designed to be fast and simple.
 * http://mongomapper.com/[MongoMapper] - ODM for MongoDB written in Ruby.
 
 === Repository Pattern in Ruby
 
 * http://mattbriggs.net/blog/2012/02/23/repository-pattern-in-ruby/
-* https://github.com/nfedyashev/repository[A Ruby implementation of the Repository Pattern - In memory only], developed from https://github.com/alexch/treasury[Repository Pattern for Ruby - 3 years old]. 
+* https://github.com/nfedyashev/repository[A Ruby implementation of the Repository Pattern - In memory only], developed from https://github.com/alexch/treasury[Repository Pattern for Ruby - 3 years old].
 * https://github.com/playlouder/persistence[A set of interfaces for, and implementations of, the Repository pattern in Ruby.] This one looks promising.
 * https://github.com/brandonweiss/collector[Collector is an implementation of the Repository Pattern for MongoDB]
 * https://github.com/braintree/curator[Curator is a model and repository framework for Ruby].Currently, curator supports Riak, MongoDB and an in-memory data store for persistence.
@@ -147,7 +147,8 @@ There is an on issue for Curator regarding https://github.com/braintree/curator/
 
 https://github.com/ifesdjeen/entrepot[Entrepot] looks promising. It uses Virtus for the objects and has this kinda weird approach of referencing a repository from a repository:
 
-```
+[source, ruby]
+----
 class Address
   include Virtus
   include Entrepot::Model
@@ -170,7 +171,7 @@ class PersonRepository
 
   has_many :articles, :repository => :ArticleRepository
 end
-```
+----
 
 === Aggregates
 
@@ -224,7 +225,7 @@ Resources for implementing eventual consistency (i.e. performing asynchronous up
 
 This is a learning experiment, pull requests are welcome! Bonus points for feature branches.
 
-To get started, see https://github.com/paulrayner/ddd_sample_app_ruby/issues?state=open[milestones and issues]. Use the https://github.com/SzymonPobiega/DDDSample.Net[vanilla .NET port version] as the basis for any work. 
+To get started, see https://github.com/paulrayner/ddd_sample_app_ruby/issues?state=open[milestones and issues]. Use the https://github.com/SzymonPobiega/DDDSample.Net[vanilla .NET port version] as the basis for any work.
 
 Progress and learning will be shared after the DDD Exchange on June 14 through posts on http://thepaulrayner.com[Paul Rayner's blog].
 
