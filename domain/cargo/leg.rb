@@ -1,7 +1,8 @@
 require 'ice_nine'
 require 'hamster'
+require 'value_object'
 
-class Leg
+class Leg < ValueObject
   attr_reader :voyage
   attr_reader :load_location
   attr_reader :unload_location
@@ -26,14 +27,6 @@ class Leg
   # Checks whether provided event is expected according to this itinerary specification.
   def is_expected(event)
     # TODO Implement this
-  end
-
-  def ==(other)
-    self.voyage == other.voyage &&
-    self.load_location == other.load_location &&
-    self.unload_location == other.unload_location &&
-    self.load_date == other.load_date &&
-    self.unload_date == other.unload_date
   end
 
   def to_s
