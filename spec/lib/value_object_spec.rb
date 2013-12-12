@@ -79,6 +79,58 @@ describe ValueObject do
 
       (obj1 == obj2).should be_false
     end
+    
+    it "returns true if its attribute containing array of value objects are equal" do
+      child_klass  = klass
+      
+      parent_klass = Class.new(ValueObject) do
+                       attr_reader :children
+                       
+                       def initialize(children)
+                         @children = children
+                       end
+                     end
+
+      value1 = random_string
+      value2 = random_string
+
+      child1a = child_klass.new(value1, value2)
+      child1b = child1a.dup
+      
+      child2a = child_klass.new(value2, value1)
+      child2b = child2a.dup
+
+      parent1 = parent_klass.new([child1a, child2a])
+      parent2 = parent_klass.new([child1b, child2b])
+      
+      (parent1 == parent2).should be_true
+    end
+
+    it "returns false if its attribute containing array of value objects are not equal" do
+      child_klass  = klass
+      
+      parent_klass = Class.new(ValueObject) do
+                       attr_reader :children
+                       
+                       def initialize(children)
+                         @children = children
+                       end
+                     end
+
+      value1 = random_string
+      value2 = random_string
+
+      child1a = child_klass.new(value1, value2)
+      child1b = child1a.dup
+      
+      child2a = child_klass.new(value2, value1)
+      child2b = child2a.dup
+
+      parent1 = parent_klass.new([child1a, child2a])
+      parent2 = parent_klass.new([child2b, child2b])
+      
+      (parent1 == parent2).should be_false
+    end
 
   end # context #==
 
