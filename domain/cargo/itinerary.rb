@@ -1,7 +1,7 @@
 require 'ice_nine'
 require 'hamster'
 
-class Itinerary
+class Itinerary < ValueObject
   attr_reader :legs
 
   # TODO Handle empty values for attributes by returning UNKNOWN location
@@ -43,18 +43,5 @@ class Itinerary
       return legs.last.unload_location == handling_event.location
     end
     false
-  end
-
-  def ==(other)
-    # TODO Ugly Ruby - must be a better way to compare two arrays for equality of values
-    leg_index = 0
-    equal = true
-    self.legs.each do |leg|
-      unless leg == other.legs[leg_index]
-        equal = false
-      end
-      leg_index = leg_index + 1
-    end
-    equal
   end
 end
