@@ -7,7 +7,8 @@
 
 
 # Add all folders and subfolders to load path
-$LOAD_PATH.unshift *Dir.glob("**/*/")
+$LOAD_PATH.unshift *Dir.glob("{app,config,domain,lib,ports}/**/*/")
+$LOAD_PATH.unshift *Dir.glob("spec/support")
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
