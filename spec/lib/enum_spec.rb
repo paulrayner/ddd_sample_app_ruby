@@ -3,22 +3,44 @@ require 'enum'
 
 describe Enum do
 
-  let(:enum) do
-    Enum.new(:Apples, :Oranges, :Bananas, :Mangoes)
+
+  before(:all) do
+
+    class Fruits < Enum
+      Apples
+      Oranges
+      Bananas
+      Mangoes
+    end
+
   end
 
 
-  context '#[](k)' do
+  context "#[](k)" do
 
-    it "accepts an index for getting a member's value" do
-      enum[0].should == :Apples
+    it "returns the element's index" do
+      Fruits[:Bananas].should == 2
+    end
+    
+    
+    it "raises an ArgumentError if an invalid name is provided" do
+      expect{ Fruits[:Coconut] }.to raise_error(ArgumentError)
     end
 
-
-    it "accepts a value for getting a member's index" do
-      enum[:Bananas].should == 2
-    end
-
+  end
+  
+  
+  context "::<Element>" do
+    
+    it "returns the element's index" do
+      Fruits::Mangoes.should == 3
+    end    
+    
+    
+    # it "raises a NameError if an invalid name is provided" do
+    #   expect{ Fruits::Papaya }.to raise_error(NameError)
+    # end
+    
   end
 
 end
