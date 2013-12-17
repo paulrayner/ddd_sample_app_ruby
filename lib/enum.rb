@@ -1,17 +1,21 @@
+# Inspired by Jamis Buck
+# http://weblog.jamisbuck.org/2005/8/7/enumerated-types-in-ruby
 class Enum
 
-  def initialize(*members)
-    @members = members
-  end
-
-
-  def [](index_or_value)
-    case index_or_value.class.to_s
-    when 'Fixnum'
-      @members[index_or_value]
-    when 'String', 'Symbol'
-      @members.index(index_or_value)
+  class << self
+        
+    def [](sym)
+      raise ArgumentError.new("Unknown element '#{ sym }'") unless const_defined?(sym)
+      const_get(sym)
     end
+
+
+    def const_missing(sym)
+      @next_value ||= 0
+      const_set(sym, @next_value)
+      @next_value += 1
+    end
+
   end
 
 end
