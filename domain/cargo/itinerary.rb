@@ -1,5 +1,6 @@
 require 'ice_nine'
 require 'hamster'
+require 'value_object'
 
 class Itinerary < ValueObject
   attr_reader :legs

@@ -37,34 +37,34 @@ describe RouteSpecification do
       @route_specification = RouteSpecification.new(@krakow, @wroclaw, @arrival_deadline)
     end
 
-    it "should be satisfied if origin and destination match and deadline not exceeded" do
-      valid_itinerary = Itinerary.new([
+    it "should be satisfied if origin and destination match and arrival deadline not missed" do
+      itinerary = Itinerary.new([
         Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
         Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, @arrival_deadline)
       ])
-      @route_specification.is_satisfied_by(valid_itinerary).should be_true
+      @route_specification.is_satisfied_by(itinerary).should be_true
     end
 
-    it "should not be satisfied if arrival deadline is exceeded" do
-      valid_itinerary = Itinerary.new([
+    it "should not be satisfied if arrival deadline is missed" do
+      itinerary = Itinerary.new([
         Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
         Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, Date.new(2011,12,25))
       ])
-      @route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(itinerary).should be_false
     end
 
     it "should not be satisfied if origin does not match" do
-      valid_itinerary = Itinerary.new([
+      itinerary = Itinerary.new([
         Leg.new(nil, @warszawa, Date.new(2011,12,13), @wroclaw, Date.new(2011,12,15)),
       ])
-      @route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(itinerary).should be_false
     end
 
     it "should not be satisfied if destination does not match" do
-      valid_itinerary = Itinerary.new([
+      itinerary = Itinerary.new([
         Leg.new(nil, @krakow, Date.new(2011,12,1), @warszawa, Date.new(2011,12,2)),
       ])
-      @route_specification.is_satisfied_by(valid_itinerary).should be_false
+      @route_specification.is_satisfied_by(itinerary).should be_false
     end
 
   end # context is_satisfied_by()

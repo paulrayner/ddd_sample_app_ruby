@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'cargo'
-# require 'delivery'
+require 'delivery'
 
-# this doesn't work when running with all specs
-class Delivery < Struct.new(:one, :two, :three); end
+# # this doesn't work when running with all specs
+# class Delivery < Struct.new(:one, :two, :three); end
 
 # reopen Delivery to allow stubbing (otherwise it's frozen)
 # class Delivery
@@ -33,7 +33,8 @@ describe Cargo do
     end
 
     it "should create a delivery object" do
-      Delivery.stub(:new).and_return('something')
+      Delivery.stub(:new
+        ).and_return('something')
       cargo = Cargo.new('something', 'something')
       cargo.delivery.should_not be_nil
       cargo.delivery.should == 'something'
@@ -43,12 +44,8 @@ describe Cargo do
 
   context "specify_new_route()" do
     before do
-      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo = Cargo.new('tracking', 'route')
-
       @delivery = @cargo.delivery
-      # stub it again to have it return a different double
-      Delivery.stub(:new).and_return(double('delivery', :last_handling_event => 'last_event'))
       @cargo.specify_new_route('new_route')
     end
 
@@ -87,11 +84,11 @@ describe Cargo do
       @cargo.derive_delivery_progress('last_event')
     end
 
-    it "should update the delivery with a new delivery object" do
+    it "should have a delivery" do
       @cargo.delivery.should_not be_nil
     end
 
-    it "should have a different delivery object" do
+    it "should be a different delivery" do
       @cargo.delivery.should_not == @delivery
     end
 
@@ -104,7 +101,6 @@ describe Cargo do
     end
 
     it "should create new Delivery on specify_new_route" do
-      Delivery.any_instance.stub(:last_handling_event)
       cargo = Cargo.new('tracking', 'route')
       Delivery.should_receive(:new)
       cargo.specify_new_route('something')
