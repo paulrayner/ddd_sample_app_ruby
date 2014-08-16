@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class RouteSpecification
+class RouteSpecification < ValueObject
   attr_reader :origin
   attr_reader :destination
   attr_reader :arrival_deadline
