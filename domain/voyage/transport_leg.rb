@@ -1,5 +1,4 @@
 require 'ice_nine'
-require 'hamster'
 
 class TransportLeg
   attr_reader :departure_location

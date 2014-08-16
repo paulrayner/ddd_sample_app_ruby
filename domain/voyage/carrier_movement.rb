@@ -1,5 +1,4 @@
 require 'ice_nine'
-require 'hamster'
 
 class CarrierMovement
   attr_reader :transport_leg

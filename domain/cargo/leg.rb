@@ -1,5 +1,4 @@
 require 'ice_nine'
-require 'hamster'
 require 'value_object'
 
 class Leg < ValueObject

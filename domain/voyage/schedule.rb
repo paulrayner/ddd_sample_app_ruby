@@ -1,5 +1,4 @@
 require 'ice_nine'
-require 'hamster'
 
 class Schedule
   attr_reader :carrier_movements

@@ -1,5 +1,4 @@
 require 'ice_nine'
-require 'hamster'
 require 'value_object'
 
 class Itinerary < ValueObject
@@ -10,8 +9,6 @@ class Itinerary < ValueObject
 
   def initialize(legs)
     # TODO Check valid values
-
-    # @legs = Hamster.list
     @legs = legs.dup
 
     IceNine.deep_freeze(self)
