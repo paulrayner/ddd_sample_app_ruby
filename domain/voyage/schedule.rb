@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class Schedule
+class Schedule < ValueObject
   attr_reader :carrier_movements
   attr_reader :departure_time
   attr_reader :arrival_time
@@ -13,10 +14,5 @@ class Schedule
     @arrival_time = carrier_movements.last.arrival_time
 
     IceNine.deep_freeze(self)
-  end
-
-  # TODO Not sure what equality means here
-  def ==(other)
-    self.carrier_movements == carrier_movements
   end
 end

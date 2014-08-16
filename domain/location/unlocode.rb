@@ -1,4 +1,5 @@
 require 'ice_nine'
+require 'value_object'
 
 # United nations location code.
 # 
@@ -8,7 +9,7 @@ require 'ice_nine'
 # Returns a string representation of this UnLocode consisting of 5 characters (all upper):
 # 2 chars of ISO country code and 3 describing location.
 
-class UnLocode
+class UnLocode < ValueObject
   attr_reader :code
 
   # TODO: Add regex check for valid code
@@ -17,10 +18,6 @@ class UnLocode
     @code = code
     
     IceNine.deep_freeze(self)
-  end
-
-  def ==(other)
-    self.code == other.code
   end
 
   def to_s

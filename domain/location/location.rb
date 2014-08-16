@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class Location
+class Location < ValueObject
   attr_reader :unlocode
   attr_reader :name
 
@@ -9,11 +10,6 @@ class Location
     @name = name
     
     IceNine.deep_freeze(self)
-  end
-
-  def ==(other)
-    self.unlocode == other.unlocode &&
-    self.name == other.name
   end
 
   # TODO Handle unknown location

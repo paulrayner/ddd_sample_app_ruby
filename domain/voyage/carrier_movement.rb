@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class CarrierMovement
+class CarrierMovement < ValueObject
   attr_reader :transport_leg
   attr_reader :departure_time
   attr_reader :arrival_time
@@ -15,12 +16,5 @@ class CarrierMovement
     @price_per_cargo = price_per_cargo
 
     IceNine.deep_freeze(self)
-  end
-
-  def ==(other)
-    self.transport_leg == transport_leg &&
-    self.departure_time == departure_time &&
-    self.arrival_time == arrival_time &&
-    self.price_per_cargo == price_per_cargo
   end
 end

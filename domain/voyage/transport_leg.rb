@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class TransportLeg
+class TransportLeg < ValueObject
   attr_reader :departure_location
   attr_reader :arrival_location
 
@@ -11,10 +12,5 @@ class TransportLeg
     @arrival_location = arrival_location
 
     IceNine.deep_freeze(self)
-  end
-
-  def ==(other)
-    self.departure_location == departure_location &&
-    self.arrival_location == arrival_location
   end
 end

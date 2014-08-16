@@ -1,7 +1,8 @@
 require 'ice_nine'
 require 'hamster'
+require 'value_object'
 
-class HandlingHistory
+class HandlingHistory < ValueObject
   attr_reader :handling_events
 
   # TODO Handle empty values for attributes by returning UNKNOWN location
@@ -18,10 +19,5 @@ class HandlingHistory
   # TODO Implement this (shouldn't it be the default?)
   def events_by_completion_time(event)
     handling_events
-  end
-
-  def ==(other)
-    # TODO Needs to compare list elements individually
-    self.handling_events == other.handling_events
   end
 end

@@ -1,6 +1,7 @@
 require 'ice_nine'
+require 'value_object'
 
-class VoyageNumber
+class VoyageNumber < ValueObject
   attr_reader :number
 
   def initialize(number)
