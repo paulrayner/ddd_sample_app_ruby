@@ -1,7 +1,7 @@
 require 'ice_nine'
-require 'hamster'
+require 'value_object'
 
-class HandlingActivity
+class HandlingActivity < ValueObject
   attr_reader :handling_event_type
   attr_reader :location
 
@@ -12,10 +12,5 @@ class HandlingActivity
     @location = location
 
     IceNine.deep_freeze(self)
-  end
-
-  def ==(other)
-    self.handling_event_type == other.handling_event_type &&
-    self.location == other.location
   end
 end
