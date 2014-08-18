@@ -92,15 +92,14 @@ describe "Delivery" do
     delivery.is_misdirected.should be_true
   end
 
-  # TODO: Nil? Seriously? What about "Not routed" or "Unrouted" or "Awaiting Routing"?
   it "Cargo is not routed when it doesn't have an itinerary" do
     delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Load"))
-    delivery.routing_status.should be_nil
+    delivery.routing_status.should == RoutingStatus::NotRouted
   end
 
   it "Cargo is routed when specification is satisfied by itinerary" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
-    delivery.routing_status.should == "Routed"
+    delivery.routing_status.should == RoutingStatus::Routed
   end
 
   it "Cargo is on track when the cargo has been routed and is not misdirected" do

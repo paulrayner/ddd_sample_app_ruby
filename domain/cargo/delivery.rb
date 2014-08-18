@@ -1,6 +1,8 @@
 require 'date'
 require 'ice_nine'
 require 'value_object'
+require 'enum'
+require 'routing_status'
 
 class Delivery < ValueObject
   attr_reader :transport_status
@@ -36,7 +38,7 @@ class Delivery < ValueObject
   end
 
   def on_track?
-    @routing_status == "Routed" && is_misdirected == false
+    @routing_status == RoutingStatus::Routed && is_misdirected == false
   end
 
   private
@@ -63,14 +65,14 @@ class Delivery < ValueObject
       if last_handling_event.nil?
         return false
       end
-      itinerary.is_expected(last_handling_event) == false
+      !itinerary.is_expected(last_handling_event)
     end
 
     def calculate_routing_status(itinerary, route_specification)
       if itinerary.nil?
-        return nil
+        return RoutingStatus::NotRouted
       end
-      route_specification.is_satisfied_by(itinerary) ? "Routed" : "Misrouted"
+      route_specification.is_satisfied_by(itinerary) ? RoutingStatus::Routed : RoutingStatus::Misrouted
     end
 
     def calculate_transport_status(last_handling_event)
