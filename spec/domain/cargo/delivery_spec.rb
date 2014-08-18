@@ -114,27 +114,27 @@ describe "Delivery" do
 
   it "Cargo transport status is not received when there are no recorded handling events" do
     delivery = Delivery.new(@route_spec, @itinerary, nil)
-    delivery.transport_status.should == "Not Received"
+    delivery.transport_status.should == TransportStatus::NotReceived
   end
 
   it "Cargo transport status is in port when the last recorded handling event is an unload" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
-    delivery.transport_status.should == "In Port"
+    delivery.transport_status.should == TransportStatus::InPort
   end
 
   it "Cargo transport status is in port when the last recorded handling event is a receive" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Receive"))
-    delivery.transport_status.should == "In Port"
+    delivery.transport_status.should == TransportStatus::InPort
   end
 
   it "Cargo transport status is onboard carrier when the last recorded handling event is a load" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
-    delivery.transport_status.should == "Onboard Carrier"
+    delivery.transport_status.should == TransportStatus::OnboardCarrier
   end
 
   it "Cargo transport status is claimed when the last recorded handling event is a claim" do
     delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Claim"))
-    delivery.transport_status.should == "Claimed"
+    delivery.transport_status.should == TransportStatus::Claimed
   end
 
   it "Cargo has correct eta based on itinerary when on track" do

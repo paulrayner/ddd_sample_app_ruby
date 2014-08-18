@@ -2,6 +2,7 @@ require 'date'
 require 'ice_nine'
 require 'value_object'
 require 'routing_status'
+require 'transport_status'
 
 class Delivery < ValueObject
   attr_reader :transport_status
@@ -76,17 +77,17 @@ class Delivery < ValueObject
 
     def calculate_transport_status(last_handling_event)
       if last_handling_event.nil?
-        return "Not Received"
+        return TransportStatus::NotReceived
       end
       case last_handling_event.event_type
         when "Load"
-          "Onboard Carrier"
+          TransportStatus::OnboardCarrier
         when "Unload", "Receive"
-          "In Port"
+          TransportStatus::InPort
         when "Claim"
-          "Claimed"
+          TransportStatus::Claimed
         else
-          "Unknown"
+          TransportStatus::Unknown
         end
     end
 

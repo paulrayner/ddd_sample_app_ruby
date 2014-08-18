@@ -34,16 +34,16 @@ class TrackingCargosController < ApplicationController
 
   def cargo_status(cargo)
     case cargo.delivery.transport_status
-      when "Onboard Carrier"
+      when TransportStatus::OnboardCarrier
         "Onboard Carrier..."
-      when "Not Received"
+      when TransportStatus::NotReceived
         "Not Received..."
-      when "In Port"
+      when TransportStatus::InPort
         "In Port " + cargo.delivery.last_known_location.name
-      when "Claimed"
+      when TransportStatus::Claimed
         "Claimed..."
       else
-        "Unknown"
+        TransportStatus::Unknown
       end
   end
 end

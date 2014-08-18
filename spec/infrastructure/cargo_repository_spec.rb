@@ -83,7 +83,7 @@ describe "CargoRepository" do
     found_cargo.route_specification.should == route_spec
 
     found_cargo.delivery.last_handling_event.id.should == handling_event.id
-    found_cargo.delivery.transport_status.should == "Onboard Carrier"
+    found_cargo.delivery.transport_status.should == TransportStatus::OnboardCarrier
     found_cargo.delivery.last_known_location.should == origin
     found_cargo.delivery.is_misdirected.should be_false
     found_cargo.delivery.eta.should == DateTime.new(2013, 6, 24)
