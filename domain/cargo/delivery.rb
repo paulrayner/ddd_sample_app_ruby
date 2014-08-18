@@ -1,7 +1,6 @@
 require 'date'
 require 'ice_nine'
 require 'value_object'
-require 'enum'
 require 'routing_status'
 
 class Delivery < ValueObject
