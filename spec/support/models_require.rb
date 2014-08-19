@@ -1,4 +1,7 @@
 # helper file to require all models
+require 'routing_status'
+require 'transport_status'
+
 require 'cargo'
 require 'leg'
 require 'itinerary'

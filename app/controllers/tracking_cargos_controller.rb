@@ -11,7 +11,8 @@ class TrackingCargosController < ApplicationController
     cargo_repository = CargoRepository.new
     # TODO use cargo_tracking_report object here...see branch for this
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
-    @cargo_status = cargo_status(@cargo)
+    @cargo_routing_status = cargo_routing_status_text(@cargo.delivery.routing_status)
+    @cargo_transport_status = cargo_transport_status_text(@cargo.delivery.transport_status)
     handling_event_repository = HandlingEventRepository.new
     @handling_events_history = handling_event_repository.lookup_handling_history_of_cargo(tracking_id)
   end
@@ -32,8 +33,21 @@ class TrackingCargosController < ApplicationController
     command
   end
 
-  def cargo_status(cargo)
-    case cargo.delivery.transport_status
+  def cargo_routing_status_text(routing_status)
+    case routing_status
+      when RoutingStatus::NotRouted
+        "Routed"
+      when RoutingStatus::Misrouted
+        "Misrouted"
+      when RoutingStatus::Routed
+        "Routed"
+      else
+        "Unknown"
+      end
+  end
+
+  def cargo_transport_status_text(transport_status)
+    case transport_status
       when TransportStatus::OnboardCarrier
         "Onboard Carrier..."
       when TransportStatus::NotReceived
