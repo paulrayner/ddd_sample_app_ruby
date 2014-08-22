@@ -6,10 +6,8 @@ def handling_event_fake(location, handling_event_type)
     registration_date = Date.new(2013, 6, 21)
     completion_date = Date.new(2013, 6, 21)
 
-    # TODO How to set the enum to be UNLOADED?
-    unloaded = HandlingEventType.new()
     # TODO Set it to fake tracking id for now
-    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, 999, HandlingEvent.new_id)
+    HandlingEvent.new(HandlingEventType::Unload, location, registration_date, completion_date, 999, HandlingEvent.new_id)
 end
 
 describe "Delivery" do
