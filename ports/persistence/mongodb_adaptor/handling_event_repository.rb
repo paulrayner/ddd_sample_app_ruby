@@ -60,10 +60,27 @@ class HandlingEventDocumentAdaptor
   def transform_to_handling_event(handling_event_document)
     id = handling_event_document[:event_id]
     tracking_id = handling_event_document[:tracking_id]
-    event_type = handling_event_document[:event_type]
+    event_type = handling_event_type(handling_event_document[:event_type])
     location = Location.new(UnLocode.new(handling_event_document[:location_code]), handling_event_document[:location_name])
     registration_date = handling_event_document[:registration_date]
     completion_date = handling_event_document[:completion_date]
     HandlingEvent.new(event_type, location, registration_date, completion_date, tracking_id, id)
+  end
+
+  def handling_event_type(type_code)
+    case type_code
+      when "0"
+        HandlingEventType::Load
+      when "1"
+        HandlingEventType::Unload
+      when "2"
+        HandlingEventType::Receive
+      when "3"
+        HandlingEventType::Claim
+      when "4"
+        HandlingEventType::Customs
+      else
+        nil
+      end
   end
 end

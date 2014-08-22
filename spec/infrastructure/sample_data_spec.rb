@@ -76,7 +76,7 @@ class DemoData
     cargo.assign_to_route(itinerary)
     cargo_repository.store(cargo)
 
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
+    handling_event = HandlingEvent.new(HandlingEventType::Load, origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
     handling_event_repository.store(handling_event)
 
     cargo.derive_delivery_progress(handling_event)

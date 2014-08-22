@@ -7,7 +7,7 @@ def handling_event_fake(location, handling_event_type)
     completion_date = Date.new(2013, 6, 21)
 
     # TODO Set it to fake tracking id for now
-    HandlingEvent.new(HandlingEventType::Unload, location, registration_date, completion_date, 999, HandlingEvent.new_id)
+    HandlingEvent.new(handling_event_type, location, registration_date, completion_date, 999, HandlingEvent.new_id)
 end
 
 describe "Delivery" do
@@ -35,17 +35,17 @@ describe "Delivery" do
   end
 
   it "Cargo is not considered unloaded at destination after handling unload event but not at destination" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, HandlingEventType::Unload))
     delivery.is_unloaded_at_destination.should be_false
   end
 
   it "Cargo is not considered unloaded at destination after handling other event at destination" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Customs"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Customs))
     delivery.is_unloaded_at_destination.should be_false
   end
 
   it "Cargo is considered unloaded at destination after handling unload event at destination" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.is_unloaded_at_destination.should be_true
   end
 
@@ -57,7 +57,7 @@ describe "Delivery" do
   end
 
   it "Cargo has correct last known location based on most recent handling event" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.last_known_location.should == @destination
   end
 
@@ -71,42 +71,42 @@ describe "Delivery" do
   # TODO I really don't like the presence of nil here! Should have something like
   # an 'Unknown' itinerary object rather than nil
   it "Cargo is not misdirected when it has no itinerary" do
-    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.is_misdirected.should be_false
   end
 
   it "Cargo is not misdirected when the last recorded handling event is a load in the origin which matches the itinerary" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Load))
     delivery.is_misdirected.should be_false
   end
 
   it "Cargo is not misdirected when the last recorded handling event matches the itinerary" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.is_misdirected.should be_false
   end
 
   it "Cargo is misdirected when the last recorded handling event does not match the itinerary" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Load))
     delivery.is_misdirected.should be_true
   end
 
   it "Cargo is not routed when it doesn't have an itinerary" do
-    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, "Load"))
+    delivery = Delivery.new(@route_spec, nil, handling_event_fake(@destination, HandlingEventType::Load))
     delivery.routing_status.should == RoutingStatus::NotRouted
   end
 
   it "Cargo is routed when specification is satisfied by itinerary" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Load))
     delivery.routing_status.should == RoutingStatus::Routed
   end
 
   it "Cargo is on track when the cargo has been routed and is not misdirected" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.on_track?.should be_true
   end
 
   it "Cargo is not on track when the cargo has been routed and is misdirected" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Load))
     delivery.on_track?.should be_false
   end
 
@@ -116,68 +116,68 @@ describe "Delivery" do
   end
 
   it "Cargo transport status is in port when the last recorded handling event is an unload" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
     delivery.transport_status.should == TransportStatus::InPort
   end
 
   it "Cargo transport status is in port when the last recorded handling event is a receive" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Receive"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Receive))
     delivery.transport_status.should == TransportStatus::InPort
   end
 
   it "Cargo transport status is onboard carrier when the last recorded handling event is a load" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Load))
     delivery.transport_status.should == TransportStatus::OnboardCarrier
   end
 
   it "Cargo transport status is claimed when the last recorded handling event is a claim" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Claim"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Claim))
     delivery.transport_status.should == TransportStatus::Claimed
   end
 
   it "Cargo has correct eta based on itinerary when on track" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Load))
     delivery.eta.should == @itinerary.final_arrival_date
   end
 
   it "Cargo has no eta when not on track" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Unload))
     delivery.eta.should be_nil
   end
 
   it "Cargo has no next expected activity when not on track" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Unload"))
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Unload))
     delivery.next_expected_activity.should be_nil
   end
 
   # TODO Change the following to use Enum for HandlingEventType rather than strings
   it "Cargo has next expected activity of receive at origin when there are no recorded handling events" do
     delivery = Delivery.new(@route_spec, @itinerary, nil)
-    delivery.next_expected_activity.should == HandlingActivity.new("Receive", @origin)
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Receive, @origin)
   end
 
   it "Cargo has next expected activity of load at origin when when the last recorded handling event is a receive" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Receive"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Load", @origin)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Receive))
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Load, @origin)
   end
 
   it "Cargo has next expected activity of unload at next port when the last recorded handling event is a load at origin" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, "Load"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @port)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@origin, HandlingEventType::Load))
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Unload, @port)
   end
 
   it "Cargo has next expected activity of load at port when the last recorded handling event is an unload at the port" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Unload"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Load", @port)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, HandlingEventType::Unload))
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Load, @port)
   end
 
   it "Cargo has next expected activity of unload at destination when the last recorded handling event is a load at the previous port" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, "Load"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Unload", @destination)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@port, HandlingEventType::Load))
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Unload, @destination)
   end
 
   it "Cargo has next expected activity of claim at destination when the last recorded handling event is an unload at the destination" do
-    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, "Unload"))
-    delivery.next_expected_activity.should == HandlingActivity.new("Claim", @destination)
+    delivery = Delivery.new(@route_spec, @itinerary, handling_event_fake(@destination, HandlingEventType::Unload))
+    delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Claim, @destination)
   end
 end

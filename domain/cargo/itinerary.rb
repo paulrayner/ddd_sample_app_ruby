@@ -28,16 +28,16 @@ class Itinerary < ValueObject
 
   # Checks whether provided event is expected according to this itinerary specification.
   def is_expected(handling_event)
-    if (handling_event.event_type == "Receive")
+    if (handling_event.event_type == HandlingEventType::Receive)
       return legs.first.load_location == handling_event.location
     end
-    if (handling_event.event_type == "Unload")
+    if (handling_event.event_type == HandlingEventType::Unload)
       return legs.any? { |leg| leg.unload_location == handling_event.location }
     end
-    if (handling_event.event_type == "Load")
+    if (handling_event.event_type == HandlingEventType::Load)
       return legs.any? { |leg| leg.load_location == handling_event.location }
     end
-    if (handling_event.event_type == "Claim")
+    if (handling_event.event_type == HandlingEventType::Claim)
       return legs.last.unload_location == handling_event.location
     end
     false

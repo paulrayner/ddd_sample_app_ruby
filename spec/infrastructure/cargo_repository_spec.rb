@@ -70,7 +70,7 @@ describe "CargoRepository" do
 
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
-    handling_event = HandlingEvent.new("Load", origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, HandlingEvent.new_id)
+    handling_event = HandlingEvent.new(HandlingEventType::Load, origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id, HandlingEvent.new_id)
     handling_event_repository = HandlingEventRepository.new
     handling_event_repository.store(handling_event)
     cargo.derive_delivery_progress(handling_event)
@@ -90,8 +90,8 @@ describe "CargoRepository" do
     found_cargo.delivery.is_unloaded_at_destination.should be_false
     found_cargo.delivery.routing_status.should == RoutingStatus::Routed
     # found_cargo.delivery.calculated_at.should == "junk" # TODO Need to fake the date
-    found_cargo.delivery.last_handling_event.event_type.should == "Load"
-    found_cargo.delivery.next_expected_activity.handling_event_type.should == "Unload"
+    found_cargo.delivery.last_handling_event.event_type.should == HandlingEventType::Load
+    found_cargo.delivery.next_expected_activity.handling_event_type.should == HandlingEventType::Unload
     found_cargo.delivery.next_expected_activity.location.should == port
   end
 end

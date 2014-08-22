@@ -1,21 +1,19 @@
 require 'spec_helper'
 require 'models_require'
 
+# TODO Implement itinerary specs - probably need to be renamed to fit rspec idiom
+if false
 
 def handling_event_fake(location, handling_event_type)
     registration_date = Date.new(2013, 6, 21)
     completion_date = Date.new(2013, 6, 21)
 
-    # TODO How to set the enum to be UNLOADED?
-    unloaded = HandlingEventType.new()
     # TODO How is it possible to have a HandlingEvent with a nil Cargo?
     #unload_handling_event = HandlingEvent.new(unloaded, @port, registration_date, completion_date, nil, ,  HandlingEvent.new_id)
     HandlingEvent.new(handling_event_type, location, registration_date, completion_date, nil, HandlingEvent.new_id)
 end
 
-if false
 
-# TODO Implement itinerary specs - probably need to be renamed to fit rspec idiom
 describe "Itinerary" do
 
     before(:each) do

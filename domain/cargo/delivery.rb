@@ -54,7 +54,7 @@ class Delivery < ValueObject
       if last_handling_event.nil?
         return false
       end
-      last_handling_event.event_type == "Unload" &&
+      last_handling_event.event_type == HandlingEventType::Unload &&
       last_handling_event.location == route_specification.destination
     end
 
@@ -80,11 +80,11 @@ class Delivery < ValueObject
         return TransportStatus::NotReceived
       end
       case last_handling_event.event_type
-        when "Load"
+        when HandlingEventType::Load
           TransportStatus::OnboardCarrier
-        when "Unload", "Receive"
+        when HandlingEventType::Unload, HandlingEventType::Receive
           TransportStatus::InPort
-        when "Claim"
+        when HandlingEventType::Claim
           TransportStatus::Claimed
         else
           TransportStatus::Unknown
@@ -100,22 +100,22 @@ class Delivery < ValueObject
         return nil
       end
       if (last_handling_event.nil?)
-        return HandlingActivity.new("Receive", route_specification.origin)
+        return HandlingActivity.new(HandlingEventType::Receive, route_specification.origin)
       end
       case last_handling_event.event_type
-        when "Load"
+        when HandlingEventType::Load
           last_leg_index = itinerary.legs.index { |x| x.load_location == last_handling_event.location }
-          return last_leg_index.nil? == false ? HandlingActivity.new("Unload", itinerary.legs[last_leg_index].unload_location) : nil
-        when "Unload"
+          return last_leg_index.nil? == false ? HandlingActivity.new(HandlingEventType::Unload, itinerary.legs[last_leg_index].unload_location) : nil
+        when HandlingEventType::Unload
           itinerary.legs.each_cons(2) do |leg, next_leg|
             if (leg.unload_location == last_handling_event.location)
-              return HandlingActivity.new("Load", next_leg.load_location) if next_leg
+              return HandlingActivity.new(HandlingEventType::Load, next_leg.load_location) if next_leg
             end
-            return HandlingActivity.new("Claim", next_leg.unload_location)
+            return HandlingActivity.new(HandlingEventType::Claim, next_leg.unload_location)
           end
-        when "Receive"
-          return HandlingActivity.new("Load", itinerary.legs.first.load_location)
-        when "Claim"
+        when HandlingEventType::Receive
+          return HandlingActivity.new(HandlingEventType::Load, itinerary.legs.first.load_location)
+        when HandlingEventType::Claim
           nil # TODO What to do here? .NET doesn't handle this case at all
         else
           nil # TODO What to do here? .NET returns null
