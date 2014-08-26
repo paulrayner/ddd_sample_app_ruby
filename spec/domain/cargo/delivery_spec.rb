@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'models_require'
 
-
 def handling_event_fake(location, handling_event_type)
     registration_date = Date.new(2013, 6, 21)
     completion_date = Date.new(2013, 6, 21)
@@ -150,7 +149,6 @@ describe "Delivery" do
     delivery.next_expected_activity.should be_nil
   end
 
-  # TODO Change the following to use Enum for HandlingEventType rather than strings
   it "Cargo has next expected activity of receive at origin when there are no recorded handling events" do
     delivery = Delivery.new(@route_spec, @itinerary, nil)
     delivery.next_expected_activity.should == HandlingActivity.new(HandlingEventType::Receive, @origin)

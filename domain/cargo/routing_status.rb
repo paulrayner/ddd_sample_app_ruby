@@ -1,8 +1,8 @@
-require 'enum'
+require 'ruby-enum'
 
 # Describes status of cargo routing
 class RoutingStatus
-  include MyEnum
+  include Ruby::Enum
 
   define :NotRouted, 'Not Routed'
   define :Misrouted, 'Misrouted'

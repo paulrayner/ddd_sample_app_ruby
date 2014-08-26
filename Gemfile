@@ -37,6 +37,7 @@ end
 
 gem 'ice_nine'
 gem 'hamster'
+gem 'ruby-enum'
 
 gem 'therubyracer'
 
