@@ -1,9 +1,11 @@
 require 'enum'
 
-class HandlingEventType < Enum
-  Load
-  Unload
-  Receive
-  Claim
-  Customs
+class HandlingEventType
+  include MyEnum
+
+  define :Load, "Load"
+  define :Unload, "Unload"
+  define :Receive, "Receive"
+  define :Claim, "Claim"
+  define :Customs, "Customs"
 end

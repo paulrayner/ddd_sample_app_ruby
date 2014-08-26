@@ -1,8 +1,10 @@
 require 'enum'
 
 # Describes status of cargo routing
-class RoutingStatus < Enum
-  NotRouted
-  Misrouted
-  Routed
+class RoutingStatus
+  include MyEnum
+
+  define :NotRouted, 'Not Routed'
+  define :Misrouted, 'Misrouted'
+  define :Routed, 'Routed'
 end

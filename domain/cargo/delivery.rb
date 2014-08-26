@@ -1,8 +1,6 @@
 require 'date'
 require 'ice_nine'
 require 'value_object'
-# require 'routing_status'
-# require 'transport_status'
 
 class Delivery < ValueObject
   attr_reader :transport_status

@@ -1,5 +1,5 @@
-<h2>Routing Status: <%= @cargo_routing_status %></h2>
-<h2>Transport Status: <%= @cargo_transport_status %></h2>
+<h2>Routing Status: <%= @cargo.delivery.routing_status %></h2>
+<h2>Transport Status: <%= @cargo.delivery.transport_status %></h2>
 <hr>
 <% if @cargo.delivery.is_misdirected %>
 <h2>Cargo is misdirected and requires rerouting</h2>
