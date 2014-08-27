@@ -9,8 +9,4 @@ class VoyageNumber < ValueObject
     
     IceNine.deep_freeze(self)
   end
-
-  def ==(other)
-    self.number == other.number
-  end
 end

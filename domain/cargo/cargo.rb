@@ -35,4 +35,8 @@ class Cargo
     # TODO: Change to @delivery = Delivery.derived_from(@route_specification, @itinerary)?
     @delivery = Delivery.new(@route_specification, @itinerary, last_handling_event)
   end
+
+  def ==(other)
+    self.tracking_id == other.tracking_id
+  end
 end

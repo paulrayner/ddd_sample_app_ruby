@@ -42,6 +42,18 @@ describe Cargo do
   end # context initialize()
 
 
+  context "entity equality" do
+    it "should equal a cargo with the same tracking id" do
+      @cargo = Cargo.new(TrackingId.new('999'), 'fake route')
+      @cargo.should == Cargo.new(TrackingId.new('999'), 'another fake route')
+    end
+
+    it "should not equal a cargo with a different cargo number" do
+      @cargo = Cargo.new(TrackingId.new('999'), 'fake route')
+      @cargo.should_not == Cargo.new(TrackingId.new('555'), 'fake route')
+    end
+  end
+
   context "specify_new_route()" do
     before do
       @cargo = Cargo.new('tracking', 'route')

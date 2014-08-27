@@ -10,4 +10,7 @@ class Voyage
     @schedule = schedule
   end
 
+  def ==(other)
+    self.number == other.number
+  end
 end
