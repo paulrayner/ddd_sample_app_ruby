@@ -1,6 +1,7 @@
 require 'ice_nine'
 require 'value_object'
 
+# Based on .NET implementation
 class CarrierMovement < ValueObject
   attr_reader :transport_leg
   attr_reader :departure_time
