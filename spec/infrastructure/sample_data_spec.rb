@@ -61,6 +61,7 @@ class DemoData
         location_repository.store(Location.new(UnLocode.new(code), name))
     end
 
+    # Cargo 1
     origin = Location.new(UnLocode.new('HKHKG'), locations['HKHKG'])
     destination = Location.new(UnLocode.new('USDAL'), locations['USDAL'])
     arrival_deadline = DateTime.new(2013, 7, 1)
@@ -72,6 +73,30 @@ class DemoData
     legs << Leg.new('Voyage ABC', origin, DateTime.new(2013, 6, 14), port, DateTime.new(2013, 6, 19))
     legs << Leg.new('Voyage DEF', port, DateTime.new(2013, 6, 21), destination, DateTime.new(2013, 6, 24))
     itinerary = Itinerary.new(legs)
+
+    cargo = Cargo.new(tracking_id, route_spec)
+    cargo.assign_to_route(itinerary)
+    cargo_repository.store(cargo)
+
+    handling_event = HandlingEvent.new(HandlingEventType::Load, origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
+    handling_event_repository.store(handling_event)
+
+    cargo.derive_delivery_progress(handling_event)
+    cargo_repository.store(cargo)
+
+    # Cargo 2
+    origin = Location.new(UnLocode.new('HKHKG'), locations['HKHKG'])
+    destination = Location.new(UnLocode.new('USCHI'), locations['USCHI'])
+    arrival_deadline = DateTime.new(2013, 7, 2)
+
+    route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
+    tracking_id = TrackingId.new('cargo_5678')
+    port = Location.new(UnLocode.new('USSEA'), locations['USSEA'])
+    legs = Array.new
+    legs << Leg.new('Voyage GHI', origin, DateTime.new(2013, 6, 14), port, DateTime.new(2013, 6, 19))
+    legs << Leg.new('Voyage JKL', port, DateTime.new(2013, 6, 21), destination, DateTime.new(2013, 6, 24))
+    itinerary = Itinerary.new(legs)
+    
     cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
     cargo_repository.store(cargo)

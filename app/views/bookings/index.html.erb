@@ -1,0 +1,26 @@
+ <!-- TODO: Add links to this form... -->
+
+<h2>List of all cargo</h2>
+<table>
+  <tr>
+    <th>Tracking ID</th>
+    <th>Origin</th>
+    <th>Destination</th>
+    <th>Routed?</th>
+    <th></th>
+  </tr>
+  <% @cargo_documents.each do | cargo_document | %>
+  <tr>
+    <td><%= cargo_document.tracking_id %></td>
+    <td><%= cargo_document.origin_name %></td>
+    <td><%= cargo_document.destination_name %></td>
+    <td><%= cargo_document.leg_documents.count > 0 ? "Yes" : "No" %></td>
+    <td>
+    <!-- TODO: Fix the link to be correct Rails link_to syntax -->
+    <%= link_to "Track", tracking_cargos_path + "/" + cargo_document.tracking_id %>
+    <!-- TODO: Add support for adding new handling events for a cargo  -->
+    <!-- <%= link_to "New Handling Event", handling_events_path + "/" + cargo_document.tracking_id %> -->
+    </td>
+  </tr>
+  <% end %>
+</table>

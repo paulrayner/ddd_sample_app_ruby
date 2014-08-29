@@ -1,14 +1,17 @@
-<h2>Routing Status: <%= @cargo.delivery.routing_status %></h2>
-<h2>Transport Status: <%= @cargo.delivery.transport_status %></h2>
-<hr>
+<h1>Details for cargo: <%= @cargo.tracking_id.id %></h1>
+<p></p>
+<b>Routing Status: <%= @cargo.delivery.routing_status %></b><br>
+<b>Transport Status: <%= @cargo.delivery.transport_status %></b><br>
+</p>
 <% if @cargo.delivery.is_misdirected %>
-<h2>Cargo is misdirected and requires rerouting</h2>
+<p><strong>Cargo is misdirected and requires rerouting</strong></p>
 <% else %>
-<p>Estimated time of arrival in <%= @cargo.route_specification.destination %>: <%= @cargo.delivery.eta %></p>
+<p>Estimated time of arrival in <%= @cargo.route_specification.destination %>: <%= @cargo.delivery.eta.strftime("%m/%d/%Y") + " at " + @cargo.delivery.eta.strftime("%H:%M") %></p>
 <% end %>
-<hr>
 <% if @cargo.delivery.next_expected_activity %>
-<p>Next expected activity is to <%= @cargo.delivery.next_expected_activity.handling_event_type %> in <%= @cargo.delivery.next_expected_activity.location.name %>
+<p>Next expected activity is to <%= @cargo.delivery.next_expected_activity.handling_event_type.camelize(:lower) %> in <%= @cargo.delivery.next_expected_activity.location.name %>
+<br><br><br>
+<i>Cargo last updated at <%= @cargo.delivery.calculated_at %></i>
 </p>
 <% end %>
 
@@ -25,7 +28,7 @@
   <tr>
     <td><%= handling_event.event_type %></td>
     <td><%= handling_event.location.name %></td>
-    <td><%= handling_event.completion_date %></td>
+    <td><%= handling_event.completion_date.strftime("%m/%d/%Y") %></td>
     <td><%= handling_event.tracking_id %></td>
   </tr>
   <% end %>

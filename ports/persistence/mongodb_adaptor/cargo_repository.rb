@@ -27,9 +27,8 @@ class CargoRepository
     CargoDocumentAdaptor.new.transform_to_cargo(cargo_doc)
   end
 
-  # TODO Implement (when needed for tracking UI)
   def find_all()
-    # Return array of all Cargo objects
+    CargoDocument.all
   end
 
   # TODO Implement (return GUID)
