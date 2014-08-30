@@ -11,7 +11,7 @@
   </tr>
   <% @cargo_documents.each do | cargo_document | %>
   <tr>
-    <td><%= cargo_document.tracking_id %></td>
+    <td><%= link_to cargo_document.tracking_id, "bookings/" + cargo_document.tracking_id %></td>
     <td><%= cargo_document.origin_name %></td>
     <td><%= cargo_document.destination_name %></td>
     <td><%= cargo_document.leg_documents.count > 0 ? "Yes" : "No" %></td>

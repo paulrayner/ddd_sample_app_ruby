@@ -1,0 +1,40 @@
+<h1>Details for cargo: <%= @cargo.tracking_id.id %></h1>
+<p></p>
+Origin: <%= @cargo.route_specification.origin.name %><br>
+Destination: <%= @cargo.route_specification.destination.name %><br>
+Arrival deadline: <%= @cargo.route_specification.arrival_deadline.strftime("%m/%d/%Y") %><br>
+</p>
+<p>
+
+<% if @cargo.delivery.routing_status ==  %>
+<hr>
+<p>
+<b>Itinerary</b><br>
+</p>
+<table>
+  <tr>
+    <th>Voyage</th>
+    <th>From</th>
+    <th>Load date</th>
+    <th>To</th>
+    <th>Unload date</th>
+  </tr>
+  <% @cargo.itinerary.legs.each do | leg | %>
+  <tr>
+    <td><%= leg.voyage %></td>
+    <td><%= leg.load_location.name %></td>
+    <td><%= leg.load_date.strftime("%m/%d/%Y") %></td>
+    <td><%= leg.unload_location.name %></td>
+    <td><%= leg.unload_date.strftime("%m/%d/%Y") %></td>
+  </tr>
+  <% end %>
+</table>
+<% else %>
+<!-- TODO: Add link to reroute misdirected cargo -->
+<%= @cargo.delivery.is_misdirected ? "Misdirected Needs rerouting" : "Not misdirected" =%><br>
+<%= link_to "Route this cargo", "bookings/assignToRoute/" + cargo_document.tracking_id %>
+<% end %>
+
+</p>
+
+
