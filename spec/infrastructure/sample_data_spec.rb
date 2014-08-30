@@ -16,17 +16,6 @@ end
 
 class DemoData
   def initialize
-  end
-
-  def create_sample_data
-    location_repository = LocationRepository.new
-    cargo_repository = CargoRepository.new
-    handling_event_repository = HandlingEventRepository.new
-
-    # TODO Replace quick-and-dirty data teardown...
-    cargo_repository.nuke_all_cargo
-    handling_event_repository.nuke_all_handling_events
-    location_repository.nuke_all_locations
 
     # TODO Add missing locations to support these Maersk routes
     # CN:Xingang,CN:Dalian,CN:Qingdao, US:Longbeach, US:Oakland - Maersk Transpacific 8 (eastbound)
@@ -40,7 +29,7 @@ class DemoData
     # Hong Kong, Hong Kong SUN MON
     # Los Angeles, CA, USA SUN THU
 
-    locations = {
+    @locations = {
                 'USCHI' => 'Chicago',
                 'USDAL' => 'Dallas',
                 'DEHAM' => 'Hamburg',
@@ -57,54 +46,48 @@ class DemoData
                 'JNTKO' => 'Tokyo'
              }
 
-    locations.each do | code, name |
-        location_repository.store(Location.new(UnLocode.new(code), name))
+    @location_repository = LocationRepository.new
+    @cargo_repository = CargoRepository.new
+    @handling_event_repository = HandlingEventRepository.new
+
+  end
+
+  def create_sample_data
+    # TODO Replace quick-and-dirty data teardown...
+    @cargo_repository.nuke_all_cargo
+    @handling_event_repository.nuke_all_handling_events
+    @location_repository.nuke_all_locations
+
+    @locations.each do | code, name |
+        @location_repository.store(Location.new(UnLocode.new(code), name))
     end
 
     # Cargo 1
-    origin = Location.new(UnLocode.new('HKHKG'), locations['HKHKG'])
-    destination = Location.new(UnLocode.new('USDAL'), locations['USDAL'])
-    arrival_deadline = DateTime.new(2013, 7, 1)
-
-    route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
-    tracking_id = TrackingId.new('cargo_1234')
-    port = Location.new(UnLocode.new('USLGB'), locations['USLGB'])
-    legs = Array.new
-    legs << Leg.new('Voyage ABC', origin, DateTime.new(2013, 6, 14), port, DateTime.new(2013, 6, 19))
-    legs << Leg.new('Voyage DEF', port, DateTime.new(2013, 6, 21), destination, DateTime.new(2013, 6, 24))
-    itinerary = Itinerary.new(legs)
-
-    cargo = Cargo.new(tracking_id, route_spec)
-    cargo.assign_to_route(itinerary)
-    cargo_repository.store(cargo)
-
-    handling_event = HandlingEvent.new(HandlingEventType::Load, origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
-    handling_event_repository.store(handling_event)
-
-    cargo.derive_delivery_progress(handling_event)
-    cargo_repository.store(cargo)
-
+    cargo_factory(TrackingId.new('cargo_1234'), 'HKHKG', 'USLGB', 'USDAL', DateTime.new(2013, 7, 1))
     # Cargo 2
-    origin = Location.new(UnLocode.new('HKHKG'), locations['HKHKG'])
-    destination = Location.new(UnLocode.new('USCHI'), locations['USCHI'])
-    arrival_deadline = DateTime.new(2013, 7, 2)
+    cargo_factory(TrackingId.new('cargo_5678'), 'HKHKG', 'USSEA', 'USCHI', DateTime.new(2013, 7, 2))
+    # Cargo 3
+    cargo_factory(TrackingId.new('cargo_9012'), 'CNSHA', 'USSEA', 'USNYC', DateTime.new(2013, 7, 5))
+  end
 
+  def cargo_factory(tracking_id, origin_code, port_code, destination_code, arrival_deadline)
+    origin = Location.new(UnLocode.new(origin_code), @locations[origin_code])
+    port = Location.new(UnLocode.new(port_code), @locations[port_code])
+    destination = Location.new(UnLocode.new(destination_code), @locations[destination_code])
     route_spec = RouteSpecification.new(origin, destination, arrival_deadline)
-    tracking_id = TrackingId.new('cargo_5678')
-    port = Location.new(UnLocode.new('USSEA'), locations['USSEA'])
+    cargo = Cargo.new(tracking_id, route_spec)
+
     legs = Array.new
     legs << Leg.new('Voyage GHI', origin, DateTime.new(2013, 6, 14), port, DateTime.new(2013, 6, 19))
     legs << Leg.new('Voyage JKL', port, DateTime.new(2013, 6, 21), destination, DateTime.new(2013, 6, 24))
     itinerary = Itinerary.new(legs)
-    
-    cargo = Cargo.new(tracking_id, route_spec)
     cargo.assign_to_route(itinerary)
-    cargo_repository.store(cargo)
+    @cargo_repository.store(cargo)
 
     handling_event = HandlingEvent.new(HandlingEventType::Load, origin, DateTime.new(2013, 6, 14), DateTime.new(2013, 6, 15), tracking_id,  HandlingEvent.new_id)
-    handling_event_repository.store(handling_event)
+    @handling_event_repository.store(handling_event)
 
     cargo.derive_delivery_progress(handling_event)
-    cargo_repository.store(cargo)
+    @cargo_repository.store(cargo)
   end
 end
