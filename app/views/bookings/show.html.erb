@@ -6,7 +6,7 @@ Arrival deadline: <%= @cargo.route_specification.arrival_deadline.strftime("%m/%
 </p>
 <p>
 
-<% if @cargo.delivery.routing_status ==  %>
+<% if @cargo.delivery.routing_status == RoutingStatus::Routed %>
 <hr>
 <p>
 <b>Itinerary</b><br>
