@@ -30,6 +30,10 @@ class BookingsController < ApplicationController
   def route
     tracking_id = TrackingId.new(params[:id])
     cargo_repository = CargoRepository.new
+    routing_service = RoutingService.new
+
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
+    @route_candidates = routing_service.fetch_routes_for_specification(@cargo.route_specification)
+    @has_matching_routes = @route_candidates.count > 0
   end
 end

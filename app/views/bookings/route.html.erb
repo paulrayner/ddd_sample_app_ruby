@@ -5,6 +5,15 @@ Cargo is going from
   <%= @cargo.route_specification.destination.name %> with an arrival deadline of 
   <%= @cargo.route_specification.arrival_deadline.strftime("%m/%d/%Y") %><br>
 </p>
+<% if @has_matching_routes %>
+<p>
+<b>matching routes found...</b>
+</p>
+<% else %>
+<p><i>No routes found that satisfy the route specification.
+   Try setting an arrival deadline futher into the future (a few weeks at least).</i>
+      </p>
+<% end %>
 
 <p>
 <% if @cargo.delivery.routing_status == RoutingStatus::Routed %>

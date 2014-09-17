@@ -10,6 +10,12 @@ Dir.glob("#{Rails.root.to_s}/domain/**/*.rb").each do |f|
   require f
 end
 
+puts "Loading services..."
+Dir.glob("#{Rails.root.to_s}/services/**/*.rb").each do |f|
+  puts "Loading: " + f
+  require f
+end
+
 puts "Loading ports and adaptors..."
 Dir.glob("#{Rails.root.to_s}/ports/**/*.rb").each do |f|
   puts "Loading: " + f
