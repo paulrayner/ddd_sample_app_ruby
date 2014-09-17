@@ -1,5 +1,6 @@
 class RoutingService
   def fetch_routes_for_specification(route_specification)
-    Array.new
+    routes = Array.new
+    routes
   end
 end

@@ -8,6 +8,7 @@
 
 # Add all folders and subfolders to load path
 $LOAD_PATH.unshift *Dir.glob("{app,config,domain,lib,ports}/**/*/")
+$LOAD_PATH.unshift *Dir.glob("services")
 $LOAD_PATH.unshift *Dir.glob("spec/support")
 
 RSpec.configure do |config|

@@ -15,3 +15,5 @@ require 'handling_event'
 require 'handling_event_type'
 
 require 'date'
+
+require 'routing_service'
