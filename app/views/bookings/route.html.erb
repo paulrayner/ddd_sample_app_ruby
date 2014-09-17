@@ -1,11 +1,12 @@
-<h1>Details for cargo: <%= @cargo.tracking_id.id %></h1>
+<h1>Change destination of cargo <%= @cargo.tracking_id.id %></h1>
 <p>
-Origin: <%= @cargo.route_specification.origin.name %><br>
-Destination: <%= @cargo.route_specification.destination.name %><br>
-Arrival deadline: <%= @cargo.route_specification.arrival_deadline.strftime("%m/%d/%Y") %><br>
+Cargo is going from 
+  <%= @cargo.route_specification.origin.name %> to 
+  <%= @cargo.route_specification.destination.name %> with an arrival deadline of 
+  <%= @cargo.route_specification.arrival_deadline.strftime("%m/%d/%Y") %><br>
 </p>
-<p>
 
+<p>
 <% if @cargo.delivery.routing_status == RoutingStatus::Routed %>
 <hr>
 <p>
@@ -29,12 +30,7 @@ Arrival deadline: <%= @cargo.route_specification.arrival_deadline.strftime("%m/%
   </tr>
   <% end %>
 </table>
-<% else %>
-<!-- TODO: Add link to reroute misdirected cargo -->
-<%= @cargo.delivery.is_misdirected ? "Misdirected Needs rerouting" : "Not misdirected" =%><br>
 <% end %>
-<br>
-<%= link_to "Route this cargo", "/bookings/" + @cargo.tracking_id.id + "/route"%>
 
 </p>
 

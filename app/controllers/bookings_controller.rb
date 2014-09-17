@@ -26,4 +26,10 @@ class BookingsController < ApplicationController
     end
 
   end
+
+  def route
+    tracking_id = TrackingId.new(params[:id])
+    cargo_repository = CargoRepository.new
+    @cargo = cargo_repository.find_by_tracking_id(tracking_id)
+  end
 end
