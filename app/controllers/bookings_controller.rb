@@ -10,6 +10,20 @@ class BookingsController < ApplicationController
     @cargo = cargo_repository.find_by_tracking_id(tracking_id)
   end
 
+  def new
+    @booking = Booking.new
+  end
+
+
   def create
+    @booking = Booking.new(params[:booking])
+    if @booking.valid?
+      cargo_repository = CargoRepository.new
+      cargo_repository.store(@booking.as_cargo)
+      redirect_to bookings_path, :notice => "Booking #{@booking.to_flash} was successfully created."
+    else
+      render :new
+    end
+
   end
 end

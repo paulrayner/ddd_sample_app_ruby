@@ -27,7 +27,7 @@ gem 'mongoid'
 
 group :development do
   gem 'pry'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'pry-stack_explorer'
   
   gem 'guard'

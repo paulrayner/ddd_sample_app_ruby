@@ -13,7 +13,7 @@ class CargoRepository
     # when the delivery progress is updated, rather than
     # create a new one.
     cargo_doc = CargoDocument.where(tracking_id: cargo.tracking_id.id)
-    if cargo_doc
+    if cargo_doc.first
       puts "Cargo already saved...removing existing document..."
       cargo_doc.delete
     end

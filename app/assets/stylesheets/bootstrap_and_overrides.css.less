@@ -1,5 +1,9 @@
 @import "twitter/bootstrap/bootstrap";
 @import "twitter/bootstrap/responsive";
+@import "custom/bootstrap.cerulean.min.css";
+@import "custom/bootstrap-datetimepicker.min.css";
+@import "custom/header_adjust.css";
+
 
 // Set the correct sprite paths
 @iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings");
@@ -28,3 +32,14 @@
 //
 // Example:
 // @linkColor: #ff0000;
+
+#error_explanation {
+  .alert();
+  .alert-error();
+  .alert-block();
+}
+
+.field_with_errors {
+  .control-group.error();
+  display:inline;
+}

@@ -1,26 +1,32 @@
  <!-- TODO: Add links to this form... -->
 
-<h2>All cargo</h2>
-<table>
-  <tr>
-    <th>Tracking ID</th>
-    <th>Origin</th>
-    <th>Destination</th>
-    <th>Routed?</th>
-    <th></th>
-  </tr>
-  <% @cargo_documents.each do | cargo_document | %>
-  <tr>
-    <td><%= link_to cargo_document.tracking_id, "bookings/" + cargo_document.tracking_id %></td>
-    <td><%= cargo_document.origin_name %></td>
-    <td><%= cargo_document.destination_name %></td>
-    <td><%= cargo_document.leg_documents.count > 0 ? "Yes" : "No" %></td>
-    <td>
-    <!-- TODO: Fix the link to be correct Rails link_to syntax -->
-    <%= link_to "Track", tracking_cargos_path + "/" + cargo_document.tracking_id %>
-    <!-- TODO: Add support for adding new handling events for a cargo  -->
-    <!-- <%= link_to "New Handling Event", handling_events_path + "/" + cargo_document.tracking_id %> -->
-    </td>
-  </tr>
-  <% end %>
+<h2 class="page-header">All cargo</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tracking ID</th>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Routed?</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cargo_documents.each do |cargo_document| -%>
+    <tr>
+      <td><%= link_to cargo_document.tracking_id, "bookings/" + cargo_document.tracking_id, :class => 'btn btn-mini btn-success' %></td>
+      <td><%= cargo_document.origin_name %></td>
+      <td><%= cargo_document.destination_name %></td>
+      <td><%= cargo_document.leg_documents.count > 0 ? "Yes" : "No" %></td>
+      <td>
+      <!-- TODO: Fix the link to be correct Rails link_to syntax -->
+      <%= link_to "Track", tracking_cargos_path + "/" + cargo_document.tracking_id, :class => 'btn btn-mini btn-info' %>
+      <!-- TODO: Add support for adding new handling events for a cargo  -->
+      <%= link_to "New Handling Event", handling_events_path + "/" + cargo_document.tracking_id, :class => 'btn btn-mini btn-info' %>
+      </td>
+    </tr>
+  <% end -%>
+  </tbody>
 </table>
+
+<%= link_to 'Create New Booking', new_booking_path, :class => 'btn btn-primary' %>
