@@ -3,7 +3,7 @@ require 'models_require'
 require 'cargo_repository'
 
 describe "CargoRepository" do
-  it "Cargo assigned to route but with no delivery history can be persisted" do
+  specify "Cargo assigned to route but with no delivery history can be persisted" do
     cargo_repository = CargoRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
@@ -50,7 +50,7 @@ describe "CargoRepository" do
     # found_cargo.delivery.next_expected_activity.should == "junk"
   end
 
-  it "Cargo with delivery history can be persisted" do
+  specify "Cargo with delivery history can be persisted" do
     cargo_repository = CargoRepository.new
 
     # TODO Replace this quick-and-dirty data teardown...
