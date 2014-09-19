@@ -3,8 +3,8 @@ require 'value_object'
 
 # United nations location code.
 # 
-# http://www.unece.org/cefact/locode/
-# http://www.unece.org/cefact/locode/DocColumnDescription.htm#LOCODE
+# http://www.unece.org/cefact/locode/service/location.html
+# http://www.unece.org/fileadmin/DAM/cefact/locode/Service/LocodeColumn.htm
 #
 # Returns a string representation of this UnLocode consisting of 5 characters (all upper):
 # 2 chars of ISO country code and 3 describing location.
